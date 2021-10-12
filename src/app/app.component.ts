@@ -1,4 +1,6 @@
 import { Component } from '@angular/core';
+import { Firestore, collectionData, collection } from '@angular/fire/firestore';
+import { Observable } from 'rxjs';
 
 @Component({
   selector: 'app-root',
@@ -7,4 +9,10 @@ import { Component } from '@angular/core';
 })
 export class AppComponent {
   title = 'messaging-app';
+  items: Observable<any[]>;
+
+  constructor(firestore: Firestore) {
+    const itemCollections = collection(firestore, 'items')
+    this.items = collectionData(itemCollections)
+  }
 }
