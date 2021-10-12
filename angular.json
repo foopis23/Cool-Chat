@@ -104,6 +104,16 @@
             ],
             "scripts": []
           }
+        },
+        "deploy": {
+          "builder": "@angular/fire:deploy",
+          "options": {
+            "prerender": false,
+            "ssr": false,
+            "browserTarget": "messaging-app:build:production",
+            "firebaseProject": "cool-chat-37b63",
+            "firebaseHostingSite": "cool-chat-37b63"
+          }
         }
       }
     }
