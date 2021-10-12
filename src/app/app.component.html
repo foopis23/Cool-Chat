@@ -6,7 +6,12 @@
     <p class="subtitle">
       My first website with <strong>Bulma</strong>!
     </p>
-      <button class="button is-primary">Hello world</button>
+    <button class="button is-primary">Hello world</button>
+    <ul>
+      <li class="text" *ngFor="let item of items | async">
+        {{item.name}}
+      </li>
+    </ul>
   </div>
 </section>
 

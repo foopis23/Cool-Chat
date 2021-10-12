@@ -1,0 +1,14 @@
+{
+  "targets": {
+    "cool-chat-37b63": {
+      "hosting": {
+        "messaging-app": [
+          "cool-chat-37b63"
+        ]
+      }
+    }
+  },
+  "projects": {
+    "default": "cool-chat-37b63"
+  }
+}
