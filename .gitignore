@@ -52,7 +52,6 @@ Thumbs.db
 .idea
 **/node_modules/*
 **/.firebase
-**/.firebaserc
 **/.runtimeconfig.json
 */npm-debug.log
 lerna-debug.log
