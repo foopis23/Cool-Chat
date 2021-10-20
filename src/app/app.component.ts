@@ -11,7 +11,7 @@ export class AppComponent {
   title = 'messaging-app';
   items: Observable<any[]>;
 
-  constructor(firestore: Firestore) {
+  constructor(private firestore: Firestore) {
     const itemCollections = collection(firestore, 'items')
     this.items = collectionData(itemCollections)
   }
