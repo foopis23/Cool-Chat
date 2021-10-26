@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { doc, docSnapshots, Firestore } from '@angular/fire/firestore';
-import { addDoc, collection } from '@firebase/firestore';
+import { addDoc, collection, updateDoc } from '@firebase/firestore';
 import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
 
@@ -28,9 +28,7 @@ export class UserService {
   }
 
   createUser(name: string) {
-    return addDoc(this.usersCollection, {
-      name
-    });
+    return addDoc(this.usersCollection, { name });
   }
 
   getUserById(id: string): Observable<User> {
@@ -42,5 +40,12 @@ export class UserService {
         return user as User;
       })
     );
+  }
+
+  async changeUsername(id: string, newName: string) {
+    const docRef = doc(this.usersCollection, id);
+    await updateDoc(docRef, {
+      name: newName
+    });
   }
 }
