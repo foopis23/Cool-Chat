@@ -5,6 +5,7 @@ import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
 
 export interface User {
+  id: string,
   name: string,
   status: Status
 }
@@ -35,10 +36,11 @@ export class UserService {
   getUserById(id: string): Observable<User> {
     const docRef = doc(this.usersCollection, id);
     return docSnapshots(docRef).pipe(
-      map(user => {
-        return user.data() as User;
+      map(data => {
+        const user = data.data();
+        user!.id = data.id;
+        return user as User;
       })
     );
   }
 }
-
