@@ -48,4 +48,11 @@ export class UserService {
       name: newName
     });
   }
+
+  async changeStatus(id: string, newStatus: Status) {
+    const docRef = doc(this.usersCollection, id);
+    await updateDoc(docRef, {
+      status: newStatus
+    });
+  }
 }
