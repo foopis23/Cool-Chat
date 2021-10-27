@@ -28,7 +28,7 @@ export class UserService {
   }
 
   createUser(name: string) {
-    return addDoc(this.usersCollection, { name });
+    return addDoc(this.usersCollection, { name: name, status: Status.OFFLINE });
   }
 
   getUserById(id: string): Observable<User> {
