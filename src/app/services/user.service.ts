@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { doc, docSnapshots, Firestore } from '@angular/fire/firestore';
+import { doc, deleteDoc, docSnapshots, Firestore } from '@angular/fire/firestore';
 import { addDoc, collection, updateDoc } from '@firebase/firestore';
 import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
@@ -54,6 +54,11 @@ export class UserService {
     await updateDoc(docRef, {
       status: newStatus
     });
+  }
+
+  async deleteUser(id: string) {
+    const userRef = doc(this.fs, id);
+    await deleteDoc(userRef);
   }
 
   test() {

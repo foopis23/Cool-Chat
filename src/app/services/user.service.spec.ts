@@ -96,4 +96,18 @@ describe('UserService', () => {
       done();
     });
   });
+
+  it('should delete a user'), (done: DoneFn) => {
+    const dummyUser = {
+      id: 'zNuIIUAUAwEL6DIs44Rh',
+      name: 'StatusDummyUser',
+      status: Status.ONLINE
+    };
+
+    service.deleteUser(dummyUser.id);
+    service.getUserById(dummyUser.id).subscribe(user => {
+      expect(user).toBeUndefined();
+      done();
+    });
+  }
 });
