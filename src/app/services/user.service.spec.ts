@@ -4,6 +4,7 @@ import { getAuth, provideAuth } from '@angular/fire/auth';
 import { docSnapshots, getFirestore, provideFirestore } from '@angular/fire/firestore';
 import { getStorage, provideStorage } from '@angular/fire/storage';
 import { initializeApp } from '@firebase/app';
+import { collection } from '@firebase/firestore';
 import { map } from 'rxjs/operators';
 import { environment } from 'src/environments/environment';
 import { Status, User, UserService } from './user.service';
@@ -21,6 +22,7 @@ describe('UserService', () => {
       ]
     });
     service = TestBed.inject(UserService);
+    service.test();
   });
 
   it('should be created', () => {
@@ -29,7 +31,7 @@ describe('UserService', () => {
 
   it('should get user data', (done: DoneFn) => {
     const dummyUser: User = {
-      id: 'eXhtvFSmcWh4yPQ6xDcm',
+      id: 'k5UXtHjyaVncib6oNATM',
       name: 'DummyUser',
       status: Status.OFFLINE
     };
@@ -61,6 +63,37 @@ describe('UserService', () => {
         expect(user.status).toBe(dummyData.status);
         done();
       });
+    });
+  });
+
+  it('should change the username of a user', (done: DoneFn) => {
+    const dummyUser = {
+      id: '5BOjTtwZqAv85X220ebH',
+      name: 'ToChangedDummyUser',
+      status: Status.OFFLINE
+    };
+
+    service.changeUsername(dummyUser.id, dummyUser.name);
+    service.getUserById(dummyUser.id).subscribe(user => {
+      expect(user.name).toBe(dummyUser.name);
+      expect(user.status).toBe(dummyUser.status);
+      done();
+    });
+  });
+
+  it('should change the status of a user', (done: DoneFn) => {
+    const dummyUser = {
+      id: 'JDXybYhH1npHWAZOPdj5',
+      name: 'StatusDummyUser',
+      status: Status.ONLINE
+    };
+
+    service.changeStatus('JDXybYhH1npHWAZOPdj5', dummyUser.status);
+    service.changeUsername(dummyUser.id, dummyUser.name);
+    service.getUserById(dummyUser.id).subscribe(user => {
+      expect(user.name).toBe(dummyUser.name);
+      expect(user.status).toBe(dummyUser.status);
+      done();
     });
   });
 });

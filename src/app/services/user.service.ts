@@ -23,7 +23,7 @@ export enum Status {
 export class UserService {
   usersCollection;
 
-  constructor(private fs: Firestore) { 
+  constructor(public fs: Firestore) { 
     this.usersCollection = collection(fs, 'users');
   }
 
@@ -54,5 +54,9 @@ export class UserService {
     await updateDoc(docRef, {
       status: newStatus
     });
+  }
+
+  test() {
+    this.usersCollection = collection(this.fs, 'dummy-users');
   }
 }
