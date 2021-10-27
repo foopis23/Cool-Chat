@@ -10,12 +10,14 @@ import { provideFirestore,getFirestore } from '@angular/fire/firestore';
 import { provideStorage,getStorage } from '@angular/fire/storage';
 import { LoginComponent } from './login/login/login.component';
 import { RegisterComponent } from './login/register/register.component';
+import { GuardedComponent } from './test/guarded/guarded.component';
 
 @NgModule({
   declarations: [
     AppComponent,
     LoginComponent,
-    RegisterComponent
+    RegisterComponent,
+    GuardedComponent
   ],
   imports: [
     BrowserModule,
