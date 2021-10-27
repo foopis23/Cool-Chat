@@ -23,8 +23,13 @@ describe('AuthService', () => {
     service = TestBed.inject(AuthService);
   });
 
-  afterAll(() => {
-    service.deleteAccount();
+  afterAll(async () => {
+    console.log("Deleting Account...")
+    let promise = service.deleteAccount();
+
+    if (promise) {
+      await promise
+    }
   })
 
   const email = "randomtestemail@gmail.com";
