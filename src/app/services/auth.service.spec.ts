@@ -24,7 +24,6 @@ describe('AuthService', () => {
   });
 
   afterAll(async () => {
-    console.log("Deleting Account...")
     let promise = service.deleteAccount();
 
     if (promise) {
