@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { Auth, signInWithEmailAndPassword, signOut, User, UserCredential, createUserWithEmailAndPassword, updateProfile } from '@angular/fire/auth';
+import { Auth, signInWithEmailAndPassword, signOut, User, UserCredential, createUserWithEmailAndPassword, updateProfile, deleteUser } from '@angular/fire/auth';
 import { authState } from 'rxfire/auth';
 import { Observable } from 'rxjs';
 import { map, first } from 'rxjs/operators';
@@ -29,6 +29,18 @@ export class AuthService {
     ])
 
     return credential;
+  }
+
+  public deleteAccount(): Promise<void> | void {
+    // TODO: delete user settings /w user service
+
+    let user = this.auth.currentUser;
+
+    if (user == null) {
+      return;
+    }
+
+    return deleteUser(user)
   }
 
   public async isLoggedIn(): Promise<boolean> {
