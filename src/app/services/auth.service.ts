@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { Auth, signInWithEmailAndPassword, signOut, User, UserCredential, createUserWithEmailAndPassword } from '@angular/fire/auth';
+import { Auth, signInWithEmailAndPassword, signOut, User, UserCredential, createUserWithEmailAndPassword, updateProfile } from '@angular/fire/auth';
 import { authState } from 'rxfire/auth';
 import { Observable } from 'rxjs';
 import { map, first } from 'rxjs/operators';
@@ -23,7 +23,10 @@ export class AuthService {
   public async register(email: string, password: string, displayName: string) {
     const credential = await createUserWithEmailAndPassword(this.auth, email, password);
 
-    //TODO: create user data w/ user service
+    await Promise.all([
+      updateProfile(credential.user, { displayName: displayName }),
+      //TODO: create user settings data w/ user service
+    ])
 
     return credential;
   }
