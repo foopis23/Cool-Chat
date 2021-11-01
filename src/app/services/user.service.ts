@@ -1,6 +1,9 @@
 import { Injectable } from '@angular/core';
+import { authInstanceFactory } from '@angular/fire/auth/auth.module';
 import { docSnapshots, Firestore } from '@angular/fire/firestore';
+import { deleteUser, getAuth, updatePassword, updateProfile } from '@firebase/auth';
 import { doc, deleteDoc, addDoc, collection, updateDoc } from '@firebase/firestore';
+import { getStorage, ref, uploadBytes } from '@firebase/storage';
 import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
 
@@ -22,16 +25,14 @@ export enum Status {
 })
 export class UserService {
   usersCollection;
+  auth = getAuth();
+  user = this.auth.currentUser;
 
-  constructor(public fs: Firestore) { 
+  constructor(private fs: Firestore) { 
     this.usersCollection = collection(fs, 'users');
   }
 
-  createUser(name: string) {
-    return addDoc(this.usersCollection, { name: name, status: Status.OFFLINE });
-  }
-
-  getUserById(id: string): Observable<User> {
+  /*getUserById(id: string): Observable<User> {
     const docRef = doc(this.usersCollection, id);
     return docSnapshots(docRef).pipe(
       map(data => {
@@ -40,9 +41,34 @@ export class UserService {
         return user as User;
       })
     );
+  }*/
+
+  getUsername() {
+    return this.user?.displayName;
   }
 
-  changeUsername(id: string, newName: string) {
+  changeUsername(newName: string) {
+    return updateProfile(this.user!, {
+      displayName: newName
+    });
+  }
+
+  changeStatus(newStatus: Status) {
+    const userRef = doc(this.usersCollection, this.user!.uid);
+    return updateDoc(userRef, {
+      status: newStatus
+    });
+  }
+
+  changePassword(newPassword: string) {
+    return updatePassword(this.user!, newPassword);
+  }
+
+  deleteUser() {
+    return deleteUser(this.user!);
+  }
+
+  /*changeUsername(newName: string) {
     const docRef = doc(this.usersCollection, id);
     return updateDoc(docRef, {
       name: newName
@@ -59,6 +85,24 @@ export class UserService {
   deleteUser(id: string) {
     const userRef = doc(this.usersCollection, id);
     return deleteDoc(userRef);
+  }*/
+
+  getProfilePicture() {
+    return this.user?.photoURL;
+  }
+
+  changeProfilePicture(picture: File) {
+    const allowedFileTypes = ['image/png', 'image/jpeg', 'image/gif'];
+    if (!allowedFileTypes.includes(picture.type)) return;
+
+    const storageRef = getStorage();
+    const picRef = ref(storageRef, `profiles/${picture.name}`)
+
+    uploadBytes(picRef, picture).then(_ => {
+      return updateProfile(this.user!, {
+        photoURL: picRef.fullPath
+      });
+    })
   }
 
   test() {
