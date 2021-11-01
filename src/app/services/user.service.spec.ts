@@ -8,6 +8,7 @@ import { collection } from '@firebase/firestore';
 import { map } from 'rxjs/operators';
 import { environment } from 'src/environments/environment';
 import { Status, User, UserService } from './user.service';
+import { deleteDoc } from 'firebase/firestore';
 
 describe('UserService', () => {
   let service: UserService;
@@ -88,6 +89,10 @@ describe('UserService', () => {
       status: Status.ONLINE
     };
 
+    service.deleteUser('CPyfcBLTC5luFqdtXnQA').then(_ => {
+      done();
+    })
+
     service.changeStatus('JDXybYhH1npHWAZOPdj5', dummyUser.status);
     service.changeUsername(dummyUser.id, dummyUser.name);
     service.getUserById(dummyUser.id).subscribe(user => {
@@ -97,17 +102,10 @@ describe('UserService', () => {
     });
   });
 
-  it('should delete a user'), (done: DoneFn) => {
-    const dummyUser = {
-      id: 'zNuIIUAUAwEL6DIs44Rh',
-      name: 'StatusDummyUser',
-      status: Status.ONLINE
-    };
-
-    service.deleteUser(dummyUser.id);
-    service.getUserById(dummyUser.id).subscribe(user => {
-      expect(user).toBeUndefined();
+  it('should delete a user', (done: DoneFn) => {
+    const id = '2q0k0o58WIUOLHPswM67';
+    service.deleteUser(id).then(_ => {
       done();
     });
-  }
+  });
 });

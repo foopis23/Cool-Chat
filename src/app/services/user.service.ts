@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
-import { doc, deleteDoc, docSnapshots, Firestore } from '@angular/fire/firestore';
-import { addDoc, collection, updateDoc } from '@firebase/firestore';
+import { docSnapshots, Firestore } from '@angular/fire/firestore';
+import { doc, deleteDoc, addDoc, collection, updateDoc } from '@firebase/firestore';
 import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
 
@@ -42,23 +42,23 @@ export class UserService {
     );
   }
 
-  async changeUsername(id: string, newName: string) {
+  changeUsername(id: string, newName: string) {
     const docRef = doc(this.usersCollection, id);
-    await updateDoc(docRef, {
+    return updateDoc(docRef, {
       name: newName
     });
   }
 
-  async changeStatus(id: string, newStatus: Status) {
+  changeStatus(id: string, newStatus: Status) {
     const docRef = doc(this.usersCollection, id);
-    await updateDoc(docRef, {
+    return updateDoc(docRef, {
       status: newStatus
     });
   }
 
-  async deleteUser(id: string) {
-    const userRef = doc(this.fs, id);
-    await deleteDoc(userRef);
+  deleteUser(id: string) {
+    const userRef = doc(this.usersCollection, id);
+    return deleteDoc(userRef);
   }
 
   test() {
