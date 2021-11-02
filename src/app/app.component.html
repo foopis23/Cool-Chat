@@ -12,11 +12,19 @@
         {{item.name}}
       </li>
     </ul> -->
-    <ul>
-      <li *ngFor="let message of messages$ | async">
-        {{message.author.name}}: {{message.content}}
-      </li>
-    </ul>
+    <div class="py-5" *ngFor="let message of messages$ | async">
+      <div class="columns">
+        <div class="col">
+          <figure class="image is-48x48">
+            <img class="is-rounded" [src]="message.author.photoURL" alt="">
+          </figure>
+        </div>
+        <div class="col">
+          <strong>{{message.author.displayName}}</strong>: {{message.content}}
+        </div>
+      </div>
+    </div>
+
     <input [(ngModel)]="messageInput" type="text">
     <button (click)="onSubmit()" type="submit">Send</button>
 

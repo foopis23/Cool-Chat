@@ -3,21 +3,7 @@ import { Firestore } from '@angular/fire/firestore';
 import { doc, DocumentReference, Timestamp } from '@firebase/firestore';
 import { Observable, Subscriber } from 'rxjs';
 import { map } from 'rxjs/operators';
-
-//TODO: Replace with copy in user service
-enum Status {
-  OFFLINE,
-  BUSY,
-  DO_NOT_DISTURB,
-  ONLINE
-}
-
-//TODO: Replace with copy in user service
-interface User {
-  id: string,
-  name: string,
-  status: Status
-}
+import { User } from './user-query.service';
 
 interface RawMessage {
   attachments: any[]
@@ -35,13 +21,15 @@ export interface Message extends RawMessage {
 const UserLookup: { [key: string]: User } = {
   "k5UXtHjyaVncib6oNATM": {
     id: "k5UXtHjyaVncib6oNATM",
-    name: "DummyUser1",
-    status: 0
+    displayName: "Dummy User 1",
+    status: 0,
+    photoURL: "https://via.placeholder.com/150"
   },
   "JDXybYhH1npHWAZOPdj5": {
     id: "JDXybYhH1npHWAZOPdj5",
-    name: "DummyUser2",
-    status: 0
+    displayName: "Dummy User 2",
+    status: 0,
+    photoURL: "https://via.placeholder.com/150"
   }
 }
 
