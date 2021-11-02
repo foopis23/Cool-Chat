@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { Auth, signInWithEmailAndPassword, signOut, User, UserCredential, createUserWithEmailAndPassword, updateProfile, deleteUser } from '@angular/fire/auth';
-import { doc, Firestore } from '@angular/fire/firestore';
+import { doc, Firestore, updateDoc } from '@angular/fire/firestore';
 import { onAuthStateChanged } from '@firebase/auth';
 import { collection, deleteDoc, setDoc } from '@firebase/firestore';
 import { fstatSync } from 'fs';
@@ -71,7 +71,8 @@ export class AuthService {
     return authState(this.auth);
   }
 
-  public changeDisplayName(newName: string) {
-
+  changeData(newData: { [x: string]: any }) {
+    const userRef = doc(this.usersCollection, this.user!.uid);
+    return updateDoc(userRef, newData);
   }
 }
