@@ -26,7 +26,6 @@ describe('UserService', () => {
       ]
     });
     service = TestBed.inject(UserQueryService);
-    service.test();
   });
 
   it('should be created', () => {

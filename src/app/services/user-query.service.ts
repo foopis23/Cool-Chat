@@ -71,8 +71,4 @@ export class UserQueryService {
       });
     })
   }*/
-
-  test() {
-    this.usersCollection = collection(this.fs, 'dummy-users');
-  }
 }
