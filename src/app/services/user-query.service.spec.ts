@@ -5,11 +5,11 @@ import { getFirestore, provideFirestore } from '@angular/fire/firestore';
 import { getStorage, provideStorage } from '@angular/fire/storage';
 import { initializeApp } from '@firebase/app';
 import { environment } from 'src/environments/environment';
-import { Status, UserQueryService } from './user-query.service';
+import { Status, User, UserQueryService } from './user-query.service';
 
 describe('UserService', () => {
   let service: UserQueryService;
-  const testUser = {
+  const testUser: User = {
     id: 'AWVmMgrvKObg6R8CHsyJP2UklHC2',
     displayName: 'John Smith',
     photoURL: 'https://via.placeholder.com/150',
@@ -34,7 +34,8 @@ describe('UserService', () => {
 
   it('should get user data', (done: DoneFn) => {
     service.getUserById(testUser.id).subscribe(user => {
-      expect(user).toBe(testUser);
+      expect(user).toEqual(testUser);
+      done();
     });
   });
 });
