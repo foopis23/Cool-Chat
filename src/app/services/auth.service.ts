@@ -1,5 +1,8 @@
 import { Injectable } from '@angular/core';
 import { Auth, signInWithEmailAndPassword, signOut, User, UserCredential, createUserWithEmailAndPassword, updateProfile, deleteUser } from '@angular/fire/auth';
+import { doc, Firestore } from '@angular/fire/firestore';
+import { collection, setDoc } from '@firebase/firestore';
+import { fstatSync } from 'fs';
 import { authState } from 'rxfire/auth';
 import { Observable } from 'rxjs';
 import { map, first } from 'rxjs/operators';
@@ -8,8 +11,8 @@ import { map, first } from 'rxjs/operators';
   providedIn: 'root'
 })
 export class AuthService {
-
-  constructor(private auth: Auth) { }
+  usersCollection = collection(this.fs, 'users');
+  constructor(private auth: Auth, private fs: Firestore) {}
 
   public async login(email: string, password: string): Promise<UserCredential> {
     let credential = await signInWithEmailAndPassword(this.auth, email, password);
@@ -21,14 +24,23 @@ export class AuthService {
   }
 
   public async register(email: string, password: string, displayName: string) {
-    const credential = await createUserWithEmailAndPassword(this.auth, email, password);
+    createUserWithEmailAndPassword(this.auth, email, password).then(cred => {
+      const user = cred.user;
+      return setDoc(doc(this.usersCollection, user.uid), {
+        displayName: user.displayName,
+        photoURL: '',
+        status: 3, // TODO: Include Status here <------------
+      });
+    });
+
+    /*const credential = await createUserWithEmailAndPassword(this.auth, email, password);
 
     await Promise.all([
       updateProfile(credential.user, { displayName: displayName }),
       //TODO: create user settings data w/ user service
     ])
 
-    return credential;
+    return credential;*/
   }
 
   public deleteAccount(): Promise<void> | void {
