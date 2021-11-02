@@ -22,13 +22,13 @@ export enum Status {
   providedIn: 'root'
 })
 export class UserQueryService {
-  usersCollection;
+  private usersCollection;
 
   constructor(private fs: Firestore) { 
     this.usersCollection = collection(fs, 'users');
   }
 
-  getUserById(id: string): Observable<User> {
+  public getUserById(id: string): Observable<User> {
     const docRef = doc(this.usersCollection, id);
     return docSnapshots(docRef).pipe(
       map(data => {
