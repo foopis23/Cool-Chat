@@ -1,6 +1,7 @@
 import { Injectable } from '@angular/core';
 import { Auth, signInWithEmailAndPassword, signOut, User, UserCredential, createUserWithEmailAndPassword, updateProfile, deleteUser } from '@angular/fire/auth';
 import { doc, Firestore } from '@angular/fire/firestore';
+import { onAuthStateChanged } from '@firebase/auth';
 import { collection, deleteDoc, setDoc } from '@firebase/firestore';
 import { fstatSync } from 'fs';
 import { authState } from 'rxfire/auth';
@@ -12,7 +13,12 @@ import { map, first } from 'rxjs/operators';
 })
 export class AuthService {
   usersCollection = collection(this.fs, 'users');
-  constructor(private auth: Auth, private fs: Firestore) {}
+  user: User | null = null;
+  constructor(private auth: Auth, private fs: Firestore) {
+    onAuthStateChanged(auth, user => {
+      this.user = user;
+    })
+  }
 
   public async login(email: string, password: string): Promise<UserCredential> {
     let credential = await signInWithEmailAndPassword(this.auth, email, password);
@@ -63,5 +69,9 @@ export class AuthService {
 
   public get authState$(): Observable<User | null> {
     return authState(this.auth);
+  }
+
+  public changeDisplayName(newName: string) {
+
   }
 }
