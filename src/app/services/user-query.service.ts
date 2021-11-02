@@ -3,20 +3,7 @@ import { docSnapshots, Firestore, onSnapshot } from '@angular/fire/firestore';
 import { doc, deleteDoc, collection, updateDoc } from '@firebase/firestore';
 import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
-
-export interface User {
-  id: string,
-  displayName: string,
-  photoURL: string
-  status: Status
-}
-
-export enum Status {
-  OFFLINE,
-  BUSY,
-  DO_NOT_DISTURB,
-  ONLINE
-}
+import { User, Status } from '../types/User';
 
 @Injectable({
   providedIn: 'root'

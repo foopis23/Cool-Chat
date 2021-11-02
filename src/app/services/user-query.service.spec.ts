@@ -5,7 +5,8 @@ import { getFirestore, provideFirestore } from '@angular/fire/firestore';
 import { getStorage, provideStorage } from '@angular/fire/storage';
 import { initializeApp } from '@firebase/app';
 import { environment } from 'src/environments/environment';
-import { Status, User, UserQueryService } from './user-query.service';
+import { UserQueryService } from './user-query.service';
+import { User, Status } from '../types/User';
 
 describe('UserService', () => {
   let service: UserQueryService;
