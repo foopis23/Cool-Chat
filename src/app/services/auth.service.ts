@@ -44,8 +44,6 @@ export class AuthService {
   }
 
   public deleteAccount() {
-    // TODO: delete user settings /w user service
-
     let user = this.auth.currentUser;
     if (user) {
       const userRef = doc(this.usersCollection, user.uid);
