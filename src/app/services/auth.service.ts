@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { Auth, signInWithEmailAndPassword, signOut, User, UserCredential, createUserWithEmailAndPassword, updateProfile, deleteUser } from '@angular/fire/auth';
 import { doc, Firestore } from '@angular/fire/firestore';
-import { collection, setDoc } from '@firebase/firestore';
+import { collection, deleteDoc, setDoc } from '@firebase/firestore';
 import { fstatSync } from 'fs';
 import { authState } from 'rxfire/auth';
 import { Observable } from 'rxjs';
@@ -43,16 +43,14 @@ export class AuthService {
     return credential;*/
   }
 
-  public deleteAccount(): Promise<void> | void {
-    // TODO: delete user settings /w user service
-
+  public deleteAccount() {
     let user = this.auth.currentUser;
-
-    if (user == null) {
-      return;
+    if (user) {
+      const userRef = doc(this.usersCollection, user.uid);
+      return Promise.all([deleteUser(user), deleteDoc(userRef)]);
     }
-
-    return deleteUser(user)
+    return;
+    //return deleteUser(user)
   }
 
   public async isLoggedIn(): Promise<boolean> {
