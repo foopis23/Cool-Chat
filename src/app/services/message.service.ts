@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { Firestore } from '@angular/fire/firestore';
-import { Timestamp } from '@firebase/firestore';
+import { doc, DocumentReference, Timestamp } from '@firebase/firestore';
 import { Observable, Subscriber } from 'rxjs';
 import { map } from 'rxjs/operators';
 
@@ -22,8 +22,8 @@ interface User {
 interface RawMessage {
   attachments: any[]
   content: string,
-  fromId: string,
-  roomId: string,
+  fromRef: DocumentReference,
+  roomRef: DocumentReference,
   timestamp: Timestamp
 }
 
@@ -55,22 +55,22 @@ export class MessageService {
 
   constructor(private firestore: Firestore) {
     this.messages = new Array<RawMessage>();
-    
+
     this.messages$ = new Observable<RawMessage[]>((subscriber) => {
       this.messageSubscriber = subscriber;
 
       this.messages = [
         {
           content: "Hello world",
-          fromId: "JDXybYhH1npHWAZOPdj5",
-          roomId: "YuvHfec5B4skmfnHOcM9",
+          fromRef: doc(this.firestore, "users/JDXybYhH1npHWAZOPdj5"),
+          roomRef: doc(this.firestore, "rooms/YuvHfec5B4skmfnHOcM9"),
           timestamp: Timestamp.now(),
           attachments: []
         },
         {
           content: "Hello Other User",
-          fromId: "k5UXtHjyaVncib6oNATM",
-          roomId: "YuvHfec5B4skmfnHOcM9",
+          fromRef: doc(this.firestore, "users/k5UXtHjyaVncib6oNATM"),
+          roomRef: doc(this.firestore, "rooms/YuvHfec5B4skmfnHOcM9"),
           timestamp: Timestamp.now(),
           attachments: []
         }
@@ -86,7 +86,7 @@ export class MessageService {
       map((messages) => {
         let filter: RawMessage[] = [];
         for (let message of messages) {
-          if (message.roomId == chatroomId) {
+          if (message.roomRef.id == chatroomId) {
             filter.push(message);
           }
         }
@@ -98,7 +98,7 @@ export class MessageService {
         for (let message of messages) {
           output.push({
             ...message,
-            author: UserLookup[message.fromId]
+            author: UserLookup[message.fromRef.id]
           })
         }
 
@@ -109,8 +109,8 @@ export class MessageService {
 
   public async sendMessageToChatroom(roomId: string, fromId: string, content: string): Promise<void> {
     this.messages.push({
-      roomId,
-      fromId,
+      roomRef: doc(this.firestore, `rooms/${roomId}`),
+      fromRef: doc(this.firestore, `users/${fromId}`),
       content,
       timestamp: Timestamp.now(),
       attachments: []
