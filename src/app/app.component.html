@@ -1,4 +1,6 @@
 <section class="section">
+  
+  <!--
   <div class="container">
     <h1 class="title">
       Hello World
@@ -7,11 +9,11 @@
       My first website with <strong>Bulma</strong>!
     </p>
     <button class="button is-primary">Hello world</button>
-    <!-- <ul>
+    <ul>
       <li class="text" *ngFor="let item of items | async">
         {{item.name}}
       </li>
-    </ul> -->
+    </ul>
     <ul>
       <li *ngFor="let message of messages$ | async">
         {{message.author.name}}: {{message.content}}
@@ -21,6 +23,10 @@
     <button (click)="onSubmit()" type="submit">Send</button>
 
   </div>
+-->
+
+  <app-chatroom></app-chatroom>
+
 </section>
 
 <router-outlet></router-outlet>

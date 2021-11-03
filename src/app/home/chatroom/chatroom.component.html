@@ -1,0 +1,28 @@
+<section id="messages">
+
+    <section id="chatInfoBar">
+        <div id="circle">
+        
+        </div>
+        <div id="userLabel">
+            <!--The binding for this will come from the users in the chat from the chatroom data service-->
+            Your chat with (other users)!
+        </div>
+        <hr>
+    </section>
+
+    <section id="messageHistory">
+        <div *ngFor="let message of messages; index as i;">
+            <app-message [lastMessage]="messages[i-1]" [nextMessage]="messages[i+1]" [newMessage]="message" [isFromCurrentUser]="isFromCurrentUser(message)" [ngClass]="{'sentMessage': isFromCurrentUser(message), 'recievedMessage': !isFromCurrentUser(message)}"></app-message>
+        </div>
+    </section>
+
+    <section id="messageInputSection">  
+        <form (ngSubmit)="submitMessage()">
+            <!--Temporary usng [user] for placeholder until services available-->
+            <input class="input" placeholder="Message [user]" [(ngModel)]="messageInput"
+            type="text" name="newMessage" id="messageInput">
+         </form>
+    </section>
+
+</section>
