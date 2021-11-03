@@ -1,0 +1,20 @@
+<div *ngIf="newMessage != undefined">
+    <div *ngIf="shouldDisplayUser() && !isFromCurrentUser" class="column" id="circle">
+    </div>
+    <div *ngElse class="column"></div>
+    <div class="column" id="messageInfo">
+        <p *ngIf="shouldDisplayUser()" class="userId">
+            {{(newMessage.author | async)?.displayName}}
+        </p>
+        <p class="body">
+            {{newMessage.content}}
+        </p>
+        <p *ngIf="!shouldNotDisplayTimestamp()" class="timeStamp">
+
+            {{newMessage.timestamp.toDate()}}
+        </p>
+    </div>
+    <div *ngIf="shouldDisplayUser() && isFromCurrentUser" class="column" id="circle">
+    </div>
+    <div *ngElse class="column"></div>
+</div>

@@ -1,34 +1,7 @@
 <section class="section">
-  <div class="container">
-    <h1 class="title">
-      Hello World
-    </h1>
-    <p class="subtitle">
-      My first website with <strong>Bulma</strong>!
-    </p>
-    <button class="button is-primary">Hello world</button>
-    <!-- <ul>
-      <li class="text" *ngFor="let item of items | async">
-        {{item.name}}
-      </li>
-    </ul> -->
-    <div class="py-5" *ngFor="let message of messages$ | async">
-      <div class="columns">
-        <div class="col">
-          <figure class="image is-48x48">
-            <img class="is-rounded" [src]="message.author.photoURL" alt="">
-          </figure>
-        </div>
-        <div class="col">
-          <strong>{{message.author.displayName}}</strong>: {{message.content}}
-        </div>
-      </div>
-    </div>
 
-    <input [(ngModel)]="messageInput" type="text">
-    <button (click)="onSubmit()" type="submit">Send</button>
+  <app-chatroom chatroomId="mEqnsMJCAp94vP7xuSdS"></app-chatroom>
 
-  </div>
 </section>
 
 <router-outlet></router-outlet>

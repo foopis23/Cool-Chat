@@ -9,10 +9,14 @@ import { provideAuth,getAuth } from '@angular/fire/auth';
 import { provideFirestore,getFirestore } from '@angular/fire/firestore';
 import { provideStorage,getStorage } from '@angular/fire/storage';
 import { FormsModule } from '@angular/forms';
+import { ChatroomComponent } from './home/chatroom/chatroom.component';
+import { MessageComponent } from './home/message/message.component';
 
 @NgModule({
   declarations: [
-    AppComponent
+    AppComponent,
+    ChatroomComponent,
+    MessageComponent
   ],
   imports: [
     BrowserModule,
@@ -21,7 +25,7 @@ import { FormsModule } from '@angular/forms';
     provideFirebaseApp(() => initializeApp(environment.firebase)),
     provideAuth(() => getAuth()),
     provideFirestore(() => getFirestore()),
-    provideStorage(() => getStorage())
+    provideStorage(() => getStorage()),
   ],
   providers: [],
   bootstrap: [AppComponent]
