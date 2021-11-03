@@ -41,11 +41,12 @@ describe('AuthService', () => {
 
   it('should allow register', async () => {
     try {
-      const cred = await service.register(email, password, displayName);
-      expect(cred).toBeTruthy();
-      expect(cred.user).toBeTruthy();
-      expect(cred.user.email).toBe(email);
-      expect(cred.user.displayName).toBe(displayName);
+      service.register(email, password, displayName).then(cred => {
+        expect(cred).toBeTruthy();
+        expect(cred.user).toBeTruthy();
+        expect(cred.user.email).toBe(email);
+        expect(cred.user.displayName).toBe(displayName);
+      });
     } catch (e) {
       fail(e);
     }

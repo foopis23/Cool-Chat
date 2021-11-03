@@ -29,15 +29,15 @@ export class AuthService {
   }
 
   public async register(email: string, password: string, displayName: string) {
-    createUserWithEmailAndPassword(this.auth, email, password).then(cred => {
-      const user = cred.user;
-      return setDoc(doc(this.usersCollection, user.uid), {
-        displayName: user.displayName,
-        photoURL: '',
-        status: 3, // TODO: Include Status here <------------
-      });
+    const cred = await createUserWithEmailAndPassword(this.auth, email, password);
+    const user = cred.user;
+    await setDoc(doc(this.usersCollection, user.uid), {
+      displayName: user.displayName,
+      photoURL: '',
+      status: 3, // TODO: Include Status here <------------
     });
 
+    return cred;
     /*const credential = await createUserWithEmailAndPassword(this.auth, email, password);
 
     await Promise.all([
