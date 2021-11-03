@@ -3,7 +3,6 @@ import { Auth, signInWithEmailAndPassword, signOut, User, UserCredential, create
 import { doc, Firestore, updateDoc } from '@angular/fire/firestore';
 import { onAuthStateChanged } from '@firebase/auth';
 import { collection, deleteDoc, setDoc } from '@firebase/firestore';
-import { fstatSync } from 'fs';
 import { authState } from 'rxfire/auth';
 import { Observable } from 'rxjs';
 import { map, first } from 'rxjs/operators';
@@ -12,8 +11,9 @@ import { map, first } from 'rxjs/operators';
   providedIn: 'root'
 })
 export class AuthService {
-  usersCollection = collection(this.fs, 'users');
-  user: User | null = null;
+  private usersCollection = collection(this.fs, 'users');
+  private user: User | null = null;
+
   constructor(private auth: Auth, private fs: Firestore) {
     onAuthStateChanged(auth, user => {
       this.user = user;
@@ -28,7 +28,7 @@ export class AuthService {
     return signOut(this.auth)
   }
 
-  public async register(email: string, password: string, displayName: string) {
+  public async register(email: string, password: string, displayName: string): Promise<UserCredential> {
     const cred = await createUserWithEmailAndPassword(this.auth, email, password);
     const user = cred.user;
     await setDoc(doc(this.usersCollection, user.uid), {
@@ -48,7 +48,7 @@ export class AuthService {
     return credential;*/
   }
 
-  public deleteAccount() {
+  public deleteAccount(): Promise<[void, void]> | undefined {
     let user = this.auth.currentUser;
     if (user) {
       const userRef = doc(this.usersCollection, user.uid);
@@ -70,7 +70,7 @@ export class AuthService {
     return authState(this.auth);
   }
 
-  changeData(newData: { [x: string]: any }) {
+  public changeData(newData: { [x: string]: any }): Promise<void> {
     const userRef = doc(this.usersCollection, this.user!.uid);
     return updateDoc(userRef, newData);
   }
