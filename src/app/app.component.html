@@ -17,8 +17,10 @@
         {{message.author.name}}: {{message.content}}
       </li>
     </ul>
-    <input [(ngModel)]="messageInput" type="text">
-    <button (click)="onSubmit()" type="submit">Send</button>
+    <div class="input-group">
+      <input [(ngModel)]="messageInput" type="text" class="form-control" placeholder="Messages in here ...">
+      <button (click)="onSubmit()" type="submit" class="btn btn-primary">Send</button>
+    </div>
 
   </div>
 </section>

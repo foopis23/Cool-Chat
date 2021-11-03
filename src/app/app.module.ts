@@ -9,10 +9,22 @@ import { provideAuth,getAuth } from '@angular/fire/auth';
 import { provideFirestore,getFirestore } from '@angular/fire/firestore';
 import { provideStorage,getStorage } from '@angular/fire/storage';
 import { FormsModule } from '@angular/forms';
+import { MainComponent } from './main/main.component';
+import { LoginComponent } from './login/login.component';
+import { SignupComponent } from './signup/signup.component';
+import { SidebarComponent } from './sidebar/sidebar.component';
+import { ContentComponent } from './content/content.component';
+import { MessageComponent } from './message/message.component';
 
 @NgModule({
   declarations: [
-    AppComponent
+    AppComponent,
+    MainComponent,
+    LoginComponent,
+    SignupComponent,
+    SidebarComponent,
+    ContentComponent,
+    MessageComponent
   ],
   imports: [
     BrowserModule,
