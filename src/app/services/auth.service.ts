@@ -32,11 +32,10 @@ export class AuthService {
     const cred = await createUserWithEmailAndPassword(this.auth, email, password);
     const user = cred.user;
     await setDoc(doc(this.usersCollection, user.uid), {
-      displayName: user.displayName,
+      displayName: displayName,
       photoURL: '',
       status: 3, // TODO: Include Status here <------------
     });
-
     return cred;
     /*const credential = await createUserWithEmailAndPassword(this.auth, email, password);
 
@@ -48,13 +47,16 @@ export class AuthService {
     return credential;*/
   }
 
-  public deleteAccount(): Promise<[void, void]> | undefined {
-    let user = this.auth.currentUser;
+  public async deleteAccount() {
+    const user = this.auth.currentUser;
     if (user) {
       const userRef = doc(this.usersCollection, user.uid);
-      return Promise.all([deleteUser(user), deleteDoc(userRef)]);
+      await deleteDoc(userRef);
+      await deleteUser(user);
+      return;
+      //return Promise.all([deleteDoc(userRef), deleteUser(user)]);
     }
-    return;
+    return Promise.resolve();
     //return deleteUser(user)
   }
 
