@@ -34,7 +34,7 @@ export class ChatroomComponent implements OnInit {
 
   isFromCurrentUser(message : Message) {
     //TODO: compare current user variable to message fromId
-    
+
     return false;
   }
 
