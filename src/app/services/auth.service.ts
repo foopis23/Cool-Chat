@@ -74,4 +74,8 @@ export class AuthService {
     const userRef = doc(this.usersCollection, this.user!.uid);
     return updateDoc(userRef, newData);
   }
+
+  public getUser() {
+    return this.user;
+  }
 }
