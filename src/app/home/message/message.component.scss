@@ -12,17 +12,6 @@
     float: left;
 }
 
-/*Did this to easily align continuing text to previous messages*/
-#alignmentCircle {
-    background-color: white;
-    border-color: white;
-    border-radius: 50%;
-    border-width: 5px;
-    height: 50px;
-    width: 50px;
-    float: left;
-}
-
 .userId {
     background-color: #E5E5E5;
     font-size: small;
@@ -30,7 +19,7 @@
 
 .body {
     background-color: #C4C4C4;
-    overflow-wrap:break-word;
+    overflow-wrap: break-word;
 }
 
 .timeStamp {
@@ -42,10 +31,10 @@
     border-radius: 0.8em;
     width: fit-content;
     height: fit-content;
-    padding-top: 5%;
-    padding-bottom: 5%;
-    padding-left: 5%;
-    padding-right: 5%;
+    padding-top: 3%;
+    padding-bottom: 3%;
+    padding-left: 3%;
+    padding-right: 3%;
     margin-top: 0.2em;
     margin-bottom: 0.2em;
 }

@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
-import { MessageComponent } from '../message/message.component';
-import { message } from '../message/message.component';
+import { Observable } from 'rxjs';
+import { MessageService, Message } from 'src/app/services/message.service';
 
 @Component({
   selector: 'app-chatroom',
@@ -9,57 +9,42 @@ import { message } from '../message/message.component';
 })
 export class ChatroomComponent implements OnInit {
 
-  //Purely a temporary test until object until the chatroom service is ready
-  testMessage: message = {
-    userId: "Matt",
-    body: "Testing123",
-    time: "9:30",
-    prevUserId: ""
+
+  messages$: Observable<any[]>;
+  messageInput : string;
+  newUserMessage = true;
+  messages : Message[];
+
+  constructor(private messageSvc : MessageService) {
+    this.messages = [];
+    
+    this.messages$ = messageSvc.getMessagesFromChatroomId('YuvHfec5B4skmfnHOcM9');
+    this.messages$.subscribe((messages) => {
+      this.messages = messages;
+    })
+
+    //TODO: subscribe to current user data here and store in variable...
+
+    this.messageInput = '';
   }
-  test2Message: message = {
-    userId: "Matt",
-    body: "Testing1234 to see if this is going to work at all because im really not sure o everall",
-    time: "10:30",
-    prevUserId: "Matt"
-  }
-
-  //Variable holder to store new user messages
-  newMessage: String = "";
-
-  //Hold the message history and be capable of holding new messsages added to the history as well
-  messageHist: message[] = [this.testMessage, this.test2Message];
-
-  //Going to get this from the chatroom data service
-  chatroomUser: String = "Matt";
-
-  //Temporary boolean used only to easily instigate certain logic in the html
-  isValid = true;
-
-  constructor() { }
 
   ngOnInit(): void {
 
   }
 
-  addMessage() {
-    //Disregard empty messages if entered
-    if (this.newMessage === "") {
-      return;
+  isFromCurrentUser(message : Message) {
+    //TODO: compare current user variable to message fromId
+    
+    return false;
+  }
+
+  submitMessage() {
+    if (this.messageInput && this.messageInput !== "") {
+      this.messageSvc.sendMessageToChatroom('YuvHfec5B4skmfnHOcM9', 'JDXybYhH1npHWAZOPdj5', this.messageInput);
+      this.messageInput = '';
     }
 
-    //Need to create a new message out of the userId who wrote it, the message itself, and timestamp
-    const addedMessage = {
-      userId: "test",
-      body: this.newMessage,
-      time: "testTime",
-      //Track the last user as an easy way to decide on how the next message should be displayed
-      prevUserId: this.messageHist[this.messageHist.length-1].userId
-    }
-
-    //Add to messageHistory array
-    this.messageHist.push(addedMessage);
-
-    //Need to also presumably use message service to add the new message to the database
+    return false;
   }
 }
 

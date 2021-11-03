@@ -12,28 +12,16 @@
     </section>
 
     <section id="messageHistory">
-        <div *ngFor="let message of messageHist">
-            <!--Temporary condition for testing so application will compile for now-->
-            <div *ngIf="isValid == false; then sentMessage; else recievedMessage">
-            </div>
-            <ng-template #sentMessage>
-                <div>
-                    <app-message [newMessage]="message" class="sentMessage"></app-message>
-                </div>
-            </ng-template>
-            <ng-template #recievedMessage>
-                <div>
-                    <app-message [newMessage]="message" class="recievedMessage"></app-message>
-                </div>
-            </ng-template>
+        <div *ngFor="let message of messages; index as i;">
+            <app-message [lastMessage]="messages[i-1]" [nextMessage]="messages[i+1]" [newMessage]="message" [isFromCurrentUser]="isFromCurrentUser(message)" [ngClass]="{'sentMessage': isFromCurrentUser(message), 'recievedMessage': !isFromCurrentUser(message)}"></app-message>
         </div>
     </section>
 
     <section id="messageInputSection">  
-        <form>
+        <form (ngSubmit)="submitMessage()">
             <!--Temporary usng [user] for placeholder until services available-->
-            <input class="input" placeholder="Message [user]" 
-            type="text" name="newMessage" id="messageInput" (click)="addMessage()">
+            <input class="input" placeholder="Message [user]" [(ngModel)]="messageInput"
+            type="text" name="newMessage" id="messageInput">
          </form>
     </section>
 

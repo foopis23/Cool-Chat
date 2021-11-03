@@ -1,29 +1,20 @@
 <div>
-    <div id="messageInfo" *ngIf="newMessage.userId !== newMessage.prevUserId; then newMessageSet; else continuingMessage">
+    <div *ngIf="shouldDisplayUser() && !isFromCurrentUser" class="column" id="circle">
     </div>
-        <ng-template #newMessageSet>
-            <div class="column" id="circle">
-            </div>
-            <div class="column" id="messageInfo">
-                <p class="userId">
-                    {{newMessage.userId}}
-                </p>
-                <p class="body">
-                    {{newMessage.body}}
-                </p>
-                <p class="timeStamp">
-                    {{newMessage.time}}
-                </p>
-            </div>
-        </ng-template>
-        <ng-template #continuingMessage>
-            <div class="column" id="continuingMessageInfo">
-                <p class="body" id="continuingBody">
-                    {{newMessage.body}}
-                </p>
-                <p class="timeStamp" id="continuingTime">
-                    {{newMessage.time}}
-                </p>
-            </div>
-        </ng-template>
+    <div *ngElse class="column"></div>
+    <div class="column" id="messageInfo">
+        <p *ngIf="shouldDisplayUser()" class="userId">
+            {{newMessage.author?.name}}
+        </p>
+        <p class="body">
+            {{newMessage.content}}
+        </p>
+        <p *ngIf="!shouldNotDisplayTimestamp()" class="timeStamp">
+            
+            {{newMessage.timestamp.toDate()}}
+        </p>
+    </div>
+    <div *ngIf="shouldDisplayUser() && isFromCurrentUser" class="column" id="circle">
+    </div>
+    <div *ngElse class="column"></div>
 </div>

@@ -9,6 +9,10 @@
     margin-bottom: 5%;
 }
 
+#InfoBar {
+    height: 20%;
+}
+
 #userLabel {
     margin-top: 5%;
     margin-left: 5%;
@@ -30,8 +34,8 @@ hr {
 
 #messageHistory {
     width: 50%;
-    height: 50%;
-    overflow-wrap: break-word;
+    height: 50vh; //TODO: MAYBE CHANGE THIS WHEN IMPLEMENTING COMPONENT
+    overflow: auto;
 }
 
 #messageInput {
@@ -40,7 +44,6 @@ hr {
     height: 20%;
     margin-right: auto;
     margin-left: auto;
-    position: sticky;
 }
 
 #sentMessage {
