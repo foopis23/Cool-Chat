@@ -20,9 +20,8 @@ export class AuthService {
     })
   }
 
-  public async login(email: string, password: string): Promise<UserCredential> {
-    let credential = await signInWithEmailAndPassword(this.auth, email, password);
-    return credential;
+  public login(email: string, password: string): Promise<UserCredential> {
+    return signInWithEmailAndPassword(this.auth, email, password);
   }
 
   public logout(): Promise<void> {
