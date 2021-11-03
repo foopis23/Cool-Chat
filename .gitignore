@@ -65,3 +65,4 @@ service-account-credentials.json
 **/tsconfig-compile.json
 yarn.lock
 pnpm-lock.yaml
+src/app/services/message.service.ts

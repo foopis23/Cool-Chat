@@ -18,17 +18,10 @@ interface RawMessage {
 
 export class MessageComponent implements OnInit {
 
-  @Input() newMessage: Message =  {
-    attachments: [],
-    content: "",
-    fromId: "",
-    roomId: "",
-    timestamp: Timestamp.now()
-  }
-
-  @Input() lastMessage : Message | undefined;
-  @Input() nextMessage : Message | undefined;
-  @Input() isFromCurrentUser : boolean = false;
+  @Input() newMessage: Message | undefined;
+  @Input() lastMessage: Message | undefined;
+  @Input() nextMessage: Message | undefined;
+  @Input() isFromCurrentUser: boolean = false;
 
 
   constructor() {
@@ -36,29 +29,30 @@ export class MessageComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    
+
   }
 
-  private isLastFromSameUser() {
+  private isLastFromSameUser(): boolean {
+    if (this.newMessage == undefined) return false;
     return this.lastMessage != undefined && this.lastMessage.fromId == this.newMessage.fromId;
   }
 
-  private isNextFromSameUser() {
+  private isNextFromSameUser(): boolean {
+    if (this.newMessage == undefined) return false;
+
     return this.nextMessage != undefined && this.nextMessage.fromId == this.newMessage.fromId;
   }
 
-  private isNextWithinOneMinute() {
+  private isNextWithinOneMinute(): boolean {
+    if (this.newMessage == undefined) return false;
     return this.nextMessage != undefined && this.nextMessage.timestamp.toMillis() - this.newMessage.timestamp.toMillis() < 60000;
   }
 
-
-  shouldDisplayUser() {
+  shouldDisplayUser(): boolean {
     return !this.isLastFromSameUser();
   }
 
-  
   shouldNotDisplayTimestamp() {
     return this.isNextWithinOneMinute() && this.isNextFromSameUser();
   }
-  
 }
