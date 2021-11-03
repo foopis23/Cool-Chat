@@ -1,0 +1,51 @@
+#messageInfo, #continuingMessageInfo {
+    float: left;
+}
+
+#circle {
+    background-color: red;
+    border-color: white;
+    border-radius: 50%;
+    border-width: 5px;
+    height: 50px;
+    width: 50px;
+    float: left;
+}
+
+/*Did this to easily align continuing text to previous messages*/
+#alignmentCircle {
+    background-color: white;
+    border-color: white;
+    border-radius: 50%;
+    border-width: 5px;
+    height: 50px;
+    width: 50px;
+    float: left;
+}
+
+.userId {
+    background-color: #E5E5E5;
+    font-size: small;
+}
+
+.body {
+    background-color: #C4C4C4;
+    overflow-wrap:break-word;
+}
+
+.timeStamp {
+    background-color: #E5E5E5;
+    font-size: small;
+}
+
+.userId, .body, .timeStamp {
+    border-radius: 0.8em;
+    width: fit-content;
+    height: fit-content;
+    padding-top: 5%;
+    padding-bottom: 5%;
+    padding-left: 5%;
+    padding-right: 5%;
+    margin-top: 0.2em;
+    margin-bottom: 0.2em;
+}
