@@ -3,32 +3,19 @@ import { docSnapshots, Firestore, onSnapshot } from '@angular/fire/firestore';
 import { doc, deleteDoc, collection, updateDoc } from '@firebase/firestore';
 import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
-
-export interface User {
-  id: string,
-  displayName: string,
-  photoURL: string
-  status: Status
-}
-
-export enum Status {
-  OFFLINE,
-  BUSY,
-  DO_NOT_DISTURB,
-  ONLINE
-}
+import { User, Status } from '../types/User';
 
 @Injectable({
   providedIn: 'root'
 })
 export class UserQueryService {
-  usersCollection;
+  private usersCollection;
 
   constructor(private fs: Firestore) { 
     this.usersCollection = collection(fs, 'users');
   }
 
-  getUserById(id: string): Observable<User> {
+  public getUserById(id: string): Observable<User> {
     const docRef = doc(this.usersCollection, id);
     return docSnapshots(docRef).pipe(
       map(data => {
