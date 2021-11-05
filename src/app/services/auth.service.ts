@@ -6,6 +6,7 @@ import { collection, deleteDoc, setDoc } from '@firebase/firestore';
 import { authState } from 'rxfire/auth';
 import { Observable } from 'rxjs';
 import { map, first } from 'rxjs/operators';
+import { Status } from '../types/User';
 
 @Injectable({
   providedIn: 'root'
@@ -34,7 +35,7 @@ export class AuthService {
     await setDoc(doc(this.usersCollection, user.uid), {
       displayName: displayName,
       photoURL: '',
-      status: 3, // TODO: Include Status here <------------
+      status: Status.ONLINE, // TODO: Include Status here <------------
     });
     return cred;
     /*const credential = await createUserWithEmailAndPassword(this.auth, email, password);
