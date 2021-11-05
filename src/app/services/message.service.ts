@@ -1,11 +1,11 @@
 import { Injectable } from '@angular/core';
-import { addDoc, collectionSnapshots, docSnapshots, Firestore } from '@angular/fire/firestore';
+import { addDoc, collectionSnapshots, Firestore } from '@angular/fire/firestore';
 import { collection, CollectionReference, doc, DocumentReference, Timestamp } from '@firebase/firestore';
-import { collectionChanges } from 'rxfire/firestore';
 import { DocumentData } from 'rxfire/firestore/interfaces';
-import { Observable, Subscriber } from 'rxjs';
-import { combineAll, filter, map, mergeAll, tap } from 'rxjs/operators';
-import { User, UserQueryService } from './user-query.service';
+import { Observable } from 'rxjs';
+import { map } from 'rxjs/operators';
+import { UserQueryService } from './user-query.service';
+import { User } from '../types/User';
 
 interface RawMessage extends DocumentData {
   id: string
