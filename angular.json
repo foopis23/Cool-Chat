@@ -103,7 +103,6 @@
               "src/assets"
             ],
             "styles": [
-              "node",
               "src/styles.scss"
             ],
             "scripts": []
