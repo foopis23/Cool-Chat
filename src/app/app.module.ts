@@ -11,11 +11,21 @@ import { provideStorage,getStorage } from '@angular/fire/storage';
 import { FormsModule } from '@angular/forms';
 import { ChatroomComponent } from './home/chatroom/chatroom.component';
 import { MessageComponent } from './home/message/message.component';
+import { MainComponent } from './main/main.component';
+import { LoginComponent } from './login/login.component';
+import { SignupComponent } from './signup/signup.component';
+import { SidebarComponent } from './sidebar/sidebar.component';
+import { ContentComponent } from './content/content.component';
 
 @NgModule({
   declarations: [
     AppComponent,
     ChatroomComponent,
+    MainComponent,
+    LoginComponent,
+    SignupComponent,
+    SidebarComponent,
+    ContentComponent,
     MessageComponent
   ],
   imports: [

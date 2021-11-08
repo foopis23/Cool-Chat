@@ -1,3 +1,6 @@
+$infoBarHeight: 100px;
+$inputHeight: 34px;
+
 #circle {
     background-color: red;
     border-color: white;
@@ -10,7 +13,7 @@
 }
 
 #InfoBar {
-    height: 20%;
+    height: $infoBarHeight;
 }
 
 #userLabel {
@@ -26,22 +29,20 @@ hr {
 }
 
 #messages {
-    min-height: 80%;
-    width: 60%;
-    height: 80%;
-    float: right;
+    width: 100%;
+    height: 100%;
 }
 
 #messageHistory {
-    width: 50%;
-    height: 50vh; //TODO: MAYBE CHANGE THIS WHEN IMPLEMENTING COMPONENT
+    width: 100%;
+    height: calc(100% - #{$infoBarHeight} - #{$inputHeight});
     overflow: auto;
 }
 
 #messageInput {
     background-color: #C4C4C4;
-    width: 90%;
-    height: 20%;
+    width: 100%;
+    height: $inputHeight;
     margin-right: auto;
     margin-left: auto;
 }
