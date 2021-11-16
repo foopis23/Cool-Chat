@@ -24,6 +24,7 @@ export class LoginComponent implements OnInit {
   onSubmit() {
     const { username, password } = this.loginForm.value;
     this.authSvc.login(username, password).then(() => {
+      console.log("logged out")
       this._router.navigateByUrl("/");
     }).catch(err => {
       switch (err.code) {
