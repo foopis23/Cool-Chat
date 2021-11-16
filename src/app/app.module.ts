@@ -15,7 +15,6 @@ import { MainComponent } from './main/main.component';
 import { LoginComponent } from './login/login.component';
 import { SignupComponent } from './signup/signup.component';
 import { SidebarComponent } from './sidebar/sidebar.component';
-import { ContentComponent } from './content/content.component';
 
 @NgModule({
   declarations: [
@@ -25,7 +24,6 @@ import { ContentComponent } from './content/content.component';
     LoginComponent,
     SignupComponent,
     SidebarComponent,
-    ContentComponent,
     MessageComponent
   ],
   imports: [
