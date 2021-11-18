@@ -1,3 +1,4 @@
 <p>sidebar works!</p>
-<button (click)="onLogout()">Temp Logout Button</button>
-<p>{{user}}</p>
+<div *ngIf="isLoggedIn !== undefined && (isLoggedIn | async)">
+	<button (click)="onLogout()">Temp Logout Button</button>
+</div>

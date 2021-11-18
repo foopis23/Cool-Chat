@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { User } from '@angular/fire/auth';
 import { Router } from '@angular/router';
+import { Observable } from 'rxjs';
 import { AuthService } from '../services/auth.service';
 
 @Component({
@@ -9,20 +10,15 @@ import { AuthService } from '../services/auth.service';
   styleUrls: ['./sidebar.component.scss']
 })
 export class SidebarComponent implements OnInit {
-  public user : User | null;
+  public isLoggedIn: Promise<boolean> | undefined;
 
-  constructor(private authSvc : AuthService, private _router: Router) { 
-    this.user = null;
-  }
+  constructor(private authSvc: AuthService, private _router: Router) { }
 
   ngOnInit(): void {
-    this.authSvc.authState$.subscribe((state) => {
-      this.user = state;
-    })
+    this.isLoggedIn = this.authSvc.isLoggedIn();
   }
 
   onLogout() {
-    console.log("logging out")
     this.authSvc.logout().then(() => {
       this._router.navigateByUrl("/login");
     }).catch(err => console.error(err))
