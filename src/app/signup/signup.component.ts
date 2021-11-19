@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { AbstractControl, FormControl, FormGroup, Validators } from '@angular/forms';
+import { Router } from '@angular/router';
 import { AuthService } from '../services/auth.service';
 
 @Component({
@@ -23,22 +24,32 @@ export class SignupComponent implements OnInit {
   )
 
   displayErrors: boolean = false
+  registerError: string | undefined;
 
-  constructor(private authSvc: AuthService) { }
+  constructor(private authSvc: AuthService, private router: Router) { }
 
   ngOnInit(): void {
 
   }
 
   onSubmit() {
-    console.log(this.signupForm.errors);
     if (this.signupForm.invalid) {
       this.displayErrors = true;
       return;
     }
 
     this.displayErrors = false
-    const { username, password, displayName } = this.signupForm.value;
-    console.log(username, password, displayName);
+    const { email, password, displayName } = this.signupForm.value;
+    this.authSvc.register(email, password, displayName).then(() => {
+      this.router.navigateByUrl('/')
+    }).catch(err => {
+      switch (err.code) {
+        case "auth/email-already-in-use":
+          this.registerError = "Email is already in use.";
+          break;
+        default:
+          this.registerError = "An error occurred."
+      }
+    })
   }
 }
