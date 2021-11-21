@@ -1,10 +1,9 @@
 import { Injectable } from '@angular/core';
-import { collectionSnapshots, docSnapshots, Firestore, onSnapshot } from '@angular/fire/firestore';
+import { collectionSnapshots, docSnapshots, Firestore } from '@angular/fire/firestore';
 import { doc, collection } from '@firebase/firestore';
-import { user } from 'rxfire/auth';
 import { combineLatest, Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
-import { User } from '../types/User';
+import { Status, User } from '../types/User';
 
 @Injectable({
   providedIn: 'root'
@@ -44,36 +43,16 @@ export class UserQueryService {
       );
   }
 
-  /*changeUsername(id: string, newName: string) {
-    const docRef = doc(this.usersCollection, id);
-    return updateDoc(docRef, {
-      name: newName
-    });
-  }*/
-
-  /*changeStatus(id: string, newStatus: Status) {
-    const docRef = doc(this.usersCollection, id);
-    return updateDoc(docRef, {
-      status: newStatus
-    });
-  }*/
-
-  /*deleteUser(id: string) {
-    const userRef = doc(this.usersCollection, id);
-    return deleteDoc(userRef);
-  }*/
-
-  /*changeProfilePicture(picture: File) {
-    const allowedFileTypes = ['image/png', 'image/jpeg', 'image/gif'];
-    if (!allowedFileTypes.includes(picture.type)) return;
-
-    const storageRef = getStorage();
-    const picRef = ref(storageRef, `profiles/${picture.name}`)
-
-    uploadBytes(picRef, picture).then(_ => {
-      return updateProfile(this.user!, {
-        photoURL: picRef.fullPath
-      });
-    })
-  }*/
+  public statusToString(status: Status) {
+    switch (status) {
+      case Status.OFFLINE:
+        return "Offline";
+      case Status.ONLINE:
+        return "Online";
+      case Status.DO_NOT_DISTURB:
+        return "Do Not Disturb";
+      case Status.BUSY:
+        return "Busy";
+    }
+  }
 }

@@ -1,9 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { FormControl } from '@angular/forms';
-import { Subscription } from 'rxjs';
-import { debounceTime, distinctUntilChanged, tap } from 'rxjs/operators';
+import { distinctUntilChanged, map, tap } from 'rxjs/operators';
 import { UserQueryService } from 'src/app/services/user-query.service';
-import { User } from '../../types/User';
 
 @Component({
   selector: 'app-user-search',
@@ -11,7 +9,12 @@ import { User } from '../../types/User';
   styleUrls: ['./user-search.component.scss']
 })
 export class UserSearchComponent implements OnInit {
-  public users: User[] | undefined;
+  public users: {
+    status: string;
+    id: string;
+    displayName: string;
+    photoURL: string;
+  }[] | undefined;
   public loading: boolean = false;
 
   searchControl: FormControl = new FormControl('');
@@ -19,12 +22,18 @@ export class UserSearchComponent implements OnInit {
   constructor(private usrSvc: UserQueryService) { }
 
   ngOnInit(): void {
-    this.usrSvc.searchUserByDisplayName(
-      this.searchControl.valueChanges.pipe(distinctUntilChanged()))
-      .pipe(tap(() => {
+    const searchValueChanged = this.searchControl.valueChanges.pipe(
+      distinctUntilChanged(),
+      tap(() => {
         this.loading = true;
         this.users = undefined;
-      }))
+      }));
+
+    this.usrSvc.searchUserByDisplayName(searchValueChanged)
+      .pipe(
+        map(users => users.map(user => {
+          return { ...user, status: this.usrSvc.statusToString(user.status) }
+        })))
       .subscribe((users) => {
         this.loading = false;
         this.users = users;

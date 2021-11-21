@@ -1,18 +1,34 @@
-<input [formControl]="searchControl" type="text" name="user-search" id="user-search">
+<div class="user-search">
+	<input class="searchbar" placeholder="Enter a username..." [formControl]="searchControl" type="text" name="user-search" id="user-search">
 
-<div *ngIf="loading; else notLoadingBlock">
-	Loading...
-</div>
-<ng-template #notLoadingBlock>
-	<div *ngIf="users !== undefined">
-		<ul *ngIf="users.length > 0">
-			<li *ngFor="let user of users">{{user.displayName}}</li>
-		</ul>
-		<div *ngIf="users.length == 0">
-			<p>No Users Found</p>
+	<div *ngIf="loading; else notLoadingBlock">
+		Loading...
+	</div>
+	<ng-template #notLoadingBlock>
+		<div *ngIf="users !== undefined">
+			<div class="user-rows" *ngIf="users.length > 0">
+				<div *ngFor="let user of users">
+					<div class="columns py-4">
+						<div class="column is-narrow">
+							<figure class="image is-48x48">
+								<img class="is-rounded" [src]="user.photoURL">
+							</figure>
+						</div>
+						<div class="column">
+							{{user.displayName}}
+							<br>
+							{{user.status}}
+						</div>
+					</div>
+				</div>
+			</div>
+
+			<div *ngIf="users.length == 0">
+				<p>No Users Found</p>
+			</div>
 		</div>
-	</div>
-	<div *ngIf="users === undefined">
-		Start typing to search for users..
-	</div>
-</ng-template>
+		<div *ngIf="users === undefined">
+			Start typing to search for users..
+		</div>
+	</ng-template>
+</div>
