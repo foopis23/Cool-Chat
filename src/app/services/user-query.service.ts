@@ -1,9 +1,10 @@
 import { Injectable } from '@angular/core';
-import { docSnapshots, Firestore, onSnapshot } from '@angular/fire/firestore';
-import { doc, deleteDoc, collection, updateDoc } from '@firebase/firestore';
-import { Observable } from 'rxjs';
+import { collectionSnapshots, docSnapshots, Firestore, onSnapshot } from '@angular/fire/firestore';
+import { doc, collection } from '@firebase/firestore';
+import { user } from 'rxfire/auth';
+import { combineLatest, Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
-import { User, Status } from '../types/User';
+import { User } from '../types/User';
 
 @Injectable({
   providedIn: 'root'
@@ -11,7 +12,7 @@ import { User, Status } from '../types/User';
 export class UserQueryService {
   private usersCollection;
 
-  constructor(private fs: Firestore) { 
+  constructor(private fs: Firestore) {
     this.usersCollection = collection(fs, 'users');
   }
 
@@ -24,6 +25,23 @@ export class UserQueryService {
         return user as User;
       })
     );
+  }
+
+  public searchUserByDisplayName(queryString$: Observable<string>): Observable<User[]> {
+    return combineLatest([queryString$, collectionSnapshots(this.usersCollection)])
+      .pipe(
+        map(([query, snapshots]): [string, User[]] => {
+          return [
+            query,
+            snapshots.map(snapshot => snapshot.data() as User)
+          ]
+        }),
+        map(([query, users]) => {
+          return users.filter((user) => user.displayName.toLowerCase().includes(
+            query.toLowerCase()
+          ))
+        })
+      );
   }
 
   /*changeUsername(id: string, newName: string) {

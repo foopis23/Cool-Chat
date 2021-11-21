@@ -1,1 +1,18 @@
-<p>user-search works!</p>
+<input [formControl]="searchControl" type="text" name="user-search" id="user-search">
+
+<div *ngIf="loading; else notLoadingBlock">
+	Loading...
+</div>
+<ng-template #notLoadingBlock>
+	<div *ngIf="users !== undefined">
+		<ul *ngIf="users.length > 0">
+			<li *ngFor="let user of users">{{user.displayName}}</li>
+		</ul>
+		<div *ngIf="users.length == 0">
+			<p>No Users Found</p>
+		</div>
+	</div>
+	<div *ngIf="users === undefined">
+		Start typing to search for users..
+	</div>
+</ng-template>
