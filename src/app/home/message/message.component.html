@@ -31,7 +31,6 @@
                 {{(newMessage.author | async)?.displayName}} ·
             </span>
             <span *ngIf="!shouldNotDisplayTimestamp()" class="timeStamp">
-
                 {{messageDay}} {{messageTime}}
             </span>
         </span>

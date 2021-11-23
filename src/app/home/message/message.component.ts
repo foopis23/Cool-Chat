@@ -39,7 +39,7 @@ export class MessageComponent implements OnInit {
     if (this.newMessage == undefined) {
       return
     } else {
-      switch(this.newMessage.timestamp.toDate().getUTCDate()) {
+      switch(this.newMessage.timestamp.toDate().getDay()) {
         case 0:
           this.messageDay = "SUN";
           break;
@@ -74,14 +74,14 @@ export class MessageComponent implements OnInit {
   }
 
   private isLastFromSameUser(): boolean {
-    if (this.newMessage == undefined) return false;
-    return this.lastMessage != undefined && this.lastMessage.fromId == this.newMessage.fromId;
+    if (this.newMessage == undefined) return false;  
+    return this.lastMessage != undefined && this.lastMessage.from.id == this.newMessage.from.id;
   }
 
   private isNextFromSameUser(): boolean {
     if (this.newMessage == undefined) return false;
 
-    return this.nextMessage != undefined && this.nextMessage.fromId == this.newMessage.fromId;
+    return this.nextMessage != undefined && this.nextMessage.from.id == this.newMessage.from.id;
   }
 
   private isNextWithinOneMinute(): boolean {
