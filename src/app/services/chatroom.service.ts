@@ -5,7 +5,6 @@ import { combineLatest, Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
 import { User } from '../types/User';
 import { AuthService } from './auth.service';
-import { UserQueryService } from './user-query.service';
 
 export interface Chatroom {
   id: string,
