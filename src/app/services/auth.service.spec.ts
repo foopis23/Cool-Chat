@@ -8,7 +8,6 @@ import { environment } from 'src/environments/environment';
 
 import { AuthService } from './auth.service';
 
-jasmine.DEFAULT_TIMEOUT_INTERVAL = 20000;
 describe('AuthService', () => {
   let service: AuthService;
 
