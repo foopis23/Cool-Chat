@@ -1,15 +1,21 @@
 import { Injectable } from '@angular/core';
 import { collectionSnapshots, docSnapshots, Firestore } from '@angular/fire/firestore';
 import { addDoc, arrayRemove, collection, CollectionReference, doc, DocumentData, DocumentReference, updateDoc } from '@firebase/firestore';
-import { combineLatest, Observable } from 'rxjs';
+import { combineLatest, forkJoin, Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
 import { User } from '../types/User';
 import { AuthService } from './auth.service';
+import { UserQueryService } from './user-query.service';
 
+interface RawChatroom {
+  id: string,
+  displayName: string,
+  participants: DocumentReference[]
+}
 export interface Chatroom {
   id: string,
   displayName: string,
-  participants: User[]
+  participants: Observable<User[]>
 }
 
 @Injectable({
@@ -19,21 +25,31 @@ export class ChatroomService {
   public userChatroomList$: Observable<Chatroom[]>;
   private roomsCollection: CollectionReference;
 
-  constructor(private firestore: Firestore, private authSvc: AuthService) {
+  constructor(private firestore: Firestore, private authSvc: AuthService, private usrSvc: UserQueryService) {
     this.roomsCollection = collection(this.firestore, 'rooms');
     this.userChatroomList$ = combineLatest([this.authSvc.authState$, collectionSnapshots(this.roomsCollection)])
       .pipe(
         map(([authState, snapshots]) => {
-          return snapshots.map((snapshot) => {
-            return {
-              ...snapshot.data(),
-              id: snapshot.id,
-            } as Chatroom;
-          }).filter((chatroom) => {
-            return chatroom.participants.find((user) => {
-              user.id == authState?.uid;
-            }) !== undefined;
-          })
+          return snapshots
+            .map((snapshot) => {
+              return {
+                ...snapshot.data(),
+                id: snapshot.id,
+              } as RawChatroom;
+            })
+            .filter((chatroom) => {
+              return chatroom.participants.find((user) => {
+                user.id == authState?.uid;
+              }) !== undefined;
+            })
+            .map((rawChatroomData) => {
+              const users = rawChatroomData.participants
+                .map((userRef) => this.usrSvc.getUserById(userRef.id));
+              return {
+                ...rawChatroomData,
+                participants: forkJoin(users)
+              } as Chatroom
+            })
         }),
       )
   }
@@ -58,10 +74,15 @@ export class ChatroomService {
     return docSnapshots(doc(this.roomsCollection, chatroomId))
       .pipe(
         map((snapshot) => {
+          const rawChatroomData = snapshot.data() as RawChatroom;
+
+          const users = rawChatroomData.participants
+            .map((userRef) => this.usrSvc.getUserById(userRef.id));
           return {
-            ...snapshot.data(),
+            ...rawChatroomData,
+            participants: forkJoin(users),
             id: snapshot.id
-          } as Chatroom
+          } as Chatroom;
         })
       );
   }
