@@ -13,8 +13,17 @@ import { MainComponent } from './main/main.component';
 import { LoginComponent } from './login/login.component';
 import { SignupComponent } from './signup/signup.component';
 import { SidebarComponent } from './sidebar/sidebar.component';
+<<<<<<< Updated upstream
 import { ContentComponent } from './content/content.component';
 import { MessageComponent } from './message/message.component';
+=======
+import { UserSearchComponent } from './home/user-search/user-search.component';
+import { SettingsComponent } from './settings/settings.component';
+import { ProfileComponent } from './settings/profile/profile.component';
+import { AccountComponent } from './settings/account/account.component';
+import { SecurityComponent } from './settings/security/security.component';
+import { NotificationComponent } from './settings/notification/notification.component';
+>>>>>>> Stashed changes
 
 @NgModule({
   declarations: [
@@ -23,8 +32,18 @@ import { MessageComponent } from './message/message.component';
     LoginComponent,
     SignupComponent,
     SidebarComponent,
+<<<<<<< Updated upstream
     ContentComponent,
     MessageComponent
+=======
+    MessageComponent,
+    UserSearchComponent,
+    SettingsComponent,
+    ProfileComponent,
+    AccountComponent,
+    SecurityComponent,
+    NotificationComponent
+>>>>>>> Stashed changes
   ],
   imports: [
     BrowserModule,
