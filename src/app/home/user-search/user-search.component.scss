@@ -10,4 +10,7 @@
 	&:last-child {
 		border-bottom: none;
 	}
+	&:hover {
+		cursor: pointer;
+	}
 }

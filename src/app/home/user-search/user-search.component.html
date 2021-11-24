@@ -1,6 +1,11 @@
 <div class="user-search">
 	<input class="searchbar" placeholder="Enter a username..." [formControl]="searchControl" type="text" name="user-search" id="user-search">
-
+	<div class="py-2">
+		<span class="tag is-primary mr-2" *ngFor="let item of (selected | keyvalue)">
+			{{item.value.displayName}}
+			<button class="delete is-small" (click)="toggleUser(item.value)"></button>
+		</span>
+	</div>
 	<div *ngIf="loading; else notLoadingBlock">
 		Loading...
 	</div>
@@ -8,7 +13,7 @@
 		<div *ngIf="users !== undefined">
 			<div class="user-rows" *ngIf="users.length > 0">
 				<div *ngFor="let user of users">
-					<div class="columns py-4">
+					<div (click)="toggleUser(user)" class="columns py-4">
 						<div class="column is-narrow">
 							<figure class="image is-48x48">
 								<img class="is-rounded" [src]="user.photoURL">
@@ -18,6 +23,11 @@
 							{{user.displayName}}
 							<br>
 							{{user.status}}
+						</div>
+						<div class="column is-narrow">
+							<label class="checkbox">
+								<input readonly [checked]="!!selected[user.id]" style="height: 24px; width: 24px;" type="checkbox">
+							</label>
 						</div>
 					</div>
 				</div>

@@ -32,7 +32,9 @@ export class UserQueryService {
         map(([query, snapshots]): [string, User[]] => {
           return [
             query,
-            snapshots.map(snapshot => snapshot.data() as User)
+            snapshots.map(snapshot => {
+              return { ...snapshot.data(), id: snapshot.id } as User
+            })
           ]
         }),
         map(([query, users]) => {
