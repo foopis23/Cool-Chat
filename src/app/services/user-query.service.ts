@@ -1,9 +1,9 @@
 import { Injectable } from '@angular/core';
-import { docSnapshots, Firestore, onSnapshot } from '@angular/fire/firestore';
-import { doc, deleteDoc, collection, updateDoc } from '@firebase/firestore';
-import { Observable } from 'rxjs';
+import { collectionSnapshots, docSnapshots, Firestore } from '@angular/fire/firestore';
+import { doc, collection } from '@firebase/firestore';
+import { combineLatest, Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
-import { User, Status } from '../types/User';
+import { Status, User } from '../types/User';
 
 @Injectable({
   providedIn: 'root'
@@ -11,7 +11,7 @@ import { User, Status } from '../types/User';
 export class UserQueryService {
   private usersCollection;
 
-  constructor(private fs: Firestore) { 
+  constructor(private fs: Firestore) {
     this.usersCollection = collection(fs, 'users');
   }
 
@@ -26,36 +26,35 @@ export class UserQueryService {
     );
   }
 
-  /*changeUsername(id: string, newName: string) {
-    const docRef = doc(this.usersCollection, id);
-    return updateDoc(docRef, {
-      name: newName
-    });
-  }*/
+  public searchUserByDisplayName(queryString$: Observable<string>): Observable<User[]> {
+    return combineLatest([queryString$, collectionSnapshots(this.usersCollection)])
+      .pipe(
+        map(([query, snapshots]): [string, User[]] => {
+          return [
+            query,
+            snapshots.map(snapshot => {
+              return { ...snapshot.data(), id: snapshot.id } as User
+            })
+          ]
+        }),
+        map(([query, users]) => {
+          return users.filter((user) => user.displayName.toLowerCase().includes(
+            query.toLowerCase()
+          ))
+        })
+      );
+  }
 
-  /*changeStatus(id: string, newStatus: Status) {
-    const docRef = doc(this.usersCollection, id);
-    return updateDoc(docRef, {
-      status: newStatus
-    });
-  }*/
-
-  /*deleteUser(id: string) {
-    const userRef = doc(this.usersCollection, id);
-    return deleteDoc(userRef);
-  }*/
-
-  /*changeProfilePicture(picture: File) {
-    const allowedFileTypes = ['image/png', 'image/jpeg', 'image/gif'];
-    if (!allowedFileTypes.includes(picture.type)) return;
-
-    const storageRef = getStorage();
-    const picRef = ref(storageRef, `profiles/${picture.name}`)
-
-    uploadBytes(picRef, picture).then(_ => {
-      return updateProfile(this.user!, {
-        photoURL: picRef.fullPath
-      });
-    })
-  }*/
+  public statusToString(status: Status) {
+    switch (status) {
+      case Status.OFFLINE:
+        return "Offline";
+      case Status.ONLINE:
+        return "Online";
+      case Status.DO_NOT_DISTURB:
+        return "Do Not Disturb";
+      case Status.BUSY:
+        return "Busy";
+    }
+  }
 }

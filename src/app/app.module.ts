@@ -15,6 +15,7 @@ import { MainComponent } from './main/main.component';
 import { LoginComponent } from './login/login.component';
 import { SignupComponent } from './signup/signup.component';
 import { SidebarComponent } from './sidebar/sidebar.component';
+import { UserSearchComponent } from './home/user-search/user-search.component';
 
 @NgModule({
   declarations: [
@@ -24,7 +25,8 @@ import { SidebarComponent } from './sidebar/sidebar.component';
     LoginComponent,
     SignupComponent,
     SidebarComponent,
-    MessageComponent
+    MessageComponent,
+    UserSearchComponent
   ],
   imports: [
     BrowserModule,
