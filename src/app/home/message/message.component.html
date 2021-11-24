@@ -1,20 +1,38 @@
-<div *ngIf="newMessage != undefined">
-    <div *ngIf="shouldDisplayUser() && !isFromCurrentUser" class="column" id="circle">
+<div *ngIf="newMessage != undefined" id="newMessage">
+    <!-- work on making user messages on the right side of the page-->
+    <div *ngIf="shouldDisplayUser() && !isFromCurrentUser" class="column" id="circleLeft">
     </div>
     <div *ngElse class="column"></div>
-    <div class="column" id="messageInfo">
-        <p *ngIf="shouldDisplayUser()" class="userId">
-            {{(newMessage.author | async)?.displayName}}
-        </p>
-        <p class="body">
+    <!--opposite logic to make sure alignemnt div is displayed for continuing messages-->
+    <div *ngIf="!shouldDisplayUser() && !isFromCurrentUser" id="alignmentDivLeft"></div>
+    <div *ngIf="!isFromCurrentUser"class="column" id="messageInfoLeft">
+        <p class="bodyLeft">
             {{newMessage.content}}
         </p>
-        <p *ngIf="!shouldNotDisplayTimestamp()" class="timeStamp">
-
-            {{newMessage.timestamp.toDate()}}
-        </p>
+            <span *ngIf="shouldDisplayUser()" class="userId">
+                {{(newMessage.author | async)?.displayName}} ·
+            </span>
+            <span *ngIf="!shouldNotDisplayTimestamp()" class="timeStamp">
+                {{messageDay}} {{messageTime}}
+            </span>
     </div>
-    <div *ngIf="shouldDisplayUser() && isFromCurrentUser" class="column" id="circle">
+    <!-- work on making non-user messages on the left side of the page-->
+    <div *ngIf="shouldDisplayUser() && isFromCurrentUser" class="column" id="circleRight">
     </div>
     <div *ngElse class="column"></div>
+    <div *ngIf="!shouldDisplayUser() && isFromCurrentUser" id="alignmentDivRight"></div>
+
+    <div *ngIf="isFromCurrentUser" class="column" id="messageInfoRight">
+        <span id="testing">
+        <p class="bodyRight">
+            {{newMessage.content}}
+        </p>
+            <span *ngIf="shouldDisplayUser()" class="userId">
+                {{(newMessage.author | async)?.displayName}} ·
+            </span>
+            <span *ngIf="!shouldNotDisplayTimestamp()" class="timeStamp">
+                {{messageDay}} {{messageTime}}
+            </span>
+        </span>
+    </div>
 </div>
