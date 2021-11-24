@@ -52,6 +52,8 @@ export class ChatroomService {
             })
         }),
       )
+
+    console.log('Built')
   }
 
   public createChatroom(displayName: string, participants: User[]): Promise<DocumentReference<DocumentData>> {

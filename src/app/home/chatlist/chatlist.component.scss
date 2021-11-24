@@ -1,0 +1,21 @@
+#id {
+    display: flex;
+    flex-grow: 1;
+}
+
+.chat-selector:hover {
+    background-color: rgb(219, 219, 219); 
+}
+
+.chat-selector {
+    border-radius: 0.2em;
+    padding: 0.2em;
+}
+
+.status {
+    background-color: orchid;
+    margin-top: 0.2em;
+    padding: 0.2em;
+    border-radius: 0.2em;
+    width: 30%;
+}

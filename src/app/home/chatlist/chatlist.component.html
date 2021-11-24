@@ -1,0 +1,9 @@
+<div *ngIf="chatlist === undefined">
+    <p>Wrong!</p>
+</div>
+<div *ngFor="let chat of chatlist">
+    <div class="chat-selector">
+        <div class="">{{chat.displayName}}</div>
+        <div class="status"></div>
+    </div>
+</div>
