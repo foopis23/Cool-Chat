@@ -10,20 +10,28 @@ import { Status, User } from '../types/User';
 })
 export class UserQueryService {
   private usersCollection;
+  private userObservables: { [key: string]: Observable<User> };
 
   constructor(private fs: Firestore) {
     this.usersCollection = collection(fs, 'users');
+    this.userObservables = {};
   }
 
   public getUserById(id: string): Observable<User> {
+    if (this.userObservables[id] !== undefined) {
+      return this.userObservables[id];
+    }
+
     const docRef = doc(this.usersCollection, id);
-    return docSnapshots(docRef).pipe(
+    this.userObservables[id] = docSnapshots(docRef).pipe(
       map(data => {
         const user = data.data();
         user!.id = data.id;
         return user as User;
       })
     );
+
+    return this.userObservables[id];
   }
 
   public searchUserByDisplayName(queryString$: Observable<string>): Observable<User[]> {
