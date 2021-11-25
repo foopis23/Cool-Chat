@@ -3,7 +3,8 @@
 </div>
 <div *ngFor="let chat of chatlist">
     <div class="chat-selector">
-        <div class="">{{chat.displayName}}</div>
+        <div>{{chat.displayName}}</div>
+        <div>{{chat.participants.length}} members</div>
         <div class="status"></div>
     </div>
 </div>

@@ -27,11 +27,12 @@ const DUMMY = [
 })
 export class ChatlistComponent implements OnInit {
 
-  chatlist : Chatroom[] | undefined;
+  //chatlist : Chatroom[] | undefined;
+  chatlist = DUMMY;
 
   constructor(userQueryService: UserQueryService, chatroomService: ChatroomService) { 
-    const chatlist$ = chatroomService.userChatroomList$;
-    chatlist$.subscribe((list) => this.chatlist = list, (error) => { console.log('Error:', error) }, () => console.log('Observe complete'));
+    //const chatlist$ = chatroomService.userChatroomList$;
+    //chatlist$.subscribe((list) => this.chatlist = list, (error) => { console.log('Error:', error) }, () => console.log('Observe complete'));
   }
 
   ngOnInit(): void {
