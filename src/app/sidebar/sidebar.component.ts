@@ -18,18 +18,22 @@ export class SidebarComponent implements OnInit {
 
   ngOnInit(): void {
     this.isLoggedIn = this.authSvc.isLoggedIn();
-    let lastUserSub : Subscription | undefined;
-    this.authSvc.authState$.subscribe((state) => {
-      if (state?.uid) {
-        if (lastUserSub !== undefined) {
-          lastUserSub.unsubscribe()
+
+    //! THIS TIMEOUT STUFF IS TEMPORARY AND IS TO SHOW THAT SUBSCRIBING THE THE USER AFTER THE FIRST TIME ITS EMITTED STILL RETURNS A VALUE
+    setTimeout(() => {
+      let lastUserSub : Subscription | undefined;
+      this.authSvc.authState$.subscribe((state) => {
+        if (state?.uid) {
+          if (lastUserSub !== undefined) {
+            lastUserSub.unsubscribe()
+          }
+  
+          lastUserSub = this.usrSvc.getUserById(state.uid).subscribe((user) => {
+            this.userName = user.displayName;
+          })
         }
-        
-        lastUserSub = this.usrSvc.getUserById(state.uid).subscribe((user) => {
-          this.userName = user.displayName;
-        })
-      }
-    })
+      })
+    }, 2000)
   }
 
   onLogout() {
