@@ -1,16 +1,19 @@
 <div class="user-search">
-	<input class="searchbar" placeholder="Enter a username..." [formControl]="searchControl" type="text" name="user-search" id="user-search">
-	<div class="py-2">
-		<span class="tag is-primary mr-2" *ngFor="let item of (selected | keyvalue)">
-			{{item.value.displayName}}
-			<button class="delete is-small" (click)="toggleUser(item.value)"></button>
-		</span>
+	<div class="user-search-top-bar">
+		<input class="searchbar input" placeholder="Enter a username..." [formControl]="searchControl" type="text" name="user-search" id="user-search">
+		<div v-if="selected && (selected | keyvalue).length" class="py-2">
+			<span class="tag is-primary mr-2" *ngFor="let item of (selected | keyvalue)">
+				{{item.value.displayName}}
+				<button class="delete is-small" (click)="toggleUser(item.value)"></button>
+			</span>
+		</div>
 	</div>
+
 	<div *ngIf="loading; else notLoadingBlock">
 		Loading...
 	</div>
 	<ng-template #notLoadingBlock>
-		<div *ngIf="users !== undefined">
+		<div *ngIf="users !== undefined" class="user-list-container">
 			<div class="user-rows" *ngIf="users.length > 0">
 				<div *ngFor="let user of users">
 					<div (click)="toggleUser(user)" class="columns py-4">
@@ -22,7 +25,7 @@
 						<div class="column">
 							{{user.displayName}}
 							<br>
-							{{user.status}}
+							{{user.status | userStatus}}
 						</div>
 						<div class="column is-narrow">
 							<label class="checkbox">

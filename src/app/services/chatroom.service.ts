@@ -34,7 +34,7 @@ const createRawChatroomFilterByUser = (authState: AuthUser | null) => {
   }
 }
 
-const createRawChatroomToChatroom = (usrSvc : UserQueryService) => {
+const createRawChatroomToChatroom = (usrSvc: UserQueryService) => {
   return (rawChatroomData: RawChatroom) => {
     const users = rawChatroomData.participants
       .map((userRef) => usrSvc.getUserById(userRef.id));
@@ -66,9 +66,10 @@ export class ChatroomService {
   }
 
   public createChatroom(displayName: string, participants: User[]): Promise<DocumentReference<DocumentData>> {
+
     return addDoc(this.roomsCollection, {
       displayName,
-      participants
+      participants: participants.map((user) => doc(collection(this.firestore, 'users'), user.id))
     });
   }
 
@@ -85,7 +86,7 @@ export class ChatroomService {
     return docSnapshots(doc(this.roomsCollection, chatroomId))
       .pipe(
         map((snapshot) => {
-          
+
           const rawChatroomData = snapshotToRawChatroom(snapshot);
 
           const users = rawChatroomData.participants

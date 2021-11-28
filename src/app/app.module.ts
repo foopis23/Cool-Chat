@@ -16,6 +16,8 @@ import { LoginComponent } from './login/login.component';
 import { SignupComponent } from './signup/signup.component';
 import { SidebarComponent } from './sidebar/sidebar.component';
 import { UserSearchComponent } from './home/user-search/user-search.component';
+import { ChatroomCreationComponent } from './home/chatroom-creation/chatroom-creation.component';
+import { UserStatusPipe } from './pipes/user-status.pipe';
 
 @NgModule({
   declarations: [
@@ -26,7 +28,9 @@ import { UserSearchComponent } from './home/user-search/user-search.component';
     SignupComponent,
     SidebarComponent,
     MessageComponent,
-    UserSearchComponent
+    UserSearchComponent,
+    ChatroomCreationComponent,
+    UserStatusPipe
   ],
   imports: [
     BrowserModule,
