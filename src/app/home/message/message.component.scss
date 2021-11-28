@@ -1,0 +1,92 @@
+#messageInfoLeft {
+    width: 50%;
+    float: left;
+}
+
+#circleLeft {
+    background-color: red;
+    border-radius: 50%;
+    border-width: 5px;
+    height: 50px;
+    width: 50px;
+    float: left;
+}
+
+#alignmentDivLeft {
+    background-color: rgb(240, 240, 240);
+    border-radius: 50%;
+    border-width: 5px;
+    height: 50px;
+    width: 50px;
+    float: left;
+}
+
+.userId {
+    font-size: xx-small;
+    float: left;
+}
+
+.bodyLeft {
+    background-color: white;
+    overflow-wrap: break-word;
+    border-radius: 0.2em;
+    width: fit-content;
+    height: fit-content;
+    padding-top: 0.5em;
+    padding-bottom: 0.5em;
+    padding-left: 0.5em;
+    padding-right: 0.5em;
+    margin-top: 0.2em;
+    margin-bottom: 0.2em;
+}
+
+.timeStamp {
+    font-size: xx-small;
+    float: left;
+}
+
+
+#circleRight {
+    background-color: red;
+    border-radius: 50%;
+    border-width: 5px;
+    height: 50px;
+    width: 50px;
+    float: right;
+}
+
+#alignmentDivRight {
+    background-color: rgb(240, 240, 240);
+    border-radius: 50%;
+    border-width: 5px;
+    height: 50px;
+    width: 50px;
+    float: right;
+}
+
+#messageInfoRight {
+    float: right;
+    width: 50%;
+}
+#newMessage {
+    flex: 1;
+}
+
+
+.bodyRight {
+    background-color: #C4C4C4;
+    overflow-wrap: break-word;
+    border-radius: 0.2em;
+    width: fit-content;
+    height: fit-content;
+    padding-top: 0.5em;
+    padding-bottom: 0.5em;
+    padding-left: 0.5em;
+    padding-right: 0.5em;
+    margin-top: 0.2em;
+    margin-bottom: 0.2em
+}
+
+#testing {
+    float: right;
+}

@@ -1,33 +1,29 @@
 import { TestBed } from '@angular/core/testing';
-import { RouterTestingModule } from '@angular/router/testing';
-import { AppComponent } from './app.component';
-
 import { provideFirebaseApp } from '@angular/fire/app';
 import { getAuth, provideAuth } from '@angular/fire/auth';
 import { getFirestore, provideFirestore } from '@angular/fire/firestore';
 import { getStorage, provideStorage } from '@angular/fire/storage';
 import { initializeApp } from '@firebase/app';
-import { environment } from 'src/environments/environment';
+import { environment } from 'src/environments/environment';0
 
-describe('AppComponent', () => {
-  beforeEach(async () => {
-    await TestBed.configureTestingModule({
+import { MessageService } from './message.service';
+
+describe('MessageService', () => {
+  let service: MessageService;
+
+  beforeEach(() => {
+    TestBed.configureTestingModule({
       imports: [
-        RouterTestingModule,
         provideFirebaseApp(() => initializeApp(environment.firebase)),
         provideAuth(() => getAuth()),
         provideFirestore(() => getFirestore()),
         provideStorage(() => getStorage())
-      ],
-      declarations: [
-        AppComponent
-      ],
-    }).compileComponents();
+      ]
+    });
+    service = TestBed.inject(MessageService);
   });
 
-  it('should create the app', () => {
-    const fixture = TestBed.createComponent(AppComponent);
-    const app = fixture.componentInstance;
-    expect(app).toBeTruthy();
+  it('should be created', () => {
+    expect(service).toBeTruthy();
   });
 });

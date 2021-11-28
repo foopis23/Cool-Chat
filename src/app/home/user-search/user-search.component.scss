@@ -1,0 +1,16 @@
+.user-search {
+	input {
+		width: 100%;
+	}
+}
+
+.user-rows > div {
+	border-bottom: 1px solid #aaa;
+
+	&:last-child {
+		border-bottom: none;
+	}
+	&:hover {
+		cursor: pointer;
+	}
+}
