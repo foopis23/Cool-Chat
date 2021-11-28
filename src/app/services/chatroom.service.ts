@@ -1,10 +1,11 @@
 import { Injectable } from '@angular/core';
 import { collectionSnapshots, docSnapshots, Firestore } from '@angular/fire/firestore';
-import { addDoc, arrayRemove, collection, CollectionReference, doc, DocumentData, DocumentReference, updateDoc } from '@firebase/firestore';
+import { addDoc, arrayRemove, collection, CollectionReference, doc, DocumentData, DocumentReference, QueryDocumentSnapshot, updateDoc } from '@firebase/firestore';
 import { combineLatest, forkJoin, Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
 import { User } from '../types/User';
 import { AuthService } from './auth.service';
+import { User as AuthUser } from '@angular/fire/auth';
 import { UserQueryService } from './user-query.service';
 
 interface RawChatroom {
@@ -16,6 +17,32 @@ export interface Chatroom {
   id: string,
   displayName: string,
   participants: Observable<User[]>
+}
+
+const snapshotToRawChatroom = (snapshot: QueryDocumentSnapshot<DocumentData>): RawChatroom => {
+  return {
+    ...snapshot.data(),
+    id: snapshot.id,
+  } as RawChatroom;
+}
+
+const createRawChatroomFilterByUser = (authState: AuthUser | null) => {
+  return (chatroom: RawChatroom) => {
+    return chatroom.participants.find((userRef) => {
+      return userRef.id == authState?.uid;
+    }) !== undefined;
+  }
+}
+
+const createRawChatroomToChatroom = (usrSvc : UserQueryService) => {
+  return (rawChatroomData: RawChatroom) => {
+    const users = rawChatroomData.participants
+      .map((userRef) => usrSvc.getUserById(userRef.id));
+    return {
+      ...rawChatroomData,
+      participants: forkJoin(users)
+    } as Chatroom
+  }
 }
 
 @Injectable({
@@ -31,29 +58,11 @@ export class ChatroomService {
       .pipe(
         map(([authState, snapshots]) => {
           return snapshots
-            .map((snapshot) => {
-              return {
-                ...snapshot.data(),
-                id: snapshot.id,
-              } as RawChatroom;
-            })
-            .filter((chatroom) => {
-              return chatroom.participants.find((user) => {
-                user.id == authState?.uid;
-              }) !== undefined;
-            })
-            .map((rawChatroomData) => {
-              const users = rawChatroomData.participants
-                .map((userRef) => this.usrSvc.getUserById(userRef.id));
-              return {
-                ...rawChatroomData,
-                participants: forkJoin(users)
-              } as Chatroom
-            })
+            .map(snapshotToRawChatroom)
+            .filter(createRawChatroomFilterByUser(authState))
+            .map(createRawChatroomToChatroom(this.usrSvc))
         }),
       )
-
-    console.log('Built')
   }
 
   public createChatroom(displayName: string, participants: User[]): Promise<DocumentReference<DocumentData>> {
