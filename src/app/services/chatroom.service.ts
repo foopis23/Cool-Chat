@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { collectionSnapshots, docSnapshots, Firestore } from '@angular/fire/firestore';
-import { addDoc, arrayRemove, collection, CollectionReference, doc, DocumentData, DocumentReference, QueryDocumentSnapshot, updateDoc } from '@firebase/firestore';
+import { addDoc, arrayRemove, collection, CollectionReference, doc, DocumentData, DocumentReference, DocumentSnapshot, QueryDocumentSnapshot, updateDoc } from '@firebase/firestore';
 import { combineLatest, forkJoin, Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
 import { User } from '../types/User';
@@ -16,10 +16,10 @@ interface RawChatroom {
 export interface Chatroom {
   id: string,
   displayName: string,
-  participants: Observable<User[]>
+  participants: Observable<User>[]
 }
 
-const snapshotToRawChatroom = (snapshot: QueryDocumentSnapshot<DocumentData>): RawChatroom => {
+const snapshotToRawChatroom = (snapshot: QueryDocumentSnapshot<DocumentData> | DocumentSnapshot<DocumentData>): RawChatroom => {
   return {
     ...snapshot.data(),
     id: snapshot.id,
@@ -40,7 +40,7 @@ const createRawChatroomToChatroom = (usrSvc : UserQueryService) => {
       .map((userRef) => usrSvc.getUserById(userRef.id));
     return {
       ...rawChatroomData,
-      participants: forkJoin(users)
+      participants: users
     } as Chatroom
   }
 }
@@ -85,13 +85,14 @@ export class ChatroomService {
     return docSnapshots(doc(this.roomsCollection, chatroomId))
       .pipe(
         map((snapshot) => {
-          const rawChatroomData = snapshot.data() as RawChatroom;
+          
+          const rawChatroomData = snapshotToRawChatroom(snapshot);
 
           const users = rawChatroomData.participants
             .map((userRef) => this.usrSvc.getUserById(userRef.id));
           return {
             ...rawChatroomData,
-            participants: forkJoin(users),
+            participants: users,
             id: snapshot.id
           } as Chatroom;
         })
