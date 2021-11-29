@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, EventEmitter, OnInit, Output } from '@angular/core';
 import { User } from '@angular/fire/auth';
 import { Router } from '@angular/router';
 import { Observable, Subscription } from 'rxjs';
@@ -12,6 +12,7 @@ import { UserQueryService } from '../services/user-query.service';
 })
 export class SidebarComponent implements OnInit {
   public isLoggedIn: Promise<boolean> | undefined;
+  @Output() changedChatroom = new EventEmitter<string>();
   public userName : string | undefined;
 
   constructor(private authSvc: AuthService, private usrSvc: UserQueryService, private _router: Router) { }
@@ -40,5 +41,9 @@ export class SidebarComponent implements OnInit {
     this.authSvc.logout().then(() => {
       this._router.navigateByUrl("/login");
     }).catch(err => console.error(err))
+  }
+
+  emitChangedChatroom(id: string) {
+    this.changedChatroom.emit(id);
   }
 }

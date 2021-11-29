@@ -34,7 +34,7 @@ const createRawChatroomFilterByUser = (authState: AuthUser | null) => {
   }
 }
 
-const createRawChatroomToChatroom = (usrSvc: UserQueryService) => {
+const createRawChatroomToChatroom = (usrSvc : UserQueryService) => {
   return (rawChatroomData: RawChatroom) => {
     const users = rawChatroomData.participants
       .map((userRef) => usrSvc.getUserById(userRef.id));
@@ -50,6 +50,7 @@ const createRawChatroomToChatroom = (usrSvc: UserQueryService) => {
 })
 export class ChatroomService {
   public userChatroomList$: Observable<Chatroom[]>;
+  private currentChatroom: string = "";
   private roomsCollection: CollectionReference;
 
   constructor(private firestore: Firestore, private authSvc: AuthService, private usrSvc: UserQueryService) {
@@ -86,7 +87,6 @@ export class ChatroomService {
     return docSnapshots(doc(this.roomsCollection, chatroomId))
       .pipe(
         map((snapshot) => {
-
           const rawChatroomData = snapshotToRawChatroom(snapshot);
 
           const users = rawChatroomData.participants
@@ -98,5 +98,13 @@ export class ChatroomService {
           } as Chatroom;
         })
       );
+  }
+
+  public setCurrentChatroom(current: string) {
+    this.currentChatroom = current;
+  }
+
+  public getCurrentChatroom(): string {
+    return this.currentChatroom;
   }
 }
