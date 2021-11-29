@@ -1,4 +1,5 @@
 .user-search {
+	height: 100%;
 	input {
 		width: 100%;
 	}
@@ -13,4 +14,17 @@
 	&:hover {
 		cursor: pointer;
 	}
+}
+
+$user-search-top-bar-height: 82px;
+
+.user-search-top-bar {
+	height: $user-search-top-bar-height;
+	overflow-y: hidden;
+}
+
+.user-list-container {
+	overflow-y: auto;
+	overflow-x: hidden;
+	height: calc(100% - #{$user-search-top-bar-height})
 }
