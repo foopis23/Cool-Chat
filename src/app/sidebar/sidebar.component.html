@@ -1,5 +1,8 @@
-<p>sidebar works!</p>
-<div *ngIf="isLoggedIn !== undefined && (isLoggedIn | async)">
-	<button (click)="onLogout()">Temp Logout Button</button>
-	<p>User: {{userName}}</p>
+<div class="pb-3">
+	<button class="button mr-3" (click)="onLogout()">Logout</button>
 </div>
+
+<div class="chat-selector" [ngClass]="{active: selectedChatroom === undefined}" (click)="emitChangedChatroom(undefined)">
+	Create New<br>Chatroom
+</div>
+<app-chatlist (changedChatroom)="emitChangedChatroom($event)" [selectedChatroom]="selectedChatroom"></app-chatlist>
