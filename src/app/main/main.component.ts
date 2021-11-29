@@ -9,7 +9,7 @@ import { Component, OnInit } from '@angular/core';
 
 export class MainComponent implements OnInit {
 
-  currentChatroomId: string = '';
+  currentChatroomId: string | undefined;
 
   constructor() { }
 
