@@ -1,10 +1,10 @@
 <div class="user-search">
 	<div class="user-search-top-bar">
-		<input class="searchbar input" placeholder="Enter a username..." [formControl]="searchControl" type="text" name="user-search" id="user-search">
+		<input class="searchbar input" placeholder="Enter a username..." [formControl]="searchControl" (keyup.enter)="onEnter()" name="user-search" id="user-search">
 		<div v-if="selected && (selected | keyvalue).length" class="py-2">
 			<span class="tag is-primary mr-2" *ngFor="let item of (selected | keyvalue)">
 				{{item.value.displayName}}
-				<button class="delete is-small" (click)="toggleUser(item.value)"></button>
+				<button *ngIf="item.value.id != currentUser?.id" class="delete is-small" (click)="toggleUser(item.value)"></button>
 			</span>
 		</div>
 	</div>

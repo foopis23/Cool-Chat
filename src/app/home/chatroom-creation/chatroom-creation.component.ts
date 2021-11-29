@@ -1,6 +1,9 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, EventEmitter, OnInit, Output, ViewChild } from '@angular/core';
+import { AuthService } from 'src/app/services/auth.service';
 import { ChatroomService } from 'src/app/services/chatroom.service';
+import { UserQueryService } from 'src/app/services/user-query.service';
 import { User } from 'src/app/types/User';
+import { UserSearchComponent } from '../user-search/user-search.component';
 
 @Component({
   selector: 'app-chatroom-creation',
@@ -8,25 +11,35 @@ import { User } from 'src/app/types/User';
   styleUrls: ['./chatroom-creation.component.scss']
 })
 export class ChatroomCreationComponent implements OnInit {
-  private users : User[];
-  chatroomName : string;
-  canCreate : boolean;
+  @Output() chatroomCreated: EventEmitter<string>;
 
-  constructor(private chatroomSvc : ChatroomService ) {
-    this.users = [];
-    this.canCreate = true;
+  @ViewChild('usersearch') userSearch: UserSearchComponent | undefined;
+  chatroomName: string;
+  private selectedUsers: User[];
+
+  constructor(private chatroomSvc: ChatroomService, private authSvc: AuthService, private usrSvc: UserQueryService) {
+    this.selectedUsers = [];
+    // this.canCreate = true;
+    this.chatroomName = '';
+    this.chatroomCreated = new EventEmitter();
+  }
+
+  ngOnInit(): void {}
+
+  onSelectedUsersChange(users: User[]) {
+    this.selectedUsers = users;
+  }
+
+  async onCreate() {
+    let ref = await this.chatroomSvc.createChatroom(this.chatroomName, this.selectedUsers);
+    this.chatroomCreated.emit(ref.id)
+    if (this.userSearch)
+      this.userSearch.reset();
+
     this.chatroomName = '';
   }
 
-  ngOnInit(): void {
-  }
-
-  onSelectedUsersChange(users : User[]) {
-    this.users = users;
-    // this.canCreate = this.users.length > 1 && this.chatroomName.length > 0;
-  }
-
-  onCreate() {
-    this.chatroomSvc.createChatroom(this.chatroomName, this.users);
+  canCreate() {
+    return this.selectedUsers.length > 1 && this.chatroomName.length > 0;
   }
 }

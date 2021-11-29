@@ -1,6 +1,6 @@
 <div class="chatroom-creation-component">
 	<div class="user-search-container">
-		<app-user-search (change)="onSelectedUsersChange($event)"></app-user-search>
+		<app-user-search #usersearch (change)="onSelectedUsersChange($event)"></app-user-search>
 	</div>
 	<div class="chatroom-creation-bottom-bar pt-3">
 		<div class="field has-addons">
@@ -8,7 +8,7 @@
 				<input [(ngModel)]="chatroomName" class="input" type="text" placeholder="Chatroom Name">
 			</div>
 			<div class="control">
-				<button [disabled]="!canCreate" class="button is-info" (click)='onCreate()'>
+				<button [disabled]="!canCreate()" class="button is-info" (click)='onCreate()'>
 					Create
 				</button>
 			</div>
