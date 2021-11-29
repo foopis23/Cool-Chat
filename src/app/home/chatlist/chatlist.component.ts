@@ -1,7 +1,8 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, Output } from '@angular/core';
 import { AuthService } from 'src/app/services/auth.service';
 import { Chatroom, ChatroomService } from 'src/app/services/chatroom.service';
 import { UserQueryService } from 'src/app/services/user-query.service';
+import { EventEmitter } from '@angular/core';
 
 const DUMMY = [
   {
@@ -31,6 +32,7 @@ export class ChatlistComponent implements OnInit {
   //chatlist : Chatroom[] | undefined;
   chatlist : Chatroom[] | undefined;
   userId: string;
+  @Output() changedChatroom = new EventEmitter<string>();
 
   constructor(authService: AuthService, userQueryService: UserQueryService, private chatroomService: ChatroomService) { 
     chatroomService.userChatroomList$.subscribe((list) => this.chatlist = list);
@@ -42,5 +44,6 @@ export class ChatlistComponent implements OnInit {
 
   public setCurrentChatroom(current: string) {
     this.chatroomService.setCurrentChatroom(current);
+    this.changedChatroom.emit(current);
   }
 }
