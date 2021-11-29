@@ -50,6 +50,7 @@ const createRawChatroomToChatroom = (usrSvc : UserQueryService) => {
 })
 export class ChatroomService {
   public userChatroomList$: Observable<Chatroom[]>;
+  private currentChatroom: string = "";
   private roomsCollection: CollectionReference;
 
   constructor(private firestore: Firestore, private authSvc: AuthService, private usrSvc: UserQueryService) {
@@ -97,5 +98,13 @@ export class ChatroomService {
           } as Chatroom;
         })
       );
+  }
+
+  public setCurrentChatroom(current: string) {
+    this.currentChatroom = current;
+  }
+
+  public getCurrentChatroom(): string {
+    return this.currentChatroom;
   }
 }

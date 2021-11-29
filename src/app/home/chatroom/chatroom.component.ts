@@ -1,10 +1,10 @@
 import { Component, Input, OnInit } from '@angular/core';
-import { user } from 'rxfire/auth';
 import { Observable } from 'rxjs';
 import { AuthService } from 'src/app/services/auth.service';
 import { MessageService, Message } from 'src/app/services/message.service';
 //import { User } from 'src/app/types/User';
 import { User } from '@angular/fire/auth';
+import { ChatroomService } from 'src/app/services/chatroom.service';
 
 @Component({
   selector: 'app-chatroom',
@@ -24,9 +24,7 @@ export class ChatroomComponent implements OnInit {
   currentUserData$: any;
   currentUser!: User;
 
-
-
-  constructor(private messageSvc : MessageService, private authSvc: AuthService) {
+  constructor(private chatroomService: ChatroomService, private messageSvc : MessageService, private authSvc: AuthService) {
     this.messages = [];
     this.messageInput = '';
   }
@@ -69,6 +67,11 @@ export class ChatroomComponent implements OnInit {
     }
 
     return false;
+  }
+
+  getCurrentChatroom(): string {
+    console.log(this.getCurrentChatroom());
+    return this.chatroomService.getCurrentChatroom();
   }
 }
 
