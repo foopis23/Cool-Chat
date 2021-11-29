@@ -1,13 +1,13 @@
 <div style="height: 100vh; overflow: hidden;">
 	<div class="columns p-6" style="height: 100%;">
 		<div class="column is-one-quarter" style="height: 100%;">
-			<app-sidebar (changedChatroom)="setCurrentChatroom($event)"></app-sidebar>
+			<app-sidebar [selectedChatroom]="currentChatroomId" (changedChatroom)="setCurrentChatroom($event)"></app-sidebar>
 		</div>
-		<div class="column" style="height: 100%;">
+		<div *ngIf="currentChatroomId != undefined" class="column" style="height: 100%;">
 			<app-chatroom style="height: 100%;" [chatroomId]="currentChatroomId"></app-chatroom>
-			<!-- <app-user-search></app-user-search> -->
-			<!-- <app-chatroom-creation></app-chatroom-creation> -->
+		</div>
+		<div *ngIf="currentChatroomId === undefined" class="column" style="height: 100%;">
+			<app-chatroom-creation (chatroomCreated)="setCurrentChatroom($event)"></app-chatroom-creation>
 		</div>
 	</div>
-
 </div>
