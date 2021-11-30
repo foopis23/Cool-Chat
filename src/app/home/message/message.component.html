@@ -1,7 +1,9 @@
 <div *ngIf="newMessage != undefined" id="newMessage">
     <!-- work on making user messages on the right side of the page-->
-    <div *ngIf="shouldDisplayUser() && !isFromCurrentUser" class="column" id="circleLeft">
-    </div>
+    <figure>
+        <img class="is-rounded" *ngIf="shouldDisplayUser() && !isFromCurrentUser && (messagePhoto == '')" id="circleLeft" [src]="defaultPhoto">
+        <img class="is-rounded" *ngIf="shouldDisplayUser() && !isFromCurrentUser && (messagePhoto != '')" id="circleLeft" [src]="messagePhoto">
+    </figure>
     <div *ngElse class="column"></div>
     <!--opposite logic to make sure alignemnt div is displayed for continuing messages-->
     <div *ngIf="!shouldDisplayUser() && !isFromCurrentUser" id="alignmentDivLeft"></div>
@@ -17,8 +19,10 @@
             </span>
     </div>
     <!-- work on making non-user messages on the left side of the page-->
-    <div *ngIf="shouldDisplayUser() && isFromCurrentUser" class="column" id="circleRight">
-    </div>
+    <figure>
+        <img class="is-rounded" *ngIf="shouldDisplayUser() && isFromCurrentUser && (messagePhoto == '')" id="circleRight" [src]="defaultPhoto">
+        <img class="is-rounded" *ngIf="shouldDisplayUser() && isFromCurrentUser && (messagePhoto != '')" id="circleRight" [src]="messagePhoto">
+    </figure>
     <div *ngElse class="column"></div>
     <div *ngIf="!shouldDisplayUser() && isFromCurrentUser" id="alignmentDivRight"></div>
 
