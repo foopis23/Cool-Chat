@@ -1,1 +1,14 @@
-<p>current-user works!</p>
+<div *ngIf="this.user !== undefined">
+    <div class="column is-narrow">
+        <figure class="image is-48x48">
+            <img class="is-rounded" [src]="user.photoURL">
+        </figure>
+    </div>
+    <div class="column">
+        {{user.displayName}}
+        <br>
+        {{user.status | userStatus}}
+    </div>
+    <div class="column is-narrow">
+    </div>
+</div>
