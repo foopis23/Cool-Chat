@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
-import { collectionSnapshots, docSnapshots, Firestore } from '@angular/fire/firestore';
-import { addDoc, arrayRemove, collection, CollectionReference, doc, DocumentData, DocumentReference, DocumentSnapshot, QueryDocumentSnapshot, updateDoc } from '@firebase/firestore';
+import { collectionSnapshots, deleteDoc, docSnapshots, Firestore } from '@angular/fire/firestore';
+import { addDoc, arrayRemove, collection, CollectionReference, doc, DocumentData, DocumentReference, DocumentSnapshot, getDoc, QueryDocumentSnapshot, updateDoc } from '@firebase/firestore';
 import { combineLatest, forkJoin, Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
 import { User } from '../types/User';
@@ -74,13 +74,27 @@ export class ChatroomService {
     });
   }
 
+  public deleteChatroom(id: string): Promise<void> {
+    const chatroom = doc(this.roomsCollection, id);
+    return deleteDoc(chatroom);
+  }
+
   public leaveChatroom(chatroomId: string): Promise<void> | undefined {
     if (this.authSvc.getUser() == null) return;
 
     const userCollection = collection(this.firestore, 'users');
-    return updateDoc(doc(this.roomsCollection, chatroomId), {
-      participants: arrayRemove(doc(userCollection, this.authSvc.getUser()?.uid))
-    })
+    const chatroomRef = doc(this.roomsCollection, chatroomId);
+
+    return getDoc(chatroomRef).then(document => {
+      const chatroom = document.data() as Chatroom;
+      if (chatroom.participants.length === 2) {
+        return deleteDoc(chatroomRef);
+      } else {
+        return updateDoc(chatroomRef, {
+          participants: arrayRemove(doc(userCollection, this.authSvc.getUser()?.uid))
+        })
+      }
+    });
   }
 
   public getChatroom$(chatroomId: string): Observable<Chatroom> {
