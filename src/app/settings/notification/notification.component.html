@@ -1,0 +1,70 @@
+<div class="container p-4">
+  <div class="d-flex flex-row">
+
+      <!-- Sidebare to navigate to any available setting -->
+      <div class="d-flex flex-column">
+
+          <!-- Profile Picture with name -->
+          <section class="d-flex flex-row my-3">
+              <div class="p-2">
+                  <img class="img-fluid img-responsive border rounded-circle" style="max-width:4rem;" src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTnG9XsiAuW2P1NkrMyXF-qAnh2to04EpRvIg&usqp=CAU" alt="profile_picture">
+              </div>
+              <div class="p-2">
+                  <h4>Fanaperana</h4>
+                  <p><small class="text-muted">Your personal account</small></p>
+              </div>
+          </section>
+          <!-- // END profile picture with name -->
+
+          <!-- Sidebar List -->
+          <section class="rounded" style="width: 15rem;">
+            <div class="list-group">
+              <h6 class="list-group-item fw-bolder bg-light">Account settings</h6>
+              <a class="list-group-item" routerLink="/profile">Profile</a>
+              <a class="list-group-item" routerLink="/account">Account</a>
+              <a class="list-group-item" routerLink="/security">Account security</a>
+              <a class="list-group-item active" routerLink="/notification">Notification</a>
+          </div>
+          </section>
+          <!-- // END Sidebar List -->
+
+      </div>
+      <!-- // END sidebar -->
+
+      <div class="container-fluid">
+          <div class="w-100 d-flex justify-content-end p-4">
+            <a routerLink="" class="btn btn-outline-secondary btn-sm">Go back to chatroom</a>
+          </div>
+
+          <section class="container">
+              <h3>Notifications</h3>
+              <hr>
+
+              <form action="" method="post" style="max-width: 600px;">
+
+                  <div class="form-check mb-3">
+                      <input class="form-check-input" type="checkbox" value="" id="flexCheckChecked" checked>
+                      <label class="form-check-label" for="flexCheckChecked">
+                        Check to receive notification when someone texting
+                      </label>
+                  </div>
+                  <div class="form-check mb-3">
+                      <input class="form-check-input" type="checkbox" value="" id="flexCheckChecked" checked>
+                      <label class="form-check-label" for="flexCheckChecked">
+                        Check to receive notification by email when someone texting
+                      </label>
+                  </div>
+                  <div class="form-check">
+                      <input class="form-check-input" type="checkbox" value="" id="flexCheckChecked" checked>
+                      <label class="form-check-label" for="flexCheckChecked">
+                        Check to be notified when you login to Chat app.
+                      </label>
+                  </div>
+
+              </form>
+
+          </section>
+      </div>
+
+  </div>
+</div>
