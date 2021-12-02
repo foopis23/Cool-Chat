@@ -3,11 +3,10 @@
     <section id="chatInfoBar">
         <div id="userLabel">
             <!--The binding for this will come from the users in the chat from the chatroom data service (As for as was specified in trello and on architecture diagram)-->
-            <span>{{currentChatroom?.displayName}}</span>
+            <span class="has-text-weight-bold">{{currentChatroom?.displayName}}</span>
             <br>
-            <span *ngFor="let participant of currentChatroom?.participants; last as isLast">{{(participant | async)?.displayName}}<span *ngIf="!isLast">, </span></span>
+            <span class="is-size-6" *ngFor="let participant of currentChatroom?.participants; last as isLast">{{(participant | async)?.displayName}}<span *ngIf="!isLast">, </span></span>
         </div>
-        <hr>
     </section>
 
     <section id="messageHistory">

@@ -1,42 +1,20 @@
 <div *ngIf="newMessage != undefined" id="newMessage">
-    <!-- work on making user messages on the right side of the page-->
-    <figure>
-        <img class="is-rounded" *ngIf="shouldDisplayUser() && !isFromCurrentUser && (messagePhoto == '')" id="circleLeft" [src]="defaultPhoto">
-        <img class="is-rounded" *ngIf="shouldDisplayUser() && !isFromCurrentUser && (messagePhoto != '')" id="circleLeft" [src]="messagePhoto">
-    </figure>
-    <div *ngElse class="column"></div>
-    <!--opposite logic to make sure alignemnt div is displayed for continuing messages-->
-    <div *ngIf="!shouldDisplayUser() && !isFromCurrentUser" id="alignmentDivLeft"></div>
-    <div *ngIf="!isFromCurrentUser"class="column" id="messageInfoLeft">
-        <p class="bodyLeft">
-            {{newMessage.content}}
-        </p>
+    <div class="is-flex is-justify-content-flex-start"
+        [ngClass]="{'is-flex-direction-row-reverse': isFromCurrentUser, 'pt-1': !shouldDisplayUser(), 'pt-4': shouldDisplayUser()}">
+        <figure class="image is-48x48 mx-3">
+            <img class="is-rounded" *ngIf="shouldDisplayUser() && (messagePhoto == '')" [src]="defaultPhoto">
+            <img class="is-rounded" *ngIf="shouldDisplayUser()  && (messagePhoto != '')" [src]="messagePhoto">
+        </figure>
+        <div class="message-content-container pt-1">
+            <p style="width: 100%;" [ngClass]="{'bodyRight': isFromCurrentUser, 'bodyLeft': !isFromCurrentUser}">
+                {{newMessage.content}}
+            </p>
             <span *ngIf="shouldDisplayUser()" class="userId">
                 {{(newMessage.author | async)?.displayName}} ·
             </span>
             <span *ngIf="!shouldNotDisplayTimestamp()" class="timeStamp">
                 {{messageDay}} {{messageTime}}
             </span>
-    </div>
-    <!-- work on making non-user messages on the left side of the page-->
-    <figure>
-        <img class="is-rounded" *ngIf="shouldDisplayUser() && isFromCurrentUser && (messagePhoto == '')" id="circleRight" [src]="defaultPhoto">
-        <img class="is-rounded" *ngIf="shouldDisplayUser() && isFromCurrentUser && (messagePhoto != '')" id="circleRight" [src]="messagePhoto">
-    </figure>
-    <div *ngElse class="column"></div>
-    <div *ngIf="!shouldDisplayUser() && isFromCurrentUser" id="alignmentDivRight"></div>
-
-    <div *ngIf="isFromCurrentUser" class="column" id="messageInfoRight">
-        <span id="testing">
-        <p class="bodyRight">
-            {{newMessage.content}}
-        </p>
-            <span *ngIf="shouldDisplayUser()" class="userId">
-                {{(newMessage.author | async)?.displayName}} ·
-            </span>
-            <span *ngIf="!shouldNotDisplayTimestamp()" class="timeStamp">
-                {{messageDay}} {{messageTime}}
-            </span>
-        </span>
+        </div>
     </div>
 </div>
