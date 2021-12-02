@@ -1,17 +1,15 @@
 import { TestBed } from '@angular/core/testing';
-
-import { AuthGuard } from './auth.guard';
-
-import { provideFirebaseApp } from '@angular/fire/app';
+import { initializeApp, provideFirebaseApp } from '@angular/fire/app';
 import { getAuth, provideAuth } from '@angular/fire/auth';
 import { getFirestore, provideFirestore } from '@angular/fire/firestore';
 import { getStorage, provideStorage } from '@angular/fire/storage';
-import { initializeApp } from '@firebase/app';
-import { environment } from 'src/environments/environment';
 import { RouterTestingModule } from '@angular/router/testing';
+import { environment } from 'src/environments/environment';
 
-describe('AuthGuard', () => {
-  let guard: AuthGuard;
+import { UnauthGuard } from './unauth.guard';
+
+describe('UnauthGuard', () => {
+  let guard: UnauthGuard;
 
   beforeEach(() => {
     TestBed.configureTestingModule({
@@ -23,7 +21,7 @@ describe('AuthGuard', () => {
         provideStorage(() => getStorage())
       ]
     });
-    guard = TestBed.inject(AuthGuard);
+    guard = TestBed.inject(UnauthGuard);
   });
 
   it('should be created', () => {

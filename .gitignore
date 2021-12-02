@@ -65,4 +65,8 @@ service-account-credentials.json
 **/tsconfig-compile.json
 yarn.lock
 pnpm-lock.yaml
+<<<<<<< HEAD
 .angular
+=======
+src/app/services/message.service.ts
+>>>>>>> cca3e9ee882e6171154e7f6adfacb54cfc6f5b1c

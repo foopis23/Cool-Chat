@@ -24,12 +24,12 @@ describe('AuthService', () => {
   });
 
   afterAll(async () => {
-    let promise = service.deleteAccount();
-
-    if (promise) {
-      await promise
+    let accDelete = service.deleteAccount();
+    if (accDelete) {
+      await accDelete;
+      console.log("Deleting account");
     }
-  })
+  });
 
   const email = "randomtestemail@gmail.com";
   const password = "test123";
@@ -39,25 +39,39 @@ describe('AuthService', () => {
     expect(service).toBeTruthy();
   });
 
-  it('should allow register', async () => {
-    try {
-      const cred = await service.register(email, password, displayName);
+  it('should allow register', () => {
+    return service.register(email, password, displayName).then(cred => {
       expect(cred).toBeTruthy();
       expect(cred.user).toBeTruthy();
       expect(cred.user.email).toBe(email);
-      expect(cred.user.displayName).toBe(displayName);
+    }).catch(e => {
+      fail(e);
+    });
+    /*try {
+      service.register(email, password, displayName).then(cred => {
+        expect(cred).toBeTruthy();
+        expect(cred.user).toBeTruthy();
+        expect(cred.user.email).toBe(email);
+        expect(cred.user.displayName).toBe(displayName);
+      });
     } catch (e) {
       fail(e);
-    }
+    }*/
   })
 
-  it('should stop duplicate email', async () => {
-    try {
+  it('should stop duplicate email', () => {
+    return service.register(email, password, displayName).then(_ => {
+      fail("Allowed Duplicated Email To Register");
+    })
+    .catch(e => {
+      expect(e).toBeTruthy();
+    });
+    /*try {
       await service.register(email, password, displayName);
       fail("Allowed Duplicated Email To Register");
     } catch (e) {
       expect(true).toBeTrue();
-    }
+    }*/
   });
 
   it('should allow logout', async () => {
@@ -70,8 +84,14 @@ describe('AuthService', () => {
     }
   });
 
-  it('should allow login', async () => {
-    try {
+  it('should allow login', () => {
+    return service.login(email, password).then(cred => {
+      expect(cred).toBeTruthy();
+      expect(cred.user).toBeTruthy();
+      expect(cred.user.email).toBe(email);
+      //expect(cred.user.displayName).toBe(displayName);
+    });
+    /*try {
       const cred = await service.login(email, password);
       expect(cred).toBeTruthy();
       expect(cred.user).toBeTruthy();
@@ -79,6 +99,6 @@ describe('AuthService', () => {
       expect(cred.user.displayName).toBe(displayName);
     } catch (e) {
       fail(e);
-    }
+    }*/
   })
 });
