@@ -1,26 +1,3 @@
-#messageInfoLeft {
-    width: 50%;
-    float: left;
-}
-
-#circleLeft {
-    background-color: red;
-    border-radius: 50%;
-    border-width: 5px;
-    height: 50px;
-    width: 50px;
-    float: left;
-}
-
-#alignmentDivLeft {
-    background-color: transparent;
-    border-radius: 50%;
-    border-width: 5px;
-    height: 50px;
-    width: 50px;
-    float: left;
-}
-
 .userId {
     font-size: xx-small;
     float: left;
@@ -36,8 +13,6 @@
     padding-bottom: 0.5em;
     padding-left: 0.5em;
     padding-right: 0.5em;
-    margin-top: 0.2em;
-    margin-bottom: 0.2em;
 }
 
 .timeStamp {
@@ -47,20 +22,17 @@
 
 
 #circleRight {
-    background-color: red;
-    border-radius: 50%;
-    border-width: 5px;
-    height: 50px;
-    width: 50px;
-    float: right;
+    // border-radius: 50%;
+    // height: 64px;
+    // width: 64px;
+    // float: right;
 }
 
 #alignmentDivRight {
     background-color: transparent;
     border-radius: 50%;
-    border-width: 5px;
-    height: 50px;
-    width: 50px;
+    height: 64px;
+    width: 64px;
     float: right;
 }
 
@@ -71,7 +43,6 @@
 #newMessage {
     flex: 1;
 }
-
 
 .bodyRight {
     color: #fff;
@@ -84,10 +55,8 @@
     padding-bottom: 0.5em;
     padding-left: 0.5em;
     padding-right: 0.5em;
-    margin-top: 0.2em;
-    margin-bottom: 0.2em
 }
 
-#testing {
-    float: right;
+.message-content-container {
+    max-width: 60%;
 }

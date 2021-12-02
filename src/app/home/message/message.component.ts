@@ -1,6 +1,9 @@
-import { Component, Injectable, Input, OnInit } from '@angular/core';
+import { Component, Input, OnInit } from '@angular/core';
 import { Timestamp } from '@firebase/firestore';
+import { Observable } from 'rxjs';
 import { Message } from 'src/app/services/message.service'
+import { UserQueryService } from 'src/app/services/user-query.service';
+import { User } from 'src/app/types/User';
 
 interface RawMessage {
   attachments: any[]
@@ -24,15 +27,27 @@ export class MessageComponent implements OnInit {
   @Input() isFromCurrentUser: boolean = false;
   messageDay: String | undefined;
   messageTime: String | undefined;
+  messageAuthor$: Observable<User> | undefined;
+  messageAuthor: User | undefined;
+  messagePhoto: string = "";
+  defaultPhoto: string = "https://via.placeholder.com/150";
 
-
-  constructor() {
+  constructor(private userService: UserQueryService) {
 
   }
 
   ngOnInit(): void {
     this.determineDay();
     this.determineTime();
+
+    this.messageAuthor$ = this.newMessage?.author;
+    if (this.newMessage != undefined) {
+      this.messageAuthor$?.subscribe((messageAuth: User) => {
+        console.log("Got heres")
+        this.messageAuthor = messageAuth;
+        this.messagePhoto = this.messageAuthor.photoURL;
+      }) 
+    }
   }
 
   determineDay() {

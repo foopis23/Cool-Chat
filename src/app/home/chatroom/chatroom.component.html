@@ -1,14 +1,12 @@
 <section id="messages">
 
     <section id="chatInfoBar">
-        <div id="circle">
-        
-        </div>
         <div id="userLabel">
             <!--The binding for this will come from the users in the chat from the chatroom data service (As for as was specified in trello and on architecture diagram)-->
-            Your chat with (other users)!
+            <span class="has-text-weight-bold">{{currentChatroom?.displayName}}</span>
+            <br>
+            <span class="is-size-6" *ngFor="let participant of currentChatroom?.participants; last as isLast">{{(participant | async)?.displayName}}<span *ngIf="!isLast">, </span></span>
         </div>
-        <hr>
     </section>
 
     <section id="messageHistory">

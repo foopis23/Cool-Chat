@@ -3,7 +3,7 @@ import { Observable } from 'rxjs';
 import { AuthService } from 'src/app/services/auth.service';
 import { MessageService, Message } from 'src/app/services/message.service';
 import { User } from '@angular/fire/auth';
-import { ChatroomService } from 'src/app/services/chatroom.service';
+import { Chatroom, ChatroomService } from 'src/app/services/chatroom.service';
 
 @Component({
   selector: 'app-chatroom',
@@ -23,8 +23,10 @@ export class ChatroomComponent implements OnInit {
   userData: Observable<User> | undefined;
   currentUserData$: any;
   currentUser!: User;
+  currentChatroom$: Observable<Chatroom> | undefined;
+  currentChatroom: Chatroom | undefined;
 
-  constructor(private chatroomService: ChatroomService, private messageSvc : MessageService, private authSvc: AuthService) {
+  constructor(private chatroomService: ChatroomService, private messageSvc : MessageService, private authSvc: AuthService, private chatroomSvc: ChatroomService) {
     this.messages = [];
     this.messageInput = '';
   }
@@ -47,6 +49,18 @@ export class ChatroomComponent implements OnInit {
           this.currentUser = currentUser;
           console.log(this.currentUser?.uid);
         });
+
+        //Set chatroomParticipants and subscribe to it for future use to set the chatroom to get the current participants
+        if (this._chatroomId) {
+          this.currentChatroom$ = this.chatroomSvc.getChatroom$(this._chatroomId);
+        }
+
+        this.currentChatroom$?.subscribe((currentChatroom: Chatroom) => {
+          this.currentChatroom = currentChatroom;
+          console.log(this.currentChatroom.participants)
+        });
+
+
 
   }
 
