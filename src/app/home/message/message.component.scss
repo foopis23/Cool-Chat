@@ -4,7 +4,7 @@
 }
 
 .bodyLeft {
-    background-color: white;
+    background-color: #efefef;
     overflow-wrap: break-word;
     border-radius: 0.2em;
     width: fit-content;
@@ -29,7 +29,7 @@
 }
 
 #alignmentDivRight {
-    background-color: rgb(240, 240, 240);
+    background-color: transparent;
     border-radius: 50%;
     height: 64px;
     width: 64px;
@@ -45,7 +45,8 @@
 }
 
 .bodyRight {
-    background-color: #C4C4C4;
+    color: #fff;
+    background-color: #00d1b2;
     overflow-wrap: break-word;
     border-radius: 0.2em;
     width: fit-content;

@@ -19,6 +19,7 @@ import { UserSearchComponent } from './home/user-search/user-search.component';
 import { ChatlistComponent } from './home/chatlist/chatlist.component';
 import { ChatroomCreationComponent } from './home/chatroom-creation/chatroom-creation.component';
 import { UserStatusPipe } from './pipes/user-status.pipe';
+import { CurrentUserComponent } from './home/current-user/current-user.component';
 
 @NgModule({
   declarations: [
@@ -32,7 +33,8 @@ import { UserStatusPipe } from './pipes/user-status.pipe';
     UserSearchComponent,
     ChatlistComponent,
     ChatroomCreationComponent,
-    UserStatusPipe
+    UserStatusPipe,
+    CurrentUserComponent
   ],
   imports: [
     BrowserModule,

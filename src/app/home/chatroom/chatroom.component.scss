@@ -2,11 +2,11 @@ $infoBarHeight: 100px;
 $inputHeight: 34px;
 
 #messages {
-    background-color: rgb(240, 240, 240);
+    // background-color: rgb(240, 240, 240);
 }
 
 #messageInputSection {
-    background-color: rgb(240, 240, 240);
+    // background-color: rgb(240, 240, 240);
 }
 
 #chatInfoBar {
@@ -33,14 +33,14 @@ hr {
 }
 
 #messageHistory {
-    background-color: rgb(240, 240, 240);
+    // background-color: rgb(240, 240, 240);
     width: 100%;
     height: calc(100% - #{$infoBarHeight} - #{$inputHeight});
     overflow: auto;
 }
 
 #messageInput {
-    background-color: #C4C4C4;
+    // background-color: #C4C4C4;
     width: 100%;
     height: $inputHeight;
     margin-right: auto;
