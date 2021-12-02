@@ -1,16 +1,31 @@
 <div *ngIf="this.user !== undefined">
-    <div class="columns py-4">
+    <div class="columns py-4 rounded border shadow-sm my-4">
         <div class="column is-narrow">
-            <figure class="image is-48x48">
+            <figure class="image is-48x48 rounded-circle img-thumbnail">
                 <img class="is-rounded" [src]="user.photoURL">
             </figure>
         </div>
-        <div class="column">
-            {{user.displayName}}
+        <div class="column border-start">
+            <span class="fw-bolder ps-2">{{user.displayName}}</span>
             <br>
-            {{user.status | userStatus}}
+            <span class="badge bg-dark py-1">
+              <span class="d-inline-block bg-success rounded-circle me-2" style="width: .5em; height: .5em;"></span>
+              {{user.status | userStatus}}
+            </span>
         </div>
+
         <div class="column is-narrow">
-    </div>
+          <button type="button" class="btn btn-secondary dropdown-toggle dropdown-toggle-split" data-bs-toggle="dropdown" aria-expanded="false">
+            <span class="visually-hidden">Toggle Dropdown</span>
+          </button>
+
+
+        <ul class="dropdown-menu">
+          <li><a class="dropdown-item" routerLink="/profile">Setting</a></li>
+          <li><a class="dropdown-item" routerLink="**">Logout</a></li>
+        </ul>
+
+
+        </div>
     </div>
 </div>
