@@ -25,8 +25,15 @@ export class ChatlistComponent implements OnInit {
   ngOnInit(): void {
   }
 
-  public setCurrentChatroom(current: string) {
-    this.chatroomService.setCurrentChatroom(current);
+  public setCurrentChatroom(current: string | undefined) {
+    if (current !== undefined)
+      this.chatroomService.setCurrentChatroom(current);
     this.changedChatroom.emit(current);
+  }
+
+  public leaveChatroom(roomId: string | undefined) {
+    if (roomId !== undefined)
+      this.chatroomService.leaveChatroom(roomId);
+    this.setCurrentChatroom(undefined);
   }
 }
