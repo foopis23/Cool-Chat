@@ -1,4 +1,4 @@
-<div class="container-fluid" style="height: 100vh;">
+<div class="container-fluid" style="height: 100vh; padding-top: 5%;">
   <form [formGroup]="loginForm" (ngSubmit)="onSubmit()" class="bg-white mx-auto border rounded-3 mt-5 p-3 shadow-lg" style="max-width: 600px;">
       <div class="container">
           <h1 class="text-center fw-bolder mt-5 is-size-1" style="font-size: 60px;">
@@ -17,16 +17,18 @@
               <!-- <small><a href="">Forgot Your Password</a></small> -->
           </div>
 
-        <div class="w-75 mx-auto mb-5">
-            <span class="text-danger" *ngIf="loginError != undefined">{{loginError}}</span>
-        </div>
-
           <div class="w-75 mx-auto mb-5">
-              <button type="submit" class="button is-primary w-100 btn-lg" [disabled]="!loginForm.valid">Login</button>
+              <span class="text-danger" *ngIf="loginError != undefined">{{loginError}}</span>
           </div>
 
 
-          <div class="w-75 mx-auto mt-5">
+          <hr class="bg-dark mx-auto w-75">
+
+          <div class="w-75 mx-auto mb-5 my-5">
+              <button type="submit" class="button is-primary w-100 btn-lg" [disabled]="!loginForm.valid">Login</button>
+          </div>
+
+          <div class="w-75 mx-auto mt-5 m-5">
               <p>Don't have an Account? <a routerLink="/signup">Sign Up</a></p>
           </div>
       </div>

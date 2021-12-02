@@ -1,7 +1,5 @@
-<div class="pb-3">
-	<button class="button mr-3" (click)="onLogout()">Logout</button>
-</div>
 <app-current-user></app-current-user>
+
 <div class="chat-selector" [ngClass]="{active: selectedChatroom === undefined}" (click)="emitChangedChatroom(undefined)">
 	Create New<br>Chatroom
 </div>

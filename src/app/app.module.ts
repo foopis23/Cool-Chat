@@ -20,6 +20,11 @@ import { ChatlistComponent } from './home/chatlist/chatlist.component';
 import { ChatroomCreationComponent } from './home/chatroom-creation/chatroom-creation.component';
 import { UserStatusPipe } from './pipes/user-status.pipe';
 import { CurrentUserComponent } from './home/current-user/current-user.component';
+import { SettingsComponent } from './settings/settings.component';
+import { AccountComponent } from './settings/account/account.component';
+import { NotificationComponent } from './settings/notification/notification.component';
+import { ProfileComponent } from './settings/profile/profile.component';
+import { SecurityComponent } from './settings/security/security.component';
 
 @NgModule({
   declarations: [
@@ -34,7 +39,12 @@ import { CurrentUserComponent } from './home/current-user/current-user.component
     ChatlistComponent,
     ChatroomCreationComponent,
     UserStatusPipe,
-    CurrentUserComponent
+    CurrentUserComponent,
+    SettingsComponent,
+    AccountComponent,
+    NotificationComponent,
+    ProfileComponent,
+    SecurityComponent
   ],
   imports: [
     BrowserModule,
