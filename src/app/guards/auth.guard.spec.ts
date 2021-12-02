@@ -8,6 +8,7 @@ import { getFirestore, provideFirestore } from '@angular/fire/firestore';
 import { getStorage, provideStorage } from '@angular/fire/storage';
 import { initializeApp } from '@firebase/app';
 import { environment } from 'src/environments/environment';
+import { RouterTestingModule } from '@angular/router/testing';
 
 describe('AuthGuard', () => {
   let guard: AuthGuard;
@@ -15,6 +16,7 @@ describe('AuthGuard', () => {
   beforeEach(() => {
     TestBed.configureTestingModule({
       imports: [
+        RouterTestingModule,
         provideFirebaseApp(() => initializeApp(environment.firebase)),
         provideAuth(() => getAuth()),
         provideFirestore(() => getFirestore()),

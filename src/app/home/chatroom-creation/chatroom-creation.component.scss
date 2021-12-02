@@ -1,0 +1,14 @@
+$chatroom-creation-bottom-bar-height: 52px;
+
+.chatroom-creation-bottom-bar {
+	height: $chatroom-creation-bottom-bar-height;
+	overflow: hidden;
+}
+
+.chatroom-creation-component{
+	height: 100%;
+}
+
+.user-search-container{
+	height: calc(100% - #{$chatroom-creation-bottom-bar-height});
+}

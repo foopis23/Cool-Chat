@@ -9,9 +9,15 @@ import { Component, OnInit } from '@angular/core';
 
 export class MainComponent implements OnInit {
 
+  currentChatroomId: string | undefined;
+
   constructor() { }
 
   ngOnInit(): void {
+  }
+
+  setCurrentChatroom(id: string) {
+    this.currentChatroomId = id;
   }
 
 }

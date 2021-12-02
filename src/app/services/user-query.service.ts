@@ -1,74 +1,71 @@
 import { Injectable } from '@angular/core';
-import { docSnapshots, Firestore, onSnapshot } from '@angular/fire/firestore';
-import { doc, deleteDoc, collection, updateDoc } from '@firebase/firestore';
-import { Observable } from 'rxjs';
+import { collectionSnapshots, docSnapshots, Firestore } from '@angular/fire/firestore';
+import { doc, collection } from '@firebase/firestore';
+import { combineLatest, Observable, ReplaySubject } from 'rxjs';
 import { map } from 'rxjs/operators';
-
-export interface User {
-  id: string,
-  displayName: string,
-  photoURL: string
-  status: Status
-}
-
-export enum Status {
-  OFFLINE,
-  BUSY,
-  DO_NOT_DISTURB,
-  ONLINE
-}
+import { Status, User } from '../types/User';
 
 @Injectable({
   providedIn: 'root'
 })
 export class UserQueryService {
-  usersCollection;
+  private usersCollection;
+  private userObservables: { [key: string]: ReplaySubject<User> };
 
-  constructor(private fs: Firestore) { 
+  constructor(private fs: Firestore) {
     this.usersCollection = collection(fs, 'users');
+    this.userObservables = {};
   }
 
-  getUserById(id: string): Observable<User> {
+  public getUserById(id: string): ReplaySubject<User> {
+    if (this.userObservables[id] !== undefined) {
+      return this.userObservables[id];
+    }
+
     const docRef = doc(this.usersCollection, id);
-    return docSnapshots(docRef).pipe(
+    this.userObservables[id] = new ReplaySubject(1);
+    docSnapshots(docRef).pipe(
       map(data => {
         const user = data.data();
         user!.id = data.id;
         return user as User;
       })
-    );
+    ).subscribe((user) => {
+      this.userObservables[id].next(user);
+    })
+
+    return this.userObservables[id];
   }
 
-  /*changeUsername(id: string, newName: string) {
-    const docRef = doc(this.usersCollection, id);
-    return updateDoc(docRef, {
-      name: newName
-    });
-  }*/
+  public searchUserByDisplayName(queryString$: Observable<string>): Observable<User[]> {
+    return combineLatest([queryString$, collectionSnapshots(this.usersCollection)])
+      .pipe(
+        map(([query, snapshots]): [string, User[]] => {
+          return [
+            query,
+            snapshots.map(snapshot => {
+              return { ...snapshot.data(), id: snapshot.id } as User
+            })
+          ]
+        }),
+        map(([query, users]) => {
+          return users.filter((user) => user.displayName.toLowerCase().includes(
+            query.toLowerCase()
+          ))
+        })
+      );
+  }
 
-  /*changeStatus(id: string, newStatus: Status) {
-    const docRef = doc(this.usersCollection, id);
-    return updateDoc(docRef, {
-      status: newStatus
-    });
-  }*/
-
-  /*deleteUser(id: string) {
-    const userRef = doc(this.usersCollection, id);
-    return deleteDoc(userRef);
-  }*/
-
-  /*changeProfilePicture(picture: File) {
-    const allowedFileTypes = ['image/png', 'image/jpeg', 'image/gif'];
-    if (!allowedFileTypes.includes(picture.type)) return;
-
-    const storageRef = getStorage();
-    const picRef = ref(storageRef, `profiles/${picture.name}`)
-
-    uploadBytes(picRef, picture).then(_ => {
-      return updateProfile(this.user!, {
-        photoURL: picRef.fullPath
-      });
-    })
-  }*/
+  public statusToString(status: Status) {
+    switch (status) {
+      case Status.OFFLINE:
+        return "Offline";
+      case Status.ONLINE:
+        return "Online";
+      case Status.DO_NOT_DISTURB:
+        return "Do Not Disturb";
+      case Status.BUSY:
+        return "Busy";
+    }
+  }
 }

@@ -1,0 +1,47 @@
+<div class="user-search">
+	<div class="user-search-top-bar">
+		<input class="searchbar input" placeholder="Enter a username..." [formControl]="searchControl" (keyup.enter)="onEnter()" name="user-search" id="user-search">
+		<div v-if="selected && (selected | keyvalue).length" class="py-2">
+			<span class="tag is-primary mr-2" *ngFor="let item of (selected | keyvalue)">
+				{{item.value.displayName}}
+				<button *ngIf="item.value.id != currentUser?.id" class="delete is-small" (click)="toggleUser(item.value)"></button>
+			</span>
+		</div>
+	</div>
+
+	<div *ngIf="loading; else notLoadingBlock">
+		Loading...
+	</div>
+	<ng-template #notLoadingBlock>
+		<div *ngIf="users !== undefined" class="user-list-container">
+			<div class="user-rows" *ngIf="users.length > 0">
+				<div *ngFor="let user of users">
+					<div (click)="toggleUser(user)" class="columns py-4">
+						<div class="column is-narrow">
+							<figure class="image is-48x48">
+								<img class="is-rounded" [src]="user.photoURL">
+							</figure>
+						</div>
+						<div class="column">
+							{{user.displayName}}
+							<br>
+							{{user.status | userStatus}}
+						</div>
+						<div class="column is-narrow">
+							<label class="checkbox">
+								<input readonly [checked]="!!selected[user.id]" style="height: 24px; width: 24px;" type="checkbox">
+							</label>
+						</div>
+					</div>
+				</div>
+			</div>
+
+			<div *ngIf="users.length == 0">
+				<p>No Users Found</p>
+			</div>
+		</div>
+		<div *ngIf="users === undefined">
+			Start typing to search for users..
+		</div>
+	</ng-template>
+</div>

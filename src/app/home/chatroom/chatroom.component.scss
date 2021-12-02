@@ -1,0 +1,68 @@
+$infoBarHeight: 100px;
+$inputHeight: 34px;
+
+#messages {
+    background-color: rgb(240, 240, 240);
+}
+
+#messageInputSection {
+    background-color: rgb(240, 240, 240);
+}
+
+#circle {
+    background-color: red;
+    border-radius: 50%;
+    border-width: 5px;
+    height: 100px;
+    width: 100px;
+    float: left;
+    margin-bottom: 5%;
+}
+
+#chatInfoBar {
+    height: $infoBarHeight;
+}
+
+#userLabel {
+    margin-top: 5%;
+    margin-left: 5%;
+    font-size: x-large;
+    float: left;
+}
+
+hr {
+    background-color: black;
+    width: 90%;
+}
+
+#messages {
+    width: 100%;
+    height: 100%;
+}
+
+#messageHistory {
+    background-color: rgb(240, 240, 240);
+    width: 100%;
+    height: calc(100% - #{$infoBarHeight} - #{$inputHeight});
+    overflow: auto;
+}
+
+#messageInput {
+    background-color: #C4C4C4;
+    width: 100%;
+    height: $inputHeight;
+    margin-right: auto;
+    margin-left: auto;
+}
+
+#sentMessage {
+    float: left;
+}
+
+#receivedMessage {
+    float: right;
+}
+
+app-message {
+    display: flex;
+}

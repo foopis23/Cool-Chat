@@ -1,35 +1,34 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
-import { initializeApp, provideFirebaseApp } from '@angular/fire/app';
+import { provideFirebaseApp } from '@angular/fire/app';
 import { getAuth, provideAuth } from '@angular/fire/auth';
 import { getFirestore, provideFirestore } from '@angular/fire/firestore';
 import { getStorage, provideStorage } from '@angular/fire/storage';
-import { ReactiveFormsModule } from '@angular/forms';
-import { RouterTestingModule } from '@angular/router/testing';
+import { initializeApp } from '@firebase/app';
 import { environment } from 'src/environments/environment';
+import { FormsModule } from '@angular/forms';
 
-import { LoginComponent } from './login.component';
+import { ChatroomComponent } from './chatroom.component';
 
-describe('LoginComponent', () => {
-  let component: LoginComponent;
-  let fixture: ComponentFixture<LoginComponent>;
+describe('ChatroomComponent', () => {
+  let component: ChatroomComponent;
+  let fixture: ComponentFixture<ChatroomComponent>;
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
+      declarations: [ ChatroomComponent ],
       imports: [
-        RouterTestingModule,
-        ReactiveFormsModule,
+        FormsModule,
         provideFirebaseApp(() => initializeApp(environment.firebase)),
         provideAuth(() => getAuth()),
         provideFirestore(() => getFirestore()),
-        provideStorage(() => getStorage())
-      ],
-      declarations: [ LoginComponent ]
+        provideStorage(() => getStorage()),
+      ]
     })
     .compileComponents();
   });
 
   beforeEach(() => {
-    fixture = TestBed.createComponent(LoginComponent);
+    fixture = TestBed.createComponent(ChatroomComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });
