@@ -1,6 +1,9 @@
+<<<<<<< HEAD
 <div *ngIf="chatlist === undefined">
     <p>Wrong!</p>
 </div>
+=======
+>>>>>>> 8ef04fbff89b5c24d915bbea4416586a1bfb5486
 <div *ngFor="let chat of chatlist">
     <div class="chat-selector" [ngClass]="{active: selectedChatroom === chat.id}" (click)="setCurrentChatroom(chat.id)">
         <div>{{chat.displayName}}</div>

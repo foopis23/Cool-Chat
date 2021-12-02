@@ -65,8 +65,16 @@ service-account-credentials.json
 **/tsconfig-compile.json
 yarn.lock
 pnpm-lock.yaml
+<<<<<<< HEAD
 <<<<<<< .merge_file_a04636
 .angular
 =======
 src/app/services/message.service.ts
 >>>>>>> .merge_file_a12156
+=======
+<<<<<<< HEAD
+.angular
+=======
+src/app/services/message.service.ts
+>>>>>>> cca3e9ee882e6171154e7f6adfacb54cfc6f5b1c
+>>>>>>> 8ef04fbff89b5c24d915bbea4416586a1bfb5486

@@ -1,4 +1,5 @@
 import { Injectable } from '@angular/core';
+<<<<<<< HEAD
 <<<<<<< .merge_file_a14044
 import { Firestore } from '@angular/fire/firestore';
 import { collection, CollectionReference, DocumentReference } from '@firebase/firestore';
@@ -14,6 +15,8 @@ interface Chatroom{
   name: string,
   participants: DocumentReference[]
 =======
+=======
+>>>>>>> 8ef04fbff89b5c24d915bbea4416586a1bfb5486
 import { collectionSnapshots, docSnapshots, Firestore } from '@angular/fire/firestore';
 import { addDoc, arrayRemove, collection, CollectionReference, doc, DocumentData, DocumentReference, DocumentSnapshot, QueryDocumentSnapshot, updateDoc } from '@firebase/firestore';
 import { combineLatest, forkJoin, Observable } from 'rxjs';
@@ -58,13 +61,17 @@ const createRawChatroomToChatroom = (usrSvc : UserQueryService) => {
       participants: users
     } as Chatroom
   }
+<<<<<<< HEAD
 >>>>>>> .merge_file_a16936
+=======
+>>>>>>> 8ef04fbff89b5c24d915bbea4416586a1bfb5486
 }
 
 @Injectable({
   providedIn: 'root'
 })
 export class ChatroomService {
+<<<<<<< HEAD
 <<<<<<< .merge_file_a14044
   private room$: Observable<Chatroom[]>;
   private userCollectionRef: CollectionReference;
@@ -93,6 +100,8 @@ export class ChatroomService {
 // It is a service to retrieve chatroom name and participants from firebase
 // in observables.
 =======
+=======
+>>>>>>> 8ef04fbff89b5c24d915bbea4416586a1bfb5486
   public userChatroomList$: Observable<Chatroom[]>;
   private currentChatroom: string = "";
   private roomsCollection: CollectionReference;
@@ -152,4 +161,7 @@ export class ChatroomService {
     return this.currentChatroom;
   }
 }
+<<<<<<< HEAD
 >>>>>>> .merge_file_a16936
+=======
+>>>>>>> 8ef04fbff89b5c24d915bbea4416586a1bfb5486

@@ -15,6 +15,7 @@ import { MainComponent } from './main/main.component';
 import { LoginComponent } from './login/login.component';
 import { SignupComponent } from './signup/signup.component';
 import { SidebarComponent } from './sidebar/sidebar.component';
+<<<<<<< HEAD
 <<<<<<< .merge_file_a19172
 <<<<<<< Updated upstream
 import { ContentComponent } from './content/content.component';
@@ -28,11 +29,17 @@ import { SecurityComponent } from './settings/security/security.component';
 import { NotificationComponent } from './settings/notification/notification.component';
 >>>>>>> Stashed changes
 =======
+=======
+>>>>>>> 8ef04fbff89b5c24d915bbea4416586a1bfb5486
 import { UserSearchComponent } from './home/user-search/user-search.component';
 import { ChatlistComponent } from './home/chatlist/chatlist.component';
 import { ChatroomCreationComponent } from './home/chatroom-creation/chatroom-creation.component';
 import { UserStatusPipe } from './pipes/user-status.pipe';
+<<<<<<< HEAD
 >>>>>>> .merge_file_a12908
+=======
+import { CurrentUserComponent } from './home/current-user/current-user.component';
+>>>>>>> 8ef04fbff89b5c24d915bbea4416586a1bfb5486
 
 @NgModule({
   declarations: [
@@ -42,6 +49,7 @@ import { UserStatusPipe } from './pipes/user-status.pipe';
     LoginComponent,
     SignupComponent,
     SidebarComponent,
+<<<<<<< HEAD
 <<<<<<< .merge_file_a19172
 <<<<<<< Updated upstream
     ContentComponent,
@@ -56,12 +64,19 @@ import { UserStatusPipe } from './pipes/user-status.pipe';
     NotificationComponent
 >>>>>>> Stashed changes
 =======
+=======
+>>>>>>> 8ef04fbff89b5c24d915bbea4416586a1bfb5486
     MessageComponent,
     UserSearchComponent,
     ChatlistComponent,
     ChatroomCreationComponent,
+<<<<<<< HEAD
     UserStatusPipe
 >>>>>>> .merge_file_a12908
+=======
+    UserStatusPipe,
+    CurrentUserComponent
+>>>>>>> 8ef04fbff89b5c24d915bbea4416586a1bfb5486
   ],
   imports: [
     BrowserModule,

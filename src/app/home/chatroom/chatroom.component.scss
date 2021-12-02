@@ -2,11 +2,19 @@ $infoBarHeight: 100px;
 $inputHeight: 34px;
 
 #messages {
+<<<<<<< HEAD
     background-color: rgb(240, 240, 240);
 }
 
 #messageInputSection {
     background-color: rgb(240, 240, 240);
+=======
+    // background-color: rgb(240, 240, 240);
+}
+
+#messageInputSection {
+    // background-color: rgb(240, 240, 240);
+>>>>>>> 8ef04fbff89b5c24d915bbea4416586a1bfb5486
 }
 
 #circle {
@@ -41,14 +49,22 @@ hr {
 }
 
 #messageHistory {
+<<<<<<< HEAD
     background-color: rgb(240, 240, 240);
+=======
+    // background-color: rgb(240, 240, 240);
+>>>>>>> 8ef04fbff89b5c24d915bbea4416586a1bfb5486
     width: 100%;
     height: calc(100% - #{$infoBarHeight} - #{$inputHeight});
     overflow: auto;
 }
 
 #messageInput {
+<<<<<<< HEAD
     background-color: #C4C4C4;
+=======
+    // background-color: #C4C4C4;
+>>>>>>> 8ef04fbff89b5c24d915bbea4416586a1bfb5486
     width: 100%;
     height: $inputHeight;
     margin-right: auto;

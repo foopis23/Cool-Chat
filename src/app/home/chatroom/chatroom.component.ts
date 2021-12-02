@@ -2,7 +2,10 @@ import { Component, Input, OnInit, SimpleChanges } from '@angular/core';
 import { Observable } from 'rxjs';
 import { AuthService } from 'src/app/services/auth.service';
 import { MessageService, Message } from 'src/app/services/message.service';
+<<<<<<< HEAD
 //import { User } from 'src/app/types/User';
+=======
+>>>>>>> 8ef04fbff89b5c24d915bbea4416586a1bfb5486
 import { User } from '@angular/fire/auth';
 import { ChatroomService } from 'src/app/services/chatroom.service';
 

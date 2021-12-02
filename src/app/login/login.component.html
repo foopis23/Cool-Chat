@@ -1,8 +1,8 @@
 <div class="container-fluid" style="height: 100vh;">
   <form [formGroup]="loginForm" (ngSubmit)="onSubmit()" class="bg-white mx-auto border rounded-3 mt-5 p-3 shadow-lg" style="max-width: 600px;">
       <div class="container">
-          <h1 class="text-center fw-bolder mt-5 text-success" style="font-size: 60px;">
-              Welcome to Cool Chat
+          <h1 class="text-center fw-bolder mt-5 is-size-1" style="font-size: 60px;">
+                Cool Chat Login
           </h1>
           <hr class="my-5 w-75 mx-auto">
 
@@ -14,7 +14,7 @@
           <div class="form-floating mb-5 w-75 mx-auto">
               <input type="password" name="" id="pskInput" class="form-control form-control-lg mb-3" placeholder="Password ..." formControlName="password">
               <label for="pskInput">Password</label>
-              <small><a href="">Forgot Your Password</a></small>
+              <!-- <small><a href="">Forgot Your Password</a></small> -->
           </div>
 
         <div class="w-75 mx-auto mb-5">
@@ -22,7 +22,11 @@
         </div>
 
           <div class="w-75 mx-auto mb-5">
+<<<<<<< HEAD
               <button type="submit" class="btn btn-warning w-100 btn-lg" [disabled]="!loginForm.valid">Login</button>
+=======
+              <button type="submit" class="button is-primary w-100 btn-lg" [disabled]="!loginForm.valid">Login</button>
+>>>>>>> 8ef04fbff89b5c24d915bbea4416586a1bfb5486
           </div>
 
 
