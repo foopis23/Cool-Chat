@@ -1,4 +1,4 @@
-import { Component, Input, OnInit, SimpleChanges } from '@angular/core';
+import { Component, ElementRef, Input, OnInit, SimpleChanges, ViewChild } from '@angular/core';
 import { Observable } from 'rxjs';
 import { AuthService } from 'src/app/services/auth.service';
 import { MessageService, Message } from 'src/app/services/message.service';
@@ -11,14 +11,13 @@ import { Chatroom, ChatroomService } from 'src/app/services/chatroom.service';
   styleUrls: ['./chatroom.component.scss']
 })
 export class ChatroomComponent implements OnInit {
-
+  @ViewChild('messageHistoryContainer') historyContainer: ElementRef | undefined;
+  
   _chatroomId: string = '';
-
-
   messages$: Observable<Message[]> | undefined;
-  messageInput : string;
+  messageInput: string;
   newUserMessage = true;
-  messages : Message[];
+  messages: Message[];
   //Might need to work on typing for this
   userData: Observable<User> | undefined;
   currentUserData$: any;
@@ -26,9 +25,12 @@ export class ChatroomComponent implements OnInit {
   currentChatroom$: Observable<Chatroom> | undefined;
   currentChatroom: Chatroom | undefined;
 
-  constructor(private chatroomService: ChatroomService, private messageSvc : MessageService, private authSvc: AuthService, private chatroomSvc: ChatroomService) {
+  private isScrollToBottom : boolean;
+
+  constructor(private chatroomService: ChatroomService, private messageSvc: MessageService, private authSvc: AuthService, private chatroomSvc: ChatroomService) {
     this.messages = [];
     this.messageInput = '';
+    this.isScrollToBottom = true;
   }
 
   @Input() set chatroomId(id: string) {
@@ -36,59 +38,34 @@ export class ChatroomComponent implements OnInit {
     this.messages$ = this.messageSvc.getMessagesFromChatroomId(this._chatroomId);
     this.messages$.subscribe((messages) => {
       this.messages = messages;
+      this.scrollToBottom();
     })
 
-        //TODO: subscribe to current user data here and store in variable...
-        //I used auth service for now cause that seemed like getUser would be the way to get the current logged in user
-        //But it doesn't seem to be working and using authstate didnt either so I'm not sure if im in doing  it correctly or not
+    //I used auth service for now cause that seemed like getUser would be the way to get the current logged in user
+    //But it doesn't seem to be working and using authstate didnt either so I'm not sure if im in doing  it correctly or not
 
-        //I think this is working to get the current logged in user
-        this.currentUserData$ = this.authSvc.authState$;
+    //I think this is working to get the current logged in user
+    this.currentUserData$ = this.authSvc.authState$;
 
-        this.currentUserData$.subscribe((currentUser: User) => {
-          this.currentUser = currentUser;
-          console.log(this.currentUser?.uid);
-        });
+    this.currentUserData$.subscribe((currentUser: User) => {
+      this.currentUser = currentUser;
+      this.scrollToBottom();
+    });
 
-        //Set chatroomParticipants and subscribe to it for future use to set the chatroom to get the current participants
-        if (this._chatroomId) {
-          this.currentChatroom$ = this.chatroomSvc.getChatroom$(this._chatroomId);
-        }
+    //Set chatroomParticipants and subscribe to it for future use to set the chatroom to get the current participants
+    if (this._chatroomId) {
+      this.currentChatroom$ = this.chatroomSvc.getChatroom$(this._chatroomId);
+    }
 
-        this.currentChatroom$?.subscribe((currentChatroom: Chatroom) => {
-          this.currentChatroom = currentChatroom;
-          console.log(this.currentChatroom.participants)
-        });
-
-
-
+    this.currentChatroom$?.subscribe((currentChatroom: Chatroom) => {
+      this.currentChatroom = currentChatroom;
+      this.scrollToBottom();
+    });
   }
 
   ngOnInit(): void {}
 
-  /*ngOnInit(): void {
-    this.messages$ = this.messageSvc.getMessagesFromChatroomId(this.chatroomId);
-    this.messages$.subscribe((messages) => {
-      this.messages = messages;
-    })
-
-        //TODO: subscribe to current user data here and store in variable...
-        //I used auth service for now cause that seemed like getUser would be the way to get the current logged in user
-        //But it doesn't seem to be working and using authstate didnt either so I'm not sure if im in doing  it correctly or not
-
-        //I think this is working to get the current logged in user
-        this.currentUserData$ = this.authSvc.authState$;
-
-        this.currentUserData$.subscribe((currentUser: User) => {
-          this.currentUser = currentUser;
-          console.log(this.currentUser?.uid);
-        });
-
-  }*/
-
-  isFromCurrentUser(message : Message) {
-    //TODO: compare current user variable to message fromId
-    //I think this is up and working
+  isFromCurrentUser(message: Message) {
     if (this.currentUser?.uid == message.from.id) {
       return true;
     } else {
@@ -98,17 +75,32 @@ export class ChatroomComponent implements OnInit {
 
   submitMessage() {
     if (this.messageInput && this.messageInput !== "") {
-      //this.messageSvc.sendMessageToChatroom(this.chatroomId, 'JDXybYhH1npHWAZOPdj5', this.messageInput);
       this.messageSvc.sendMessageToChatroom(this._chatroomId, this.currentUser.uid, this.messageInput);
       this.messageInput = '';
+
+      // if send a message scroll to bottom
+      this.isScrollToBottom = true;
+      this.scrollToBottom();
     }
 
     return false;
   }
 
   getCurrentChatroom(): string {
-    console.log(this.getCurrentChatroom());
     return this.chatroomService.getCurrentChatroom();
+  }
+
+  private scrollToBottom() {
+    if (this.historyContainer && this.isScrollToBottom) {
+      this.historyContainer.nativeElement.scrollTop = this.historyContainer.nativeElement.scrollHeight;
+    }
+  }
+
+  handleScrollEvent($event : any) {
+    if (this.historyContainer) {
+      const el = this.historyContainer.nativeElement;
+      this.isScrollToBottom = el.scrollTop + el.clientHeight === el.scrollHeight;
+    }
   }
 }
 
