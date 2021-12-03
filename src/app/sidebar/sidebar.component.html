@@ -1,6 +1,9 @@
-<app-current-user></app-current-user>
-
-<div class="chat-selector" [ngClass]="{active: selectedChatroom === undefined}" (click)="emitChangedChatroom(undefined)">
-	Create New<br>Chatroom
+<div class="is-flex is-flex-direction-column" style="height: 100%">
+	<app-current-user></app-current-user>
+	<div>
+		<div class="chat-selector" [ngClass]="{active: selectedChatroom === undefined}" (click)="emitChangedChatroom(undefined)">
+			Create New<br>Chatroom
+		</div>
+		<app-chatlist (changedChatroom)="emitChangedChatroom($event)" [selectedChatroom]="selectedChatroom"></app-chatlist>
+	</div>
 </div>
-<app-chatlist (changedChatroom)="emitChangedChatroom($event)" [selectedChatroom]="selectedChatroom"></app-chatlist>
