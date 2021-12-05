@@ -1,5 +1,5 @@
 import { Component, ElementRef, Input, OnInit, SimpleChanges, ViewChild } from '@angular/core';
-import { Observable } from 'rxjs';
+import { Observable, Subscription } from 'rxjs';
 import { AuthService } from 'src/app/services/auth.service';
 import { MessageService, Message } from 'src/app/services/message.service';
 import { User } from '@angular/fire/auth';
@@ -27,6 +27,10 @@ export class ChatroomComponent implements OnInit {
 
   private isScrollToBottom : boolean;
 
+  private messagesSubscription : Subscription | undefined;
+  private currentUserDataSubscription : Subscription | undefined;
+  private currentChatroomSubscription : Subscription | undefined;
+
   constructor(private chatroomService: ChatroomService, private messageSvc: MessageService, private authSvc: AuthService, private chatroomSvc: ChatroomService) {
     this.messages = [];
     this.messageInput = '';
@@ -36,9 +40,9 @@ export class ChatroomComponent implements OnInit {
   @Input() set chatroomId(id: string) {
     this._chatroomId = id;
     this.messages$ = this.messageSvc.getMessagesFromChatroomId(this._chatroomId);
-    this.messages$.subscribe((messages) => {
+    this.messagesSubscription = this.messages$.subscribe((messages) => {
       this.messages = messages;
-      this.scrollToBottom();
+      // this.scrollToBottom();
     })
 
     //I used auth service for now cause that seemed like getUser would be the way to get the current logged in user
@@ -47,9 +51,9 @@ export class ChatroomComponent implements OnInit {
     //I think this is working to get the current logged in user
     this.currentUserData$ = this.authSvc.authState$;
 
-    this.currentUserData$.subscribe((currentUser: User) => {
+    this.currentUserDataSubscription = this.currentUserData$.subscribe((currentUser: User) => {
       this.currentUser = currentUser;
-      this.scrollToBottom();
+      // this.scrollToBottom();
     });
 
     //Set chatroomParticipants and subscribe to it for future use to set the chatroom to get the current participants
@@ -57,13 +61,28 @@ export class ChatroomComponent implements OnInit {
       this.currentChatroom$ = this.chatroomSvc.getChatroom$(this._chatroomId);
     }
 
-    this.currentChatroom$?.subscribe((currentChatroom: Chatroom) => {
+    this.currentChatroomSubscription = this.currentChatroom$?.subscribe((currentChatroom: Chatroom) => {
       this.currentChatroom = currentChatroom;
-      this.scrollToBottom();
+      // this.scrollToBottom();
     });
   }
 
+  ngAfterViewChecked(): void {
+    this.scrollToBottom();
+  }
+
   ngOnInit(): void {}
+  
+  ngOnDestroy() : void {
+    if (this.messagesSubscription != undefined)
+      this.messagesSubscription.unsubscribe();
+
+    if (this.currentUserDataSubscription)
+      this.currentUserDataSubscription.unsubscribe();
+
+    if (this.currentChatroomSubscription?.unsubscribe())
+      this.currentChatroomSubscription.unsubscribe();
+  }
 
   isFromCurrentUser(message: Message) {
     if (this.currentUser?.uid == message.from.id) {
@@ -80,7 +99,7 @@ export class ChatroomComponent implements OnInit {
 
       // if send a message scroll to bottom
       this.isScrollToBottom = true;
-      this.scrollToBottom();
+      // this.scrollToBottom();
     }
 
     return false;
