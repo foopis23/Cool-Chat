@@ -43,7 +43,6 @@ export class MessageComponent implements OnInit {
     this.messageAuthor$ = this.newMessage?.author;
     if (this.newMessage != undefined) {
       this.messageAuthor$?.subscribe((messageAuth: User) => {
-        console.log("Got heres")
         this.messageAuthor = messageAuth;
         this.messagePhoto = this.messageAuthor.photoURL;
       }) 
