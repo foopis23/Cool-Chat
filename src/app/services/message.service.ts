@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { addDoc, collectionSnapshots, Firestore } from '@angular/fire/firestore';
-import { collection, CollectionReference, doc, DocumentReference, Timestamp } from '@firebase/firestore';
+import { collection, CollectionReference, doc, DocumentReference, Timestamp, updateDoc } from '@firebase/firestore';
 import { DocumentData } from 'rxfire/firestore/interfaces';
 import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
@@ -62,12 +62,16 @@ export class MessageService {
     const room = doc(this.firestore, `/rooms/${roomId}`);
     const from = doc(this.firestore, `/users/${fromId}`);
 
-    addDoc(collection(this.firestore, 'messages'), {
+    await addDoc(collection(this.firestore, 'messages'), {
       room,
       from,
       content,
       timestamp: Timestamp.now(),
       attachments: []
     })
+
+    await updateDoc(room, {
+      lastMessageTimestamp: Timestamp.now()
+    });
   }
 }
