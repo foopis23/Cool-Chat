@@ -12,7 +12,7 @@ import { Chatroom, ChatroomService } from 'src/app/services/chatroom.service';
 })
 export class ChatroomComponent implements OnInit {
   @ViewChild('messageHistoryContainer') historyContainer: ElementRef | undefined;
-  
+
   _chatroomId: string = '';
   messages$: Observable<Message[]> | undefined;
   messageInput: string;
@@ -25,11 +25,11 @@ export class ChatroomComponent implements OnInit {
   currentChatroom$: Observable<Chatroom> | undefined;
   currentChatroom: Chatroom | undefined;
 
-  private isScrollToBottom : boolean;
+  private isScrollToBottom: boolean;
 
-  private messagesSubscription : Subscription | undefined;
-  private currentUserDataSubscription : Subscription | undefined;
-  private currentChatroomSubscription : Subscription | undefined;
+  private messagesSubscription: Subscription | undefined;
+  private currentUserDataSubscription: Subscription | undefined;
+  private currentChatroomSubscription: Subscription | undefined;
 
   constructor(private chatroomService: ChatroomService, private messageSvc: MessageService, private authSvc: AuthService, private chatroomSvc: ChatroomService) {
     this.messages = [];
@@ -40,9 +40,12 @@ export class ChatroomComponent implements OnInit {
   @Input() set chatroomId(id: string) {
     this._chatroomId = id;
     this.messages$ = this.messageSvc.getMessagesFromChatroomId(this._chatroomId);
+
+    if (this.messagesSubscription !== undefined)
+      this.messagesSubscription.unsubscribe();
+
     this.messagesSubscription = this.messages$.subscribe((messages) => {
       this.messages = messages;
-      // this.scrollToBottom();
     })
 
     //I used auth service for now cause that seemed like getUser would be the way to get the current logged in user
@@ -50,6 +53,9 @@ export class ChatroomComponent implements OnInit {
 
     //I think this is working to get the current logged in user
     this.currentUserData$ = this.authSvc.authState$;
+
+    if (this.currentUserDataSubscription !== undefined)
+      this.currentUserDataSubscription.unsubscribe();
 
     this.currentUserDataSubscription = this.currentUserData$.subscribe((currentUser: User) => {
       this.currentUser = currentUser;
@@ -61,6 +67,9 @@ export class ChatroomComponent implements OnInit {
       this.currentChatroom$ = this.chatroomSvc.getChatroom$(this._chatroomId);
     }
 
+    if (this.currentChatroomSubscription !== undefined)
+      this.currentChatroomSubscription.unsubscribe();
+
     this.currentChatroomSubscription = this.currentChatroom$?.subscribe((currentChatroom: Chatroom) => {
       this.currentChatroom = currentChatroom;
       // this.scrollToBottom();
@@ -71,16 +80,16 @@ export class ChatroomComponent implements OnInit {
     this.scrollToBottom();
   }
 
-  ngOnInit(): void {}
-  
-  ngOnDestroy() : void {
-    if (this.messagesSubscription != undefined)
+  ngOnInit(): void { }
+
+  ngOnDestroy(): void {
+    if (this.messagesSubscription !== undefined)
       this.messagesSubscription.unsubscribe();
 
-    if (this.currentUserDataSubscription)
+    if (this.currentUserDataSubscription !== undefined)
       this.currentUserDataSubscription.unsubscribe();
 
-    if (this.currentChatroomSubscription?.unsubscribe())
+    if (this.currentChatroomSubscription !== undefined)
       this.currentChatroomSubscription.unsubscribe();
   }
 
@@ -115,7 +124,7 @@ export class ChatroomComponent implements OnInit {
     }
   }
 
-  handleScrollEvent($event : any) {
+  handleScrollEvent($event: any) {
     if (this.historyContainer) {
       const el = this.historyContainer.nativeElement;
       this.isScrollToBottom = el.scrollTop + el.clientHeight === el.scrollHeight;
