@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { collectionSnapshots, docSnapshots, Firestore } from '@angular/fire/firestore';
-import { addDoc, arrayRemove, collection, CollectionReference, doc, DocumentData, DocumentReference, DocumentSnapshot, QueryDocumentSnapshot, updateDoc } from '@firebase/firestore';
+import { addDoc, arrayRemove, collection, CollectionReference, doc, DocumentData, DocumentReference, DocumentSnapshot, QueryDocumentSnapshot, Timestamp, updateDoc } from '@firebase/firestore';
 import { combineLatest, forkJoin, Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
 import { User } from '../types/User';
@@ -11,12 +11,14 @@ import { UserQueryService } from './user-query.service';
 interface RawChatroom {
   id: string,
   displayName: string,
-  participants: DocumentReference[]
+  participants: DocumentReference[],
+  lastMessageTimestamp: Timestamp
 }
 export interface Chatroom {
   id: string,
   displayName: string,
-  participants: Observable<User>[]
+  participants: Observable<User>[],
+  lastMessageTimestamp: Timestamp
 }
 
 const snapshotToRawChatroom = (snapshot: QueryDocumentSnapshot<DocumentData> | DocumentSnapshot<DocumentData>): RawChatroom => {
@@ -62,7 +64,19 @@ export class ChatroomService {
             .map(snapshotToRawChatroom)
             .filter(createRawChatroomFilterByUser(authState))
             .map(createRawChatroomToChatroom(this.usrSvc))
-        }),
+            .sort((a : Chatroom, b : Chatroom) => {
+              if (a.lastMessageTimestamp === undefined && b.lastMessageTimestamp !== undefined)
+                return 1;
+
+              if (a.lastMessageTimestamp !== undefined && b.lastMessageTimestamp === undefined)
+                return -1;
+
+              if (a.lastMessageTimestamp === undefined && b.lastMessageTimestamp === undefined)
+                return 0;
+
+              return (a.lastMessageTimestamp.seconds < b.lastMessageTimestamp.seconds)? 1 : -1;
+            })
+        })
       )
   }
 
