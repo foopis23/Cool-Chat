@@ -1,5 +1,6 @@
 import { Component, EventEmitter, OnInit, Output } from '@angular/core';
 import { FormControl } from '@angular/forms';
+import { Subscription } from 'rxjs';
 import { defaultIfEmpty, distinctUntilChanged, tap } from 'rxjs/operators';
 import { AuthService } from 'src/app/services/auth.service';
 import { UserQueryService } from 'src/app/services/user-query.service';
@@ -18,6 +19,9 @@ export class UserSearchComponent implements OnInit {
   currentUser: User | undefined = undefined;
   searchControl: FormControl = new FormControl('');
 
+  private userSearchSubscription: Subscription | undefined;
+  private currentUserSubscription: Subscription | undefined;
+
   constructor(private usrSvc: UserQueryService, private authSvc: AuthService) {
     this.selected = {};
     this.change = new EventEmitter();
@@ -31,22 +35,30 @@ export class UserSearchComponent implements OnInit {
         this.users = undefined;
       }));
 
-    this.usrSvc.searchUserByDisplayName(searchValueChanged)
+    this.userSearchSubscription = this.usrSvc.searchUserByDisplayName(searchValueChanged)
       .subscribe((users) => {
         this.loading = false;
         this.users = users;
       });
-    
-    this.authSvc.currentUser$.subscribe((user) => {
+
+    this.currentUserSubscription = this.authSvc.currentUser$.subscribe((user) => {
       if (this.currentUser != undefined)
         delete this.selected[this.currentUser.id];
 
       this.currentUser = user ?? undefined;
-      
+
       if (this.currentUser)
         this.selected[this.currentUser.id] = this.currentUser;
     })
 
+  }
+
+  ngOnDestroy(): void {
+    if (this.userSearchSubscription)
+      this.userSearchSubscription.unsubscribe();
+
+    if (this.currentUserSubscription)
+      this.currentUserSubscription.unsubscribe();
   }
 
   toggleUser(user: User) {
