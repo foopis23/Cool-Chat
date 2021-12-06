@@ -28,14 +28,22 @@ export class ChatlistComponent implements OnInit {
   ngOnInit(): void {
   }
 
+
   ngOnDestroy(): void {
     if (this.userChatroomListSubscription) {
       this.userChatroomListSubscription.unsubscribe();
     }
   }
 
-  public setCurrentChatroom(current: string) {
-    this.chatroomService.setCurrentChatroom(current);
+  public setCurrentChatroom(current: string | undefined) {
+    if (current !== undefined)
+      this.chatroomService.setCurrentChatroom(current);
     this.changedChatroom.emit(current);
+  }
+
+  public leaveChatroom(roomId: string | undefined) {
+    if (roomId !== undefined)
+      this.chatroomService.leaveChatroom(roomId);
+    this.setCurrentChatroom(undefined);
   }
 }

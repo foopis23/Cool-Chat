@@ -1,6 +1,6 @@
 <div class="is-flex is-flex-direction-column h-100">
 	<app-current-user></app-current-user>
-	<div class="scroll-y">
+	<div class="scroll-y is-flex-grow-1">
 		<div class="chat-selector" [ngClass]="{active: selectedChatroom === undefined}" (click)="emitChangedChatroom(undefined)">
 			Create New<br>Chatroom
 		</div>
