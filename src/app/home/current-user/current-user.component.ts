@@ -1,4 +1,6 @@
 import { Component, OnInit } from '@angular/core';
+import { Router } from '@angular/router';
+import { Subscription } from 'rxjs';
 import { AuthService } from 'src/app/services/auth.service';
 import { UserQueryService } from 'src/app/services/user-query.service';
 import { User } from 'src/app/types/User';
@@ -11,9 +13,10 @@ import { User } from 'src/app/types/User';
 export class CurrentUserComponent implements OnInit {
 
   user: User | undefined;
+  private userSubscription: Subscription | undefined;
 
-  constructor(private userQueryService: UserQueryService, private authService: AuthService) {
-    userQueryService.getUserById(authService.getUser()!.uid).subscribe(user => {
+  constructor(private userQueryService: UserQueryService, private authService: AuthService, private _router: Router) {
+    this.userSubscription = userQueryService.getUserById(authService.getUser()!.uid).subscribe(user => {
       this.user = user;
     });
   }
@@ -21,4 +24,15 @@ export class CurrentUserComponent implements OnInit {
   ngOnInit(): void {
   }
 
+  ngOnDestroy(): void {
+    if (this.userSubscription)
+      this.userSubscription.unsubscribe();
+  }
+
+  onLogout() {
+    this.authService.logout().then(() => {
+      this._router.navigateByUrl("/login");
+    }).catch(err => console.error(err))
+    return false;
+  }
 }

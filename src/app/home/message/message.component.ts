@@ -1,6 +1,6 @@
 import { Component, Input, OnInit } from '@angular/core';
 import { Timestamp } from '@firebase/firestore';
-import { Observable } from 'rxjs';
+import { Observable, Subscription } from 'rxjs';
 import { Message } from 'src/app/services/message.service'
 import { UserQueryService } from 'src/app/services/user-query.service';
 import { User } from 'src/app/types/User';
@@ -32,6 +32,8 @@ export class MessageComponent implements OnInit {
   messagePhoto: string = "";
   defaultPhoto: string = "https://via.placeholder.com/150";
 
+  private messageAuthSubscription: Subscription | undefined;
+
   constructor(private userService: UserQueryService) {
 
   }
@@ -42,19 +44,23 @@ export class MessageComponent implements OnInit {
 
     this.messageAuthor$ = this.newMessage?.author;
     if (this.newMessage != undefined) {
-      this.messageAuthor$?.subscribe((messageAuth: User) => {
-        console.log("Got heres")
+      this.messageAuthSubscription = this.messageAuthor$?.subscribe((messageAuth: User) => {
         this.messageAuthor = messageAuth;
         this.messagePhoto = this.messageAuthor.photoURL;
-      }) 
+      })
     }
+  }
+
+  ngOnDestroy(): void {
+    if (this.messageAuthSubscription)
+      this.messageAuthSubscription.unsubscribe();
   }
 
   determineDay() {
     if (this.newMessage == undefined) {
       return
     } else {
-      switch(this.newMessage.timestamp.toDate().getDay()) {
+      switch (this.newMessage.timestamp.toDate().getDay()) {
         case 0:
           this.messageDay = "SUN";
           break;
@@ -89,7 +95,7 @@ export class MessageComponent implements OnInit {
   }
 
   private isLastFromSameUser(): boolean {
-    if (this.newMessage == undefined) return false;  
+    if (this.newMessage == undefined) return false;
     return this.lastMessage != undefined && this.lastMessage.from.id == this.newMessage.from.id;
   }
 
