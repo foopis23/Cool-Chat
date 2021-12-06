@@ -18,7 +18,7 @@
     <section id="messageInputSection">  
         <form (ngSubmit)="submitMessage()">
             <!--Temporary usng [user] for placeholder until services available-->
-            <input class="input" placeholder="Message {{currentChatroom?.displayName}}" [(ngModel)]="messageInput"
+            <input class="input" placeholder="Message {{currentChatroom?.displayName}}" [(ngModel)]="messageInput" autocomplete="off"
             type="text" name="newMessage" id="messageInput">
          </form>
     </section>

@@ -2,7 +2,7 @@
     <div class="columns py-4 rounded border shadow-sm my-4">
         <div class="column is-narrow">
             <figure class="image is-48x48 rounded-circle img-thumbnail">
-                <img class="is-rounded" [src]="user.photoURL">
+                <img class="is-rounded" [src]="user.photoURL!='' ? user.photoURL : 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTnG9XsiAuW2P1NkrMyXF-qAnh2to04EpRvIg&usqp=CAU'">
             </figure>
         </div>
         <div class="column border-start">
