@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { Auth, signInWithEmailAndPassword, signOut, User, UserCredential, createUserWithEmailAndPassword, deleteUser } from '@angular/fire/auth';
 import { doc, Firestore, updateDoc } from '@angular/fire/firestore';
 import { onAuthStateChanged } from '@firebase/auth';
-import { collection, deleteDoc, setDoc } from '@firebase/firestore';
+import { collection, deleteDoc, serverTimestamp, setDoc, Timestamp } from '@firebase/firestore';
 import { authState } from 'rxfire/auth';
 import { Observable, of } from 'rxjs';
 import { map, first, switchMap } from 'rxjs/operators';
@@ -20,8 +20,8 @@ export class AuthService {
   private user: User | null = null;
 
 
-  public currentUser$ : Observable<DataUser | null>;
-  public authState$ : Observable<User | null>;
+  public currentUser$: Observable<DataUser | null>;
+  public authState$: Observable<User | null>;
 
   constructor(private auth: Auth, private fs: Firestore, private usrSvc: UserQueryService) {
     onAuthStateChanged(auth, user => {
@@ -93,5 +93,14 @@ export class AuthService {
 
   public getUser() {
     return this.user;
+  }
+
+  public updateChatroomLastViewedDate(chatroomId: string) {
+    const userRef = doc(this.usersCollection, this.user!.uid);
+    
+    let data: any = {};
+    data[`lastViewed.${chatroomId}`] = serverTimestamp();
+
+    return updateDoc(userRef, data)
   }
 }
