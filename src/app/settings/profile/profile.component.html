@@ -1,4 +1,4 @@
-<div class="container p-4">
+<div *ngIf="this.user !== undefined" class="container p-4">
   <div class="d-flex flex-row">
 
       <!-- Sidebare to navigate to any available setting -->
@@ -7,10 +7,12 @@
           <!-- Profile Picture with name -->
           <section class="d-flex flex-row my-3">
               <div class="p-2">
-                  <img class="img-fluid img-responsive border rounded-circle" style="max-width:4rem;" src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTnG9XsiAuW2P1NkrMyXF-qAnh2to04EpRvIg&usqp=CAU" alt="profile_picture">
+                <figure class="image is-48x48 rounded-circle img-thumbnail">
+                  <img class="is-rounded" [src]="user.photoURL!='' ? user.photoURL : 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTnG9XsiAuW2P1NkrMyXF-qAnh2to04EpRvIg&usqp=CAU'">
+              </figure>
               </div>
               <div class="p-2">
-                  <h4>Fanaperana</h4>
+                  <h4>{{user.displayName}}</h4>
                   <p><small class="text-muted">Your personal account</small></p>
               </div>
           </section>
@@ -46,7 +48,7 @@
                       <!-- Name input -->
                       <div class="mb-3">
                           <label for="inputName" class="form-label">Name</label>
-                          <input type="text" class="form-control" id="inputName">
+                          <input type="text" class="form-control" id="inputName" [value]="user.displayName">
                           <div class="form-text">Your name may appear on your public profile. You could also choose a displayed name for public show rather than your real name.</div>
                       </div>
                       <!-- // END Name input -->
@@ -55,7 +57,7 @@
                       <!-- Displayed Name -->
                       <div class="mb-3">
                           <label for="inputDisplay" class="form-label">Displayed Name</label>
-                          <input type="text" class="form-control" id="inputDisplay">
+                          <input type="text" class="form-control" id="inputDisplay" [value]="user.displayName">
                           <div class="form-text">This will be your public name if it is filled. Be mindful to choose appropriate nickname to display publically.</div>
                       </div>
                       <!-- // END Displayed name -->
@@ -92,7 +94,7 @@
                   <div class="container" style="width: 10rem;">
                       <h6 class="w-100">Profile picture</h6>
                       <div class="position-relative">
-                          <img class="img-thumbnail img-fluid img-responsive border rounded-circle m-2" src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTnG9XsiAuW2P1NkrMyXF-qAnh2to04EpRvIg&usqp=CAU" alt="">
+                          <img class="img-thumbnail img-fluid img-responsive border rounded-circle m-2" [src]="user.photoURL!='' ? user.photoURL : 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTnG9XsiAuW2P1NkrMyXF-qAnh2to04EpRvIg&usqp=CAU'" alt="">
                           <button class="btn btn-secondary btn-sm bg-dark position-absolute bottom-0 start-0 px-3 mb-2">Edit</button>
                       </div>
                   </div>

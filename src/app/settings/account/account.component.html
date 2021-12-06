@@ -1,4 +1,4 @@
-<div class="container p-4">
+<div *ngIf="this.user !== undefined" class="container p-4">
   <div class="d-flex flex-row">
 
       <!-- Sidebare to navigate to any available setting -->
@@ -7,10 +7,12 @@
           <!-- Profile Picture with name -->
           <section class="d-flex flex-row my-3">
               <div class="p-2">
-                  <img class="img-fluid img-responsive border rounded-circle" style="max-width:4rem;" src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTnG9XsiAuW2P1NkrMyXF-qAnh2to04EpRvIg&usqp=CAU" alt="profile_picture">
+                <figure class="image is-48x48 rounded-circle img-thumbnail">
+                  <img class="is-rounded" [src]="user.photoURL!='' ? user.photoURL : 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTnG9XsiAuW2P1NkrMyXF-qAnh2to04EpRvIg&usqp=CAU'">
+              </figure>
               </div>
-              <div class="p-2">
-                  <h4>Fanaperana</h4>
+              <div  class="p-2">
+                  <h4>{{user.displayName}}</h4>
                   <p><small class="text-muted">Your personal account</small></p>
               </div>
           </section>
@@ -56,7 +58,7 @@
 
               <h3>Export account data</h3>
               <hr>
-              <p class="text-muted">Exporting all chat history for <span class="text-info">@fanaperana</span>.</p>
+              <p class="text-muted">Exporting all chat history for <span class="text-info">@{{user.displayName}}</span>.</p>
               <button class="btn btn-warning btn-sm">Start exporting</button>
 
               <div class="my-4 py-4">
