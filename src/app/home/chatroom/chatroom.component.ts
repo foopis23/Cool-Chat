@@ -48,10 +48,6 @@ export class ChatroomComponent implements OnInit {
       this.messages = messages;
     })
 
-    //I used auth service for now cause that seemed like getUser would be the way to get the current logged in user
-    //But it doesn't seem to be working and using authstate didnt either so I'm not sure if im in doing  it correctly or not
-
-    //I think this is working to get the current logged in user
     this.currentUserData$ = this.authSvc.authState$;
 
     if (this.currentUserDataSubscription !== undefined)
@@ -59,7 +55,6 @@ export class ChatroomComponent implements OnInit {
 
     this.currentUserDataSubscription = this.currentUserData$.subscribe((currentUser: User) => {
       this.currentUser = currentUser;
-      // this.scrollToBottom();
     });
 
     //Set chatroomParticipants and subscribe to it for future use to set the chatroom to get the current participants
@@ -72,7 +67,6 @@ export class ChatroomComponent implements OnInit {
 
     this.currentChatroomSubscription = this.currentChatroom$?.subscribe((currentChatroom: Chatroom) => {
       this.currentChatroom = currentChatroom;
-      // this.scrollToBottom();
     });
   }
 
@@ -108,7 +102,6 @@ export class ChatroomComponent implements OnInit {
 
       // if send a message scroll to bottom
       this.isScrollToBottom = true;
-      // this.scrollToBottom();
     }
 
     return false;
