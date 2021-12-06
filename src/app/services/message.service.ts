@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { addDoc, collectionSnapshots, Firestore } from '@angular/fire/firestore';
-import { collection, CollectionReference, doc, DocumentReference, Timestamp, updateDoc } from '@firebase/firestore';
+import { collection, CollectionReference, doc, DocumentReference, Timestamp, updateDoc, serverTimestamp } from '@firebase/firestore';
 import { DocumentData } from 'rxfire/firestore/interfaces';
 import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
@@ -52,7 +52,9 @@ export class MessageService {
       map((messages) => messages.map((message) => {
         return { ...message, author: this.userSvc.getUserById(message.from.id) }
       })),
-      map((messages) => messages.sort((a : Message, b : Message) => {
+      map((messages) => messages
+      .filter((message) => message.timestamp !== null)
+      .sort((a : Message, b : Message) => {
         return a.timestamp.toMillis() - b.timestamp.toMillis();
       }))
     )
@@ -66,7 +68,7 @@ export class MessageService {
       room,
       from,
       content,
-      timestamp: Timestamp.now(),
+      timestamp: serverTimestamp(),
       attachments: []
     })
 
