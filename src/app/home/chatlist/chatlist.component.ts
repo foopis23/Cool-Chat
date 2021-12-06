@@ -3,6 +3,7 @@ import { AuthService } from 'src/app/services/auth.service';
 import { Chatroom, ChatroomService } from 'src/app/services/chatroom.service';
 import { UserQueryService } from 'src/app/services/user-query.service';
 import { EventEmitter } from '@angular/core';
+import { Subscription } from 'rxjs';
 
 @Component({
   selector: 'app-chatlist',
@@ -11,22 +12,38 @@ import { EventEmitter } from '@angular/core';
 })
 export class ChatlistComponent implements OnInit {
   //chatlist : Chatroom[] | undefined;
-  chatlist : Chatroom[] | undefined;
+  chatlist: Chatroom[] | undefined;
   userId: string;
-  
-  @Input() selectedChatroom : string | undefined = undefined;
+
+  @Input() selectedChatroom: string | undefined = undefined;
   @Output() changedChatroom = new EventEmitter<string>();
 
-  constructor(authService: AuthService, userQueryService: UserQueryService, private chatroomService: ChatroomService) { 
-    chatroomService.userChatroomList$.subscribe((list) => this.chatlist = list);
+  private userChatroomListSubscription: Subscription | undefined;
+
+  constructor(authService: AuthService, userQueryService: UserQueryService, private chatroomService: ChatroomService) {
+    this.userChatroomListSubscription = chatroomService.userChatroomList$.subscribe((list) => this.chatlist = list);
     this.userId = authService.getUser()?.uid!;
   }
 
   ngOnInit(): void {
   }
 
-  public setCurrentChatroom(current: string) {
-    this.chatroomService.setCurrentChatroom(current);
+
+  ngOnDestroy(): void {
+    if (this.userChatroomListSubscription) {
+      this.userChatroomListSubscription.unsubscribe();
+    }
+  }
+
+  public setCurrentChatroom(current: string | undefined) {
+    if (current !== undefined)
+      this.chatroomService.setCurrentChatroom(current);
     this.changedChatroom.emit(current);
+  }
+
+  public leaveChatroom(roomId: string | undefined) {
+    if (roomId !== undefined)
+      this.chatroomService.leaveChatroom(roomId);
+    this.setCurrentChatroom(undefined);
   }
 }

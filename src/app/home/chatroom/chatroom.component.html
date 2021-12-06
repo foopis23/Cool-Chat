@@ -9,7 +9,7 @@
         </div>
     </section>
 
-    <section id="messageHistory">
+    <section (scroll)="handleScrollEvent($event)" id="messageHistory" #messageHistoryContainer>
         <div *ngFor="let message of messages; index as i;">
             <app-message [lastMessage]="messages[i-1]" [nextMessage]="messages[i+1]" [newMessage]="message" [isFromCurrentUser]="isFromCurrentUser(message)" [ngClass]="{'sentMessage': isFromCurrentUser(message), 'recievedMessage': !isFromCurrentUser(message)}"></app-message>
         </div>
@@ -18,7 +18,7 @@
     <section id="messageInputSection">  
         <form (ngSubmit)="submitMessage()">
             <!--Temporary usng [user] for placeholder until services available-->
-            <input class="input" placeholder="Message [user]" [(ngModel)]="messageInput"
+            <input class="input" placeholder="Message {{currentChatroom?.displayName}}" [(ngModel)]="messageInput" autocomplete="off"
             type="text" name="newMessage" id="messageInput">
          </form>
     </section>

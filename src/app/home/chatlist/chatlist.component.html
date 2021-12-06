@@ -1,10 +1,10 @@
 <div *ngFor="let chat of chatlist">
-    <div class="columns chat-selector fix-fullscreen-col-margins" style="margin-left: 0; margin-right: 0;" [ngClass]="{active: selectedChatroom === chat.id}">
-        <div class="column" (click)="setCurrentChatroom(chat.id)" style="padding: 0;">
+    <div class="columns chat-selector fix-fullscreen-col-margins" [ngClass]="{active: selectedChatroom === chat.id}">
+        <div class="column" (click)="setCurrentChatroom(chat.id)">
             <div>{{chat.displayName}}</div>
             <div>{{chat.participants.length}} members</div>
         </div>
-        <div class="column is-narrow" style="padding: 0;">
+        <div class="column is-narrow">
                 <button type="button" class="btn btn-secondary dropdown-toggle dropdown-toggle-split" data-bs-toggle="dropdown" aria-expanded="false">
                 <span class="visually-hidden">Toggle Dropdown</span>
                 </button>

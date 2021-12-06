@@ -28,3 +28,11 @@ $primary-invert: $pink-invert;
 
 @import "../node_modules/bulma/bulma";
 
+[ng\:cloak], [ng-cloak], .ng-cloak {
+  display: none;
+}
+
+div.columns.fix-fullscreen-col-margins {
+	margin-top: 0;
+	margin-bottom: 0;
+}
