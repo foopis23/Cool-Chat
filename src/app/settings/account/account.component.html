@@ -7,7 +7,9 @@
           <!-- Profile Picture with name -->
           <section class="d-flex flex-row my-3">
               <div class="p-2">
-                  <img class="img-fluid img-responsive border rounded-circle" style="max-width:4rem;" src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTnG9XsiAuW2P1NkrMyXF-qAnh2to04EpRvIg&usqp=CAU" alt="profile_picture">
+                <figure class="image is-48x48 rounded-circle img-thumbnail">
+                  <img class="is-rounded" [src]="user.photoURL!='' ? user.photoURL : 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTnG9XsiAuW2P1NkrMyXF-qAnh2to04EpRvIg&usqp=CAU'">
+              </figure>
               </div>
               <div  class="p-2">
                   <h4>{{user.displayName}}</h4>

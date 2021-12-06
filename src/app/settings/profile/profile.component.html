@@ -7,7 +7,9 @@
           <!-- Profile Picture with name -->
           <section class="d-flex flex-row my-3">
               <div class="p-2">
-                  <img class="img-fluid img-responsive border rounded-circle" style="max-width:4rem;" src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTnG9XsiAuW2P1NkrMyXF-qAnh2to04EpRvIg&usqp=CAU" alt="profile_picture">
+                <figure class="image is-48x48 rounded-circle img-thumbnail">
+                  <img class="is-rounded" [src]="user.photoURL!='' ? user.photoURL : 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTnG9XsiAuW2P1NkrMyXF-qAnh2to04EpRvIg&usqp=CAU'">
+              </figure>
               </div>
               <div class="p-2">
                   <h4>{{user.displayName}}</h4>
@@ -92,7 +94,7 @@
                   <div class="container" style="width: 10rem;">
                       <h6 class="w-100">Profile picture</h6>
                       <div class="position-relative">
-                          <img class="img-thumbnail img-fluid img-responsive border rounded-circle m-2" src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTnG9XsiAuW2P1NkrMyXF-qAnh2to04EpRvIg&usqp=CAU" alt="">
+                          <img class="img-thumbnail img-fluid img-responsive border rounded-circle m-2" [src]="user.photoURL!='' ? user.photoURL : 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTnG9XsiAuW2P1NkrMyXF-qAnh2to04EpRvIg&usqp=CAU'" alt="">
                           <button class="btn btn-secondary btn-sm bg-dark position-absolute bottom-0 start-0 px-3 mb-2">Edit</button>
                       </div>
                   </div>
