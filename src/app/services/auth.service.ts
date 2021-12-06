@@ -51,7 +51,7 @@ export class AuthService {
     const user = cred.user;
     await setDoc(doc(this.usersCollection, user.uid), {
       displayName: displayName,
-      photoURL: '',
+      photoURL: 'https://firebasestorage.googleapis.com/v0/b/cool-chat-37b63.appspot.com/o/default_profile_image.png?alt=media&token=bb0e869b-a3f9-494a-8857-025b9b8cd619',
       status: Status.ONLINE, // TODO: Include Status here <------------
     });
     return cred;
