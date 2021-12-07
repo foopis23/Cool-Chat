@@ -17,17 +17,16 @@ export class ChatlistComponent implements OnInit {
 
   @Input() selectedChatroom: string | undefined = undefined;
   @Output() changedChatroom = new EventEmitter<string>();
-
   private userChatroomListSubscription: Subscription | undefined;
+
+  private currentChatroom : string | undefined;
 
   constructor(private authService: AuthService, userQueryService: UserQueryService, private chatroomService: ChatroomService) {
     this.userChatroomListSubscription = chatroomService.userChatroomList$.subscribe((list) => this.chatlist = list);
     this.userId = authService.getUser()?.uid!;
   }
 
-  ngOnInit(): void {
-  }
-
+  ngOnInit(): void {}
 
   ngOnDestroy(): void {
     if (this.userChatroomListSubscription) {
@@ -36,6 +35,14 @@ export class ChatlistComponent implements OnInit {
   }
 
   public setCurrentChatroom(current: string | undefined) {
+    if (this.currentChatroom === current) return;
+    
+    if (this.currentChatroom !== undefined) {
+      this.authService.updateChatroomLastViewedDate(this.currentChatroom);
+    }
+    
+    this.currentChatroom = current;
+    
     if (current !== undefined) {
       this.chatroomService.setCurrentChatroom(current);
       this.authService.updateChatroomLastViewedDate(current);

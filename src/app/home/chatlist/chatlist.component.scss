@@ -17,12 +17,14 @@
         cursor: pointer;
     }
 
-    &.notification {
-        border-left: 10px solid #f00;
+    &.has-new-message {
+        border-left: 10px solid hsl(348, 100%, 61%);
+        // background-color: rgba(255, 255, 255, 0.5);
     }
 
     &.active {
         border-left: 10px solid #ccc;
+        background-color: rgba(255, 255, 255, 0.5);
         font-weight: 700;
     }
 }

@@ -1,5 +1,5 @@
 <div *ngFor="let chat of chatlist">
-    <div class="columns chat-selector fix-fullscreen-col-margins" style="margin: 0;" [ngClass]="{active: selectedChatroom === chat.id, notification: chat.notificationCount > 0}">
+    <div class="columns chat-selector fix-fullscreen-col-margins" style="margin: 0;" [ngClass]="{active: selectedChatroom === chat.id, 'has-new-message': chat.notificationCount > 0 && !(selectedChatroom === chat.id)}">
         <div class="column" (click)="setCurrentChatroom(chat.id)"style="padding: 0;">
             <div>{{chat.displayName}}</div>
             <div>{{chat.participants.length}} members</div>

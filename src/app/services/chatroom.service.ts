@@ -71,7 +71,7 @@ export class ChatroomService {
             .map(createRawChatroomToChatroom(this.usrSvc))
             .map((chatroom: Chatroom) => {
               // if chatroom doesn't have message, user is null, or the users as view the chatroom after the last message was sent, 0 notifications.
-              if (chatroom.lastMessageTimestamp === undefined || user === null || chatroom.lastMessageTimestamp < user.lastViewed[chatroom.id]) {
+              if (chatroom.lastMessageTimestamp === undefined || user === null || user.lastViewed[chatroom.id] === null || chatroom.lastMessageTimestamp < user.lastViewed[chatroom.id]) {
                 return {
                   ...chatroom,
                   notificationCount: 0
