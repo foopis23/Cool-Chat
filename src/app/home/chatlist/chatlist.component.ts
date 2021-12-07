@@ -35,8 +35,6 @@ export class ChatlistComponent implements OnInit {
   }
 
   public setCurrentChatroom(current: string | undefined) {
-    if (this.currentChatroom === current) return;
-    
     if (this.currentChatroom !== undefined) {
       this.authService.updateChatroomLastViewedDate(this.currentChatroom);
     }
