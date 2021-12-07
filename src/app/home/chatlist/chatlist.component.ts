@@ -1,6 +1,6 @@
 import { Component, Input, OnInit, Output } from '@angular/core';
 import { AuthService } from 'src/app/services/auth.service';
-import { Chatroom, ChatroomService } from 'src/app/services/chatroom.service';
+import { Chatroom, ChatroomService, UserChatroom } from 'src/app/services/chatroom.service';
 import { UserQueryService } from 'src/app/services/user-query.service';
 import { EventEmitter } from '@angular/core';
 import { Subscription } from 'rxjs';
@@ -12,22 +12,21 @@ import { Subscription } from 'rxjs';
 })
 export class ChatlistComponent implements OnInit {
   //chatlist : Chatroom[] | undefined;
-  chatlist: Chatroom[] | undefined;
+  chatlist: UserChatroom[] | undefined;
   userId: string;
 
   @Input() selectedChatroom: string | undefined = undefined;
   @Output() changedChatroom = new EventEmitter<string>();
-
   private userChatroomListSubscription: Subscription | undefined;
 
-  constructor(authService: AuthService, userQueryService: UserQueryService, private chatroomService: ChatroomService) {
+  private currentChatroom : string | undefined;
+
+  constructor(private authService: AuthService, userQueryService: UserQueryService, private chatroomService: ChatroomService) {
     this.userChatroomListSubscription = chatroomService.userChatroomList$.subscribe((list) => this.chatlist = list);
     this.userId = authService.getUser()?.uid!;
   }
 
-  ngOnInit(): void {
-  }
-
+  ngOnInit(): void {}
 
   ngOnDestroy(): void {
     if (this.userChatroomListSubscription) {
@@ -36,8 +35,19 @@ export class ChatlistComponent implements OnInit {
   }
 
   public setCurrentChatroom(current: string | undefined) {
-    if (current !== undefined)
+    if (this.currentChatroom === current) return;
+    
+    if (this.currentChatroom !== undefined) {
+      this.authService.updateChatroomLastViewedDate(this.currentChatroom);
+    }
+    
+    this.currentChatroom = current;
+    
+    if (current !== undefined) {
       this.chatroomService.setCurrentChatroom(current);
+      this.authService.updateChatroomLastViewedDate(current);
+    }
+
     this.changedChatroom.emit(current);
   }
 
