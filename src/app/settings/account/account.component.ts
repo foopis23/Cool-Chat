@@ -25,4 +25,18 @@ export class AccountComponent implements OnInit {
   ngOnInit(): void {
   }
 
+  deleteAccount() {
+    this.authService.deleteAccount();
+  }
+
+  openDeleteAccountModal() {
+    const element = document.querySelector('#delete-account-modal');
+    element?.classList.add('is-active');
+    console.log(element);
+  }
+
+  closeDeleteAccountModal() {
+    const element = document.querySelector('#delete-account-modal');
+    element?.classList.remove('is-active');
+  }
 }
