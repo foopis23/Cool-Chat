@@ -24,8 +24,8 @@
                 <h6 class="list-group-item fw-bolder bg-light">Account settings</h6>
                 <a class="list-group-item" routerLink="/profile">Profile</a>
                 <a class="list-group-item active" routerLink="/account">Account</a>
-                <a class="list-group-item" routerLink="/security">Account security</a>
-                <a class="list-group-item" routerLink="/notification">Notification</a>
+                <!-- <a class="list-group-item" routerLink="/security">Account security</a> -->
+                <!-- <a class="list-group-item" routerLink="/notification">Notification</a> -->
             </div>
           </section>
           <!-- // END Sidebar List -->
@@ -39,11 +39,10 @@
           </div>
 
           <section class="container">
-              <h3>Change Username</h3>
+              <!-- <h3>Change Username</h3>
               <hr>
 
               <div class="d-flex flex-row">
-                  <!-- Form -->
                   <form action="" method="post" style="max-width: 600px;">
                       <div class="mb-3 pb-4">
                           <p class="text-muted">Changing username require you to logout and login for full changes to apply.</p>
@@ -52,20 +51,29 @@
                       </div>
 
                   </form>
-                  <!-- // END of form -->
               </div>
 
 
               <h3>Export account data</h3>
               <hr>
               <p class="text-muted">Exporting all chat history for <span class="text-info">@{{user.displayName}}</span>.</p>
-              <button class="btn btn-warning btn-sm">Start exporting</button>
+              <button class="btn btn-warning btn-sm">Start exporting</button>-->
 
               <div class="my-4 py-4">
-                  <h3 class="text-danger">Delete account</h3>
-                  <hr>
-                  <p class="text-muted">Once you delete your account, there is no going back. Please be certain.</p>
-                  <button class="btn btn-danger btn-sm">Delete Account</button>
+                  <h3 class="text-danger my-3">Delete account</h3>
+                  <p class="text-muted my-2">Once you delete your account, there is no going back. Please be certain.</p>
+                  <button class="btn btn-danger btn-sm is-active" (click)="openDeleteAccountModal()">Delete Account</button>
+              </div>
+
+              <div id="delete-account-modal" class="modal">
+                <div class="modal-background" (click)="closeDeleteAccountModal()"></div>
+                <div class="modal-content">
+                    <p class="text-muted px-4 pt-4">Are you <b>sure</b> you want to <span class="text-danger">delete your account?</span></p>
+                    <div class="is-flex p-2">
+                        <button class="mx-2 btn btn-danger btn-sm" (click)="deleteAccount()">Delete account</button>
+                        <button class="mx-2 btn btn-secondary btn-sm" (click)="closeDeleteAccountModal()">Keep account</button>
+                    </div>
+                </div>
               </div>
           </section>
       </div>
