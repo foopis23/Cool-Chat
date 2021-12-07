@@ -25,7 +25,7 @@
               <a class="list-group-item active" routerLink="/profile">Profile</a>
               <a class="list-group-item" routerLink="/account">Account</a>
               <a class="list-group-item" routerLink="/security">Account security</a>
-              <a class="list-group-item" routerLink="/notification">Notification</a>
+              <!-- <a class="list-group-item" routerLink="/notification">Notification</a> -->
           </div>
           </section>
           <!-- // END Sidebar List -->
@@ -46,47 +46,47 @@
                   <!-- Form -->
                   <form action="" method="post" style="max-width: 600px;">
                       <!-- Name input -->
-                      <div class="mb-3">
+                      <!--<div class="mb-3">
                           <label for="inputName" class="form-label">Name</label>
                           <input type="text" class="form-control" id="inputName" [value]="user.displayName">
                           <div class="form-text">Your name may appear on your public profile. You could also choose a displayed name for public show rather than your real name.</div>
-                      </div>
+                      </div>-->
                       <!-- // END Name input -->
 
 
                       <!-- Displayed Name -->
                       <div class="mb-3">
                           <label for="inputDisplay" class="form-label">Displayed Name</label>
-                          <input type="text" class="form-control" id="inputDisplay" [value]="user.displayName">
+                          <input type="text" class="form-control" id="inputDisplay" name="displayName" [(ngModel)]="user.displayName">
                           <div class="form-text">This will be your public name if it is filled. Be mindful to choose appropriate nickname to display publically.</div>
                       </div>
                       <!-- // END Displayed name -->
 
                       <!-- Bio input -->
-                      <div class="mb-3">
+                      <!-- <div class="mb-3">
                           <label for="inputBio" class="form-label">Bio</label>
                           <textarea type="text" class="form-control" id="inputBio"></textarea>
                           <div class="form-text">Tell other a little bit about you so when they view your profile they can see it.</div>
-                      </div>
+                      </div> -->
                       <!-- // END BIO -->
 
                       <!-- URL -->
-                      <div class="mb-3">
+                      <!-- <div class="mb-3">
                           <label for="inputUrl" class="form-label">URL</label>
                           <input type="text" class="form-control" id="inputUrl">
                           <div class="form-text">Add URL so others can navigate to your personal link</div>
-                      </div>
+                      </div> -->
                       <!-- // END URL -->
 
                       <!-- Location -->
-                      <div class="mb-3">
+                      <!-- <div class="mb-3">
                           <label for="inputLocation" class="form-label">Location</label>
                           <input type="text" class="form-control" id="inputLocation">
                           <div class="form-text mt-4">All of the fields on this page are optional and can be deleted at any time, and by filling them out, you're giving us consent to share this data wherever your user profile appears.</div>
-                      </div>
+                      </div> -->
                       <!-- // END Location -->
 
-                      <button class="btn btn-success">Update profile</button>
+                      <button class="btn btn-success" (click)="updateDisplayName()">Update Display Name</button>
 
                   </form>
                   <!-- // END of form -->
@@ -94,8 +94,11 @@
                   <div class="container" style="width: 10rem;">
                       <h6 class="w-100">Profile picture</h6>
                       <div class="position-relative">
-                          <img class="img-thumbnail img-fluid img-responsive border rounded-circle m-2" [src]="user.photoURL!='' ? user.photoURL : 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTnG9XsiAuW2P1NkrMyXF-qAnh2to04EpRvIg&usqp=CAU'" alt="">
-                          <button class="btn btn-secondary btn-sm bg-dark position-absolute bottom-0 start-0 px-3 mb-2">Edit</button>
+                          <img class="img-thumbnail img-fluid img-responsive border rounded-circle m-2" [src]="user.photoURL" alt="">
+                          <button class="btn btn-secondary btn-sm bg-dark position-absolute bottom-0 start-0 px-3 mb-2">
+                              <label for="profile-edit-button">Edit</label>
+                              <input id="profile-edit-button" type="file" style="display: none" (change)="updateProfilePic($event)"/>
+                          </button>
                       </div>
                   </div>
               </div>
