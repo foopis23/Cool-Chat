@@ -96,8 +96,9 @@ export class ChatroomComponent implements OnInit {
   }
 
   submitMessage() {
-    if (this.messageInput && this.messageInput !== "") {
-      this.messageSvc.sendMessageToChatroom(this._chatroomId, this.currentUser.uid, this.messageInput);
+    const message = this.messageInput.trim();
+    if (message && message !== "") {
+      this.messageSvc.sendMessageToChatroom(this._chatroomId, this.currentUser.uid, message);
       this.messageInput = '';
 
       // if send a message scroll to bottom
