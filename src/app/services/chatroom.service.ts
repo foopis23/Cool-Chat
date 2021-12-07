@@ -1,12 +1,13 @@
 import { Injectable } from '@angular/core';
 import { collectionSnapshots, docSnapshots, Firestore } from '@angular/fire/firestore';
 import { addDoc, arrayRemove, collection, CollectionReference, doc, DocumentData, DocumentReference, DocumentSnapshot, QueryDocumentSnapshot, Timestamp, updateDoc } from '@firebase/firestore';
-import { combineLatest, forkJoin, Observable } from 'rxjs';
+import { combineLatest, Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
 import { User } from '../types/User';
 import { AuthService } from './auth.service';
 import { User as AuthUser } from '@angular/fire/auth';
 import { UserQueryService } from './user-query.service';
+import { MessageService } from './message.service';
 
 interface RawChatroom {
   id: string,
@@ -21,6 +22,10 @@ export interface Chatroom {
   lastMessageTimestamp: Timestamp
 }
 
+export interface UserChatroom extends Chatroom {
+  notificationCount: number
+}
+
 const snapshotToRawChatroom = (snapshot: QueryDocumentSnapshot<DocumentData> | DocumentSnapshot<DocumentData>): RawChatroom => {
   return {
     ...snapshot.data(),
@@ -28,10 +33,10 @@ const snapshotToRawChatroom = (snapshot: QueryDocumentSnapshot<DocumentData> | D
   } as RawChatroom;
 }
 
-const createRawChatroomFilterByUser = (authState: AuthUser | null) => {
+const createRawChatroomFilterByUser = (user: User | null) => {
   return (chatroom: RawChatroom) => {
     return chatroom.participants.find((userRef) => {
-      return userRef.id == authState?.uid;
+      return userRef.id == user?.id;
     }) !== undefined;
   }
 }
@@ -51,20 +56,35 @@ const createRawChatroomToChatroom = (usrSvc : UserQueryService) => {
   providedIn: 'root'
 })
 export class ChatroomService {
-  public userChatroomList$: Observable<Chatroom[]>;
+  public userChatroomList$: Observable<UserChatroom[]>;
   private currentChatroom: string = "";
   private roomsCollection: CollectionReference;
 
-  constructor(private firestore: Firestore, private authSvc: AuthService, private usrSvc: UserQueryService) {
+  constructor(private firestore: Firestore, private authSvc: AuthService, private usrSvc: UserQueryService, private msgSvc : MessageService) {
     this.roomsCollection = collection(this.firestore, 'rooms');
-    this.userChatroomList$ = combineLatest([this.authSvc.authState$, collectionSnapshots(this.roomsCollection)])
+    this.userChatroomList$ = combineLatest([this.authSvc.currentUser$, collectionSnapshots(this.roomsCollection)])
       .pipe(
-        map(([authState, snapshots]) => {
+        map(([user, snapshots]) => {
           return snapshots
             .map(snapshotToRawChatroom)
-            .filter(createRawChatroomFilterByUser(authState))
+            .filter(createRawChatroomFilterByUser(user))
             .map(createRawChatroomToChatroom(this.usrSvc))
-            .sort((a : Chatroom, b : Chatroom) => {
+            .map((chatroom: Chatroom) => {
+              // if chatroom doesn't have message, user is null, or the users as view the chatroom after the last message was sent, 0 notifications.
+              if (chatroom.lastMessageTimestamp === undefined || user === null || user.lastViewed[chatroom.id] === null || chatroom.lastMessageTimestamp < user.lastViewed[chatroom.id]) {
+                return {
+                  ...chatroom,
+                  notificationCount: 0
+                }
+              }
+              
+              // Todo: figure out way to get actual number of notifications
+              return {
+                ...chatroom,
+                notificationCount: 1
+              }
+            })
+            .sort((a : UserChatroom, b : UserChatroom) => {
               if (a.lastMessageTimestamp === undefined && b.lastMessageTimestamp !== undefined)
                 return 1;
 
