@@ -9,7 +9,7 @@
         </div>
     </section>
 
-    <section (scroll)="handleScrollEvent($event)" id="messageHistory" #messageHistoryContainer>
+    <section (scroll)="handleScrollEvent($event)" id="messageHistory" class="p-5" #messageHistoryContainer>
         <div *ngFor="let message of messages; index as i;">
             <app-message [lastMessage]="messages[i-1]" [nextMessage]="messages[i+1]" [newMessage]="message" [isFromCurrentUser]="isFromCurrentUser(message)" [ngClass]="{'sentMessage': isFromCurrentUser(message), 'recievedMessage': !isFromCurrentUser(message)}"></app-message>
         </div>
