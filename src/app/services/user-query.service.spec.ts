@@ -14,7 +14,8 @@ describe('UserService', () => {
     id: 'AWVmMgrvKObg6R8CHsyJP2UklHC2',
     displayName: 'John Smith',
     photoURL: 'https://via.placeholder.com/150',
-    status: Status.OFFLINE
+    status: Status.OFFLINE,
+    lastViewed: {}
   };
   let originalTimeout : number;
 
